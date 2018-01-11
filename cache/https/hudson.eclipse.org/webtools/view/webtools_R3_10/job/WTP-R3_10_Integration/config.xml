@@ -169,10 +169,13 @@ EOXML
 # to use this toolchains file, add to mvn runline: 
 # --global-toolchains ${WORKSPACE}/.maven/repo/toolchains.xml -t ${WORKSPACE}/.maven/repo/toolchains.xml
 
-# apply patches / hacks / unmerged gerrit requests here 
-# https://git.eclipse.org/r/#/c/112219/
-#pushd webtools.webservices
-#  git fetch https://git.eclipse.org/r/webservices/webtools.webservices refs/changes/19/112219/1 &amp;&amp; git cherry-pick FETCH_HEAD
+# apply patches / hacks / unmerged gerrit requests here
+
+# patch already merged in master
+# apply patch - move to BREE = 1.5
+# https://git.eclipse.org/r/#/c/114518/
+#pushd webtools.sourceediting
+#git fetch https://git.eclipse.org/r/sourceediting/webtools.sourceediting refs/changes/18/114518/1 &amp;&amp; git cherry-pick FETCH_HEAD
 #popd
 
 </command>
@@ -187,9 +190,9 @@ EOXML
               <properties>
                 <entries>
                   <entry name="maven.test.skip" value="true"/>
-                  <entry name="platform-repo.url" value="${platformRepoUrl}"/>
-                  <entry name="maven.test.error.ignore" value="true"/>
                   <entry name="maven.test.failure.ignore" value="true"/>
+                  <entry name="maven.test.error.ignore" value="true"/>
+                  <entry name="platform-repo.url" value="${platformRepoUrl}"/>
                   <entry name="tycho-extras.version" value="${tychoVersion}"/>
                   <entry name="surefire.timeout" value="1800"/>
                   <entry name="skipWithIssues" value="false"/>

@@ -97,8 +97,7 @@
         <originalValue class="hudson.util.DescribableList">
           <hudson.tasks.Shell>
             <command># apply patch - move to BREE = 1.5
-
-git fetch https://git.eclipse.org/r/sourceediting/webtools.sourceediting refs/changes/18/114518/1 &amp;&amp; git cherry-pick FETCH_HEAD</command>
+# git fetch https://git.eclipse.org/r/sourceediting/webtools.sourceediting refs/changes/18/114518/1 &amp;&amp; git cherry-pick FETCH_HEAD</command>
           </hudson.tasks.Shell>
           <maven-builder>
             <config>
@@ -110,8 +109,8 @@ git fetch https://git.eclipse.org/r/sourceediting/webtools.sourceediting refs/ch
               <properties>
                 <entries>
                   <entry name="maven.test.skip" value="false"/>
-                  <entry name="maven.test.error.ignore" value="true"/>
                   <entry name="maven.test.failure.ignore" value="true"/>
+                  <entry name="maven.test.error.ignore" value="true"/>
                   <entry name="surefire.timeout" value="1800"/>
                   <entry name="skipWithIssues" value="false"/>
                 </entries>
