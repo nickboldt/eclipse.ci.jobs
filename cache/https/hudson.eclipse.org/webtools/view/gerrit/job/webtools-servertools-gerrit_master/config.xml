@@ -71,20 +71,13 @@
               <snapshotUpdateMode>NORMAL</snapshotUpdateMode>
               <recursive>true</recursive>
               <checksumMode>NORMAL</checksumMode>
-              <failMode>NORMAL</failMode>
+              <failMode>AT_END</failMode>
               <makeMode>NONE</makeMode>
               <settingsId>NONE</settingsId>
               <globalSettingsId>NONE</globalSettingsId>
-              <toolChainsId>NONE</toolChainsId>
+              <toolChainsId>f1492191-c1d9-4caa-a6bf-44160486454d</toolChainsId>
             </config>
           </maven-builder>
-          <hudson.tasks.Shell>
-            <command># generate an empty TESTS-notests.xml file if no tests run
-if [[ ! $(find ${WORKSPACE}/*/*/target/surefire-reports -name "TEST-*.xml") ]]; then
-  mkdir -p ${WORKSPACE}/tests/target/surefire-reports/ &amp;&amp; touch ${WORKSPACE}/tests/target/surefire-reports/TEST-notests.xml
-fi
-</command>
-          </hudson.tasks.Shell>
         </originalValue>
         <propertyOverridden>false</propertyOverridden>
       </describable-list-property>
@@ -207,8 +200,8 @@ fi
       <permission>hudson.model.Item.Workspace:nitind@pobox.com</permission>
       <permission>hudson.model.Run.Delete:nitind@pobox.com</permission>
       <permission>hudson.model.Item.Delete:nitind@pobox.com</permission>
-      <permission>hudson.model.Item.Configure:nitind@pobox.com</permission>
       <permission>hudson.model.Item.Build:nitind@pobox.com</permission>
+      <permission>hudson.model.Item.Configure:nitind@pobox.com</permission>
       <permission>hudson.model.Run.Update:nitind@pobox.com</permission>
       <permission>hudson.model.Item.Read:nitind@pobox.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
