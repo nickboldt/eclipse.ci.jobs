@@ -68,6 +68,28 @@
       </external-property>
     </entry>
     <entry>
+      <string>parametersDefinitionProperties</string>
+      <copy-write-list-property>
+        <originalValue class="hudson.util.CopyOnWriteList">
+          <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+              <hudson.model.ChoiceParameterDefinition>
+                <name>tychoVersion</name>
+                <description/>
+                <choices class="java.util.Arrays$ArrayList">
+                  <a class="string-array">
+                    <string>1.1.0-SNAPSHOT</string>
+                    <string>1.0.0</string>
+                  </a>
+                </choices>
+              </hudson.model.ChoiceParameterDefinition>
+            </parameterDefinitions>
+          </hudson.model.ParametersDefinitionProperty>
+        </originalValue>
+        <propertyOverridden>false</propertyOverridden>
+      </copy-write-list-property>
+    </entry>
+    <entry>
       <string>hudson-plugins-build_timeout-BuildTimeoutWrapper</string>
       <external-property>
         <originalValue class="hudson.plugins.build_timeout.BuildTimeoutWrapper">
@@ -109,10 +131,12 @@
               <properties>
                 <entries>
                   <entry name="maven.test.skip" value="false"/>
-                  <entry name="maven.test.error.ignore" value="true"/>
                   <entry name="maven.test.failure.ignore" value="true"/>
+                  <entry name="maven.test.error.ignore" value="true"/>
+                  <entry name="tycho-extras.version" value="${tychoVersion}"/>
                   <entry name="surefire.timeout" value="1800"/>
                   <entry name="skipWithIssues" value="false"/>
+                  <entry name="tycho.version" value="${tychoVersion}"/>
                 </entries>
               </properties>
               <errors>false</errors>

@@ -72,15 +72,15 @@
                 <description/>
                 <choices class="java.util.Arrays$ArrayList">
                   <a class="string-array">
-                    <string>1.0.0</string>
                     <string>1.1.0-SNAPSHOT</string>
+                    <string>1.0.0</string>
                   </a>
                 </choices>
               </hudson.model.ChoiceParameterDefinition>
               <hudson.model.StringParameterDefinition>
                 <name>platformRepoUrl</name>
-                <description>Or link to a specific build, like http://download.eclipse.org/eclipse/updates/4.8-I-builds/I20171119-2000/</description>
-                <defaultValue>http://download.eclipse.org/eclipse/updates/4.8-I-builds/</defaultValue>
+                <description>Or link to a specific build, like http://download.eclipse.org/eclipse/updates/4.8-I-builds/I20171119-2000/ or http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M5-201801242000/</description>
+                <defaultValue>http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M5-201801242000/</defaultValue>
               </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
           </hudson.model.ParametersDefinitionProperty>
@@ -182,8 +182,12 @@ EOXML
           </hudson.tasks.Shell>
           <maven-builder>
             <config>
-              <installationId>Maven 3.3.3</installationId>
-              <goals>clean install -Pintegration -V</goals>
+              <installationId>Maven 3.5.2</installationId>
+              <goals>clean
+install
+-Pintegration
+-V
+-U</goals>
               <privateRepository>true</privateRepository>
               <privateTmpdir>true</privateTmpdir>
               <pomFile>pom.xml</pomFile>
