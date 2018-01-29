@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>NOTE: currently requires -Pintegration flag until we can update root pom to depend on upstream builds/repos instead </description>
+  <description>&lt;b&gt;NOTE: -P integration flag required for now. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=519793#c10 and https://bugs.eclipse.org/bugs/show_bug.cgi?id=520040 &lt;/b&gt;
+</description>
   <project-properties class="java.util.concurrent.ConcurrentHashMap">
     <entry>
       <string>hudson-plugins-disk_usage-DiskUsageProperty</string>
@@ -237,8 +238,8 @@ fi
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
