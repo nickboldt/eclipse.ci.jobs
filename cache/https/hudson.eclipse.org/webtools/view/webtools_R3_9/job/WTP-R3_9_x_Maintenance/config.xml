@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>[WTP 3.9.x Maintenance Build **Oxygen.1a**]
-[Build version: 3.9.2]
+  <description>[WTP 3.9.x Maintenance Build **Oxygen.3**]
+[Build version: 3.9.3]
 [git branch: R3_9_maintenance]
-&lt;p&gt;Results here: &lt;a href=http://build.eclipse.org/webtools/committers/wtp-R3.9.2-M/&gt;http://build.eclipse.org/webtools/committers/wtp-R3.9.2-M/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Results here: &lt;a href=http://build.eclipse.org/webtools/committers/wtp-R3.9.3-M/&gt;http://build.eclipse.org/webtools/committers/wtp-R3.9.3-M/&lt;/a&gt;&lt;/p&gt;
 &lt;b style=red&gt;NOTE: This job does not collect JUnit test results yet. &lt;/b&gt;
 
 &lt;p&gt;Requires: Maven 3.2.5 and Ant 1.8.4</description>
@@ -129,7 +129,7 @@
             <buildFile>wtp-parent/postBuild.xml</buildFile>
             <properties>build.type=M
 publish=true
-wtp.version=3.9.2</properties>
+wtp.version=3.9.3</properties>
           </hudson.tasks.Ant>
           <hudson.tasks.Shell>
             <command/>
