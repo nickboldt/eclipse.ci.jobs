@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description/>
+  <description>Note: this job requires that the 3.6.0 parent pom from master branch be overridden with values from the R3_9_maintenance branch version. See &lt;B&gt;MAVEN_FLAGS&lt;/B&gt; for the list of overrides needed.
+&lt;p&gt;
+</description>
   <project-properties class="java.util.concurrent.ConcurrentHashMap">
     <entry>
       <string>hudson-plugins-disk_usage-DiskUsageProperty</string>
@@ -33,6 +35,30 @@
       </external-property>
     </entry>
     <entry>
+      <string>cleanWorkspaceRequired</string>
+      <boolean-property>
+        <originalValue class="boolean">true</originalValue>
+        <propertyOverridden>false</propertyOverridden>
+      </boolean-property>
+    </entry>
+    <entry>
+      <string>parametersDefinitionProperties</string>
+      <copy-write-list-property>
+        <originalValue class="hudson.util.CopyOnWriteList">
+          <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+              <hudson.model.StringParameterDefinition>
+                <name>MAVEN_FLAGS</name>
+                <description/>
+                <defaultValue>-Pbuild-individual-bundles -Pintegration -Dwebtools.buildSite=http://build.eclipse.org/webtools/committers/wtp-R3.9.3-M/20180125030226/M-3.9.3-20180125030226/ -Dplatform-repo.url=http://download.eclipse.org/eclipse/updates/4.7-M-builds/M-4.7.2RC2-201711151700 -Dorbit-repo.url=http://download.eclipse.org/tools/orbit/downloads/drops/R20170919201930/repository/ -Djetty-repo.url=http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.5.v20170502/ -Djgit-repo.url=http://download.eclipse.org/egit/updates -Dgef-legacy-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration// -Dgef-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration/ -Dgraphiti-repo.url=http://download.eclipse.org/graphiti/updates/milestones -DskipITests=false</defaultValue>
+              </hudson.model.StringParameterDefinition>
+            </parameterDefinitions>
+          </hudson.model.ParametersDefinitionProperty>
+        </originalValue>
+        <propertyOverridden>false</propertyOverridden>
+      </copy-write-list-property>
+    </entry>
+    <entry>
       <string>hudson-tasks-junit-JUnitResultArchiver</string>
       <external-property>
         <originalValue class="hudson.tasks.junit.JUnitResultArchiver">
@@ -45,33 +71,14 @@
       </external-property>
     </entry>
     <entry>
-      <string>parametersDefinitionProperties</string>
-      <copy-write-list-property>
-        <originalValue class="hudson.util.CopyOnWriteList">
-          <hudson.model.ParametersDefinitionProperty>
-            <parameterDefinitions>
-              <hudson.model.StringParameterDefinition>
-                <name>webtools_buildSite</name>
-                <description>NOT USED - Override value in parent pom because it points to R3.10.0/I-latest which doesn't *YET* exist. 
-
-To use this add -Dwebtools.buildSite=${webtools_buildSite} to the maven properties </description>
-                <defaultValue>http://download.eclipse.org/webtools/downloads/drops/R3.9.2/R-3.9.2-20171201000141/repository/</defaultValue>
-              </hudson.model.StringParameterDefinition>
-            </parameterDefinitions>
-          </hudson.model.ParametersDefinitionProperty>
-        </originalValue>
-        <propertyOverridden>false</propertyOverridden>
-      </copy-write-list-property>
-    </entry>
-    <entry>
       <string>builders</string>
       <describable-list-property>
         <originalValue class="hudson.util.DescribableList">
           <maven-builder>
             <config>
               <installationId>apache-maven-latest</installationId>
-              <goals>clean install</goals>
-              <privateRepository>false</privateRepository>
+              <goals>clean install ${MAVEN_FLAGS}</goals>
+              <privateRepository>true</privateRepository>
               <privateTmpdir>false</privateTmpdir>
               <pomFile>pom.xml</pomFile>
               <properties>
@@ -84,22 +91,18 @@ To use this add -Dwebtools.buildSite=${webtools_buildSite} to the maven properti
               <verbosity>NORMAL</verbosity>
               <offline>false</offline>
               <snapshotUpdateMode>NORMAL</snapshotUpdateMode>
+              <profiles>
+                <string>bree-libs</string>
+              </profiles>
               <recursive>true</recursive>
               <checksumMode>NORMAL</checksumMode>
               <failMode>NORMAL</failMode>
               <makeMode>NONE</makeMode>
               <settingsId>NONE</settingsId>
               <globalSettingsId>NONE</globalSettingsId>
-              <toolChainsId>NONE</toolChainsId>
+              <toolChainsId>f1492191-c1d9-4caa-a6bf-44160486454d</toolChainsId>
             </config>
           </maven-builder>
-          <hudson.tasks.Shell>
-            <command># generate an empty TESTS-notests.xml file if no tests run
-#if [[ ! $(find ${WORKSPACE}/*/*/target/surefire-reports -name "TEST-*.xml") ]]; then
-#  mkdir -p ${WORKSPACE}/tests/target/surefire-reports/ &amp;&amp; touch ${WORKSPACE}/tests/target/surefire-reports/TEST-notests.xml
-#fi
-</command>
-          </hudson.tasks.Shell>
         </originalValue>
         <propertyOverridden>false</propertyOverridden>
       </describable-list-property>
@@ -216,7 +219,7 @@ To use this add -Dwebtools.buildSite=${webtools_buildSite} to the maven properti
   </project-properties>
   <keepDependencies>false</keepDependencies>
   <createdBy>nboldt@redhat.com</createdBy>
-  <creationTime>1517249668951</creationTime>
+  <creationTime>1513809413574</creationTime>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>

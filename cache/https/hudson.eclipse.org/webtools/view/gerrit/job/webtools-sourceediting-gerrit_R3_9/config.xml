@@ -2,7 +2,7 @@
 <project>
   <actions/>
   <description>Note: this job requires that the 3.6.0 parent pom from master branch be overridden with values from the R3_9_maintenance branch version. See &lt;B&gt;MAVEN_FLAGS&lt;/B&gt; for the list of overrides needed.
-
+&lt;p&gt;
 </description>
   <project-properties class="java.util.concurrent.ConcurrentHashMap">
     <entry>
@@ -35,6 +35,13 @@
       </external-property>
     </entry>
     <entry>
+      <string>cleanWorkspaceRequired</string>
+      <boolean-property>
+        <originalValue class="boolean">true</originalValue>
+        <propertyOverridden>false</propertyOverridden>
+      </boolean-property>
+    </entry>
+    <entry>
       <string>parametersDefinitionProperties</string>
       <copy-write-list-property>
         <originalValue class="hudson.util.CopyOnWriteList">
@@ -43,13 +50,25 @@
               <hudson.model.StringParameterDefinition>
                 <name>MAVEN_FLAGS</name>
                 <description/>
-                <defaultValue>-Pbuild-individual-bundles -Pintegration -Dwebtools.buildSite=http://download.eclipse.org/webtools/downloads/drops/R3.9.2/S-3.9.2RC1-20171115043134/ -Dplatform-repo.url=http://download.eclipse.org/eclipse/updates/4.7-M-builds/M-4.7.2RC2-201711151700 -Dorbit-repo.url=http://download.eclipse.org/tools/orbit/downloads/drops/R20170919201930/repository/ -Djetty-repo.url=http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.5.v20170502/ -Djgit-repo.url=http://download.eclipse.org/egit/updates -Dgef-legacy-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration// -Dgef-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration/ -Dgraphiti-repo.url=http://download.eclipse.org/graphiti/updates/milestones -DskipITests=false</defaultValue>
+                <defaultValue>-Pbuild-individual-bundles -Pintegration -Dwebtools.buildSite=http://build.eclipse.org/webtools/committers/wtp-R3.9.3-M/20180125030226/M-3.9.3-20180125030226/ -Dplatform-repo.url=http://download.eclipse.org/eclipse/updates/4.7-M-builds/M-4.7.2RC2-201711151700 -Dorbit-repo.url=http://download.eclipse.org/tools/orbit/downloads/drops/R20170919201930/repository/ -Djetty-repo.url=http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.5.v20170502/ -Djgit-repo.url=http://download.eclipse.org/egit/updates -Dgef-legacy-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration// -Dgef-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration/ -Dgraphiti-repo.url=http://download.eclipse.org/graphiti/updates/milestones -DskipITests=false</defaultValue>
               </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
           </hudson.model.ParametersDefinitionProperty>
         </originalValue>
         <propertyOverridden>false</propertyOverridden>
       </copy-write-list-property>
+    </entry>
+    <entry>
+      <string>hudson-tasks-junit-JUnitResultArchiver</string>
+      <external-property>
+        <originalValue class="hudson.tasks.junit.JUnitResultArchiver">
+          <testResults>tests/*/target/surefire-reports/*.xml</testResults>
+          <keepLongStdio>false</keepLongStdio>
+          <testDataPublishers/>
+        </originalValue>
+        <propertyOverridden>false</propertyOverridden>
+        <modified>false</modified>
+      </external-property>
     </entry>
     <entry>
       <string>builders</string>
@@ -59,13 +78,16 @@
             <config>
               <installationId>apache-maven-latest</installationId>
               <goals>clean install ${MAVEN_FLAGS}</goals>
-              <privateRepository>false</privateRepository>
+              <privateRepository>true</privateRepository>
               <privateTmpdir>false</privateTmpdir>
               <pomFile>pom.xml</pomFile>
               <properties>
-                <entries/>
+                <entries>
+                  <entry name="maven.test.failure.ignore" value="true"/>
+                  <entry name="maven.test.error.ignore" value="true"/>
+                </entries>
               </properties>
-              <errors>false</errors>
+              <errors>true</errors>
               <verbosity>NORMAL</verbosity>
               <offline>false</offline>
               <snapshotUpdateMode>NORMAL</snapshotUpdateMode>
@@ -139,9 +161,11 @@
               <name>origin</name>
               <uris>
                 <org.eclipse.jgit.transport.URIish>
+                  <scheme>git</scheme>
                   <path>/gitroot/sourceediting/webtools.sourceediting.git</path>
                   <rawPath>/gitroot/sourceediting/webtools.sourceediting.git</rawPath>
                   <port>-1</port>
+                  <host>git.eclipse.org</host>
                 </org.eclipse.jgit.transport.URIish>
               </uris>
               <pushURIs/>
@@ -195,7 +219,7 @@
   </project-properties>
   <keepDependencies>false</keepDependencies>
   <createdBy>nboldt@redhat.com</createdBy>
-  <creationTime>1513808718968</creationTime>
+  <creationTime>1513809413574</creationTime>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>

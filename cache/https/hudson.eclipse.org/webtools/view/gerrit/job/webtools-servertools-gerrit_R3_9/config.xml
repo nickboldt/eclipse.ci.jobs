@@ -50,8 +50,8 @@ Note 2: No tests are run as they're in another repo.
             <parameterDefinitions>
               <hudson.model.StringParameterDefinition>
                 <name>MAVEN_FLAGS</name>
-                <description>-Djetty-repo.url=http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.5.v20170502/</description>
-                <defaultValue>-Pbuild-individual-bundles -Pintegration -Dwebtools.buildSite=http://download.eclipse.org/webtools/downloads/drops/R3.9.2/S-3.9.2RC1-20171115043134/ -Dplatform-repo.url=http://download.eclipse.org/eclipse/updates/4.7-M-builds/M-4.7.2RC2-201711151700 -Dorbit-repo.url=http://download.eclipse.org/tools/orbit/downloads/drops/R20170919201930/repository/  -Djgit-repo.url=http://download.eclipse.org/egit/updates -Dgef-legacy-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration// -Dgef-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration/ -Dgraphiti-repo.url=http://download.eclipse.org/graphiti/updates/milestones -DskipITests=false</defaultValue>
+                <description/>
+                <defaultValue>-Pbuild-individual-bundles -Pintegration -Dwebtools.buildSite=http://build.eclipse.org/webtools/committers/wtp-R3.9.3-M/20180125030226/M-3.9.3-20180125030226/ -Dplatform-repo.url=http://download.eclipse.org/eclipse/updates/4.7-M-builds/M-4.7.2RC2-201711151700 -Dorbit-repo.url=http://download.eclipse.org/tools/orbit/downloads/drops/R20170919201930/repository/ -Djetty-repo.url=http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.5.v20170502/ -Djgit-repo.url=http://download.eclipse.org/egit/updates -Dgef-legacy-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration// -Dgef-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration/ -Dgraphiti-repo.url=http://download.eclipse.org/graphiti/updates/milestones -DskipITests=false</defaultValue>
               </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
           </hudson.model.ParametersDefinitionProperty>
@@ -122,12 +122,15 @@ EOT
           <maven-builder>
             <config>
               <installationId>apache-maven-latest</installationId>
-              <goals>clean verify ${MAVEN_FLAGS} -s settings.webtools.xml</goals>
+              <goals>clean install ${MAVEN_FLAGS} -s settings.webtools.xml</goals>
               <privateRepository>true</privateRepository>
               <privateTmpdir>false</privateTmpdir>
               <pomFile>pom.xml</pomFile>
               <properties>
-                <entries/>
+                <entries>
+                  <entry name="maven.test.failure.ignore" value="true"/>
+                  <entry name="maven.test.error.ignore" value="true"/>
+                </entries>
               </properties>
               <errors>true</errors>
               <verbosity>NORMAL</verbosity>
@@ -261,7 +264,7 @@ EOT
   </project-properties>
   <keepDependencies>false</keepDependencies>
   <createdBy>nboldt@redhat.com</createdBy>
-  <creationTime>1511991151916</creationTime>
+  <creationTime>1513809413574</creationTime>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
