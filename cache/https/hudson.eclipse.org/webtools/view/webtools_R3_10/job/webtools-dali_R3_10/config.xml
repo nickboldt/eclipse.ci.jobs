@@ -73,11 +73,16 @@
         <originalValue class="hudson.util.CopyOnWriteList">
           <hudson.model.ParametersDefinitionProperty>
             <parameterDefinitions>
-              <hudson.model.StringParameterDefinition>
+              <hudson.model.ChoiceParameterDefinition>
                 <name>tychoVersion</name>
                 <description/>
-                <defaultValue>1.1.0-SNAPSHOT</defaultValue>
-              </hudson.model.StringParameterDefinition>
+                <choices class="java.util.Arrays$ArrayList">
+                  <a class="string-array">
+                    <string>1.1.0-SNAPSHOT</string>
+                    <string>1.0.0</string>
+                  </a>
+                </choices>
+              </hudson.model.ChoiceParameterDefinition>
             </parameterDefinitions>
           </hudson.model.ParametersDefinitionProperty>
         </originalValue>

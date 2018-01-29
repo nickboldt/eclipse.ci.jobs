@@ -123,7 +123,7 @@
           </hudson.tasks.Shell>
           <maven-builder>
             <config>
-              <installationId>Maven 3.3.3</installationId>
+              <installationId>Maven 3.5.2</installationId>
               <goals>clean install -fae -Pintegration</goals>
               <privateRepository>true</privateRepository>
               <privateTmpdir>true</privateTmpdir>
@@ -131,8 +131,8 @@
               <properties>
                 <entries>
                   <entry name="maven.test.skip" value="false"/>
-                  <entry name="maven.test.failure.ignore" value="true"/>
                   <entry name="maven.test.error.ignore" value="true"/>
+                  <entry name="maven.test.failure.ignore" value="true"/>
                   <entry name="tycho-extras.version" value="${tychoVersion}"/>
                   <entry name="surefire.timeout" value="1800"/>
                   <entry name="skipWithIssues" value="false"/>

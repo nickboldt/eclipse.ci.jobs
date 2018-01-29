@@ -75,6 +75,16 @@
         <originalValue class="hudson.util.CopyOnWriteList">
           <hudson.model.ParametersDefinitionProperty>
             <parameterDefinitions>
+              <hudson.model.ChoiceParameterDefinition>
+                <name>tychoVersion</name>
+                <description/>
+                <choices class="java.util.Arrays$ArrayList">
+                  <a class="string-array">
+                    <string>1.1.0-SNAPSHOT</string>
+                    <string>1.0.0</string>
+                  </a>
+                </choices>
+              </hudson.model.ChoiceParameterDefinition>
               <hudson.model.StringParameterDefinition>
                 <name>MAVEN_FLAGS</name>
                 <description>Temporarily use -P integration flag, needed to resolve upstream WTP projects
@@ -121,7 +131,7 @@
           </hudson.tasks.Shell>
           <maven-builder>
             <config>
-              <installationId>Maven 3.3.3</installationId>
+              <installationId>Maven 3.5.2</installationId>
               <goals>clean install ${MAVEN_FLAGS}</goals>
               <privateRepository>true</privateRepository>
               <privateTmpdir>true</privateTmpdir>
@@ -129,10 +139,12 @@
               <properties>
                 <entries>
                   <entry name="maven.test.skip" value="false"/>
-                  <entry name="maven.test.failure.ignore" value="true"/>
                   <entry name="maven.test.error.ignore" value="true"/>
+                  <entry name="maven.test.failure.ignore" value="true"/>
+                  <entry name="tycho-extras.version" value="${tychoVersion}"/>
                   <entry name="surefire.timeout" value="1800"/>
                   <entry name="skipWithIssues" value="false"/>
+                  <entry name="tycho.version" value="${tychoVersion}"/>
                 </entries>
               </properties>
               <errors>false</errors>
@@ -264,8 +276,8 @@
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
