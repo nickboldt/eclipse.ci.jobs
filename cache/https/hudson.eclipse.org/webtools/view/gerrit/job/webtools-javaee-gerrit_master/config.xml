@@ -61,6 +61,11 @@
                   </a>
                 </choices>
               </hudson.model.ChoiceParameterDefinition>
+              <hudson.model.StringParameterDefinition>
+                <name>MAVEN_FLAGS</name>
+                <description/>
+                <defaultValue> -Pintegration</defaultValue>
+              </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
           </hudson.model.ParametersDefinitionProperty>
         </originalValue>
@@ -131,7 +136,7 @@ EOT
           <maven-builder>
             <config>
               <installationId>Maven 3.5.2</installationId>
-              <goals>clean install -Pintegration</goals>
+              <goals>clean install ${MAVEN_FLAGS}</goals>
               <privateRepository>true</privateRepository>
               <privateTmpdir>false</privateTmpdir>
               <pomFile>pom.xml</pomFile>

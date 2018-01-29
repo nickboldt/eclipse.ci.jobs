@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>NOTE: currently requires -Pintegration flag until we can update root pom to depend on upstream builds/repos instead </description>
+  <description/>
   <project-properties class="java.util.concurrent.ConcurrentHashMap">
     <entry>
       <string>hudson-plugins-disk_usage-DiskUsageProperty</string>
@@ -50,6 +50,28 @@
         <propertyOverridden>false</propertyOverridden>
         <modified>true</modified>
       </external-property>
+    </entry>
+    <entry>
+      <string>parametersDefinitionProperties</string>
+      <copy-write-list-property>
+        <originalValue class="hudson.util.CopyOnWriteList">
+          <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+              <hudson.model.ChoiceParameterDefinition>
+                <name>tychoVersion</name>
+                <description/>
+                <choices class="java.util.Arrays$ArrayList">
+                  <a class="string-array">
+                    <string>1.1.0-SNAPSHOT</string>
+                    <string>1.0.0</string>
+                  </a>
+                </choices>
+              </hudson.model.ChoiceParameterDefinition>
+            </parameterDefinitions>
+          </hudson.model.ParametersDefinitionProperty>
+        </originalValue>
+        <propertyOverridden>false</propertyOverridden>
+      </copy-write-list-property>
     </entry>
     <entry>
       <string>builders</string>
