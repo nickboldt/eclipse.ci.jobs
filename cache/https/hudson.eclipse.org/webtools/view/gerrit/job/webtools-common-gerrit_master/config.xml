@@ -57,13 +57,16 @@
         <originalValue class="hudson.util.CopyOnWriteList">
           <hudson.model.ParametersDefinitionProperty>
             <parameterDefinitions>
-              <hudson.model.StringParameterDefinition>
-                <name>webtools_buildSite</name>
-                <description>NOT USED - Override value in parent pom because it points to R3.10.0/I-latest which doesn't *YET* exist. 
-
-To use this add -Dwebtools.buildSite=${webtools_buildSite} to the maven properties </description>
-                <defaultValue>http://download.eclipse.org/webtools/downloads/drops/R3.9.1a/S-3.9.1aRC2a-20171004113814/</defaultValue>
-              </hudson.model.StringParameterDefinition>
+              <hudson.model.ChoiceParameterDefinition>
+                <name>tychoVersion</name>
+                <description/>
+                <choices class="java.util.Arrays$ArrayList">
+                  <a class="string-array">
+                    <string>1.1.0-SNAPSHOT</string>
+                    <string>1.0.0</string>
+                  </a>
+                </choices>
+              </hudson.model.ChoiceParameterDefinition>
             </parameterDefinitions>
           </hudson.model.ParametersDefinitionProperty>
         </originalValue>
@@ -76,15 +79,15 @@ To use this add -Dwebtools.buildSite=${webtools_buildSite} to the maven properti
         <originalValue class="hudson.util.DescribableList">
           <maven-builder>
             <config>
-              <installationId>apache-maven-latest</installationId>
+              <installationId>Maven 3.5.2</installationId>
               <goals>clean verify</goals>
               <privateRepository>false</privateRepository>
               <privateTmpdir>false</privateTmpdir>
               <pomFile>pom.xml</pomFile>
               <properties>
                 <entries>
-                  <entry name="tycho-extras.version" value="1.0.0"/>
-                  <entry name="tycho.version" value="1.0.0 "/>
+                  <entry name="tycho-extras.version" value="${tychoVersion}"/>
+                  <entry name="tycho.version" value="${tychoVersion}"/>
                 </entries>
               </properties>
               <errors>true</errors>
@@ -229,8 +232,8 @@ fi
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>

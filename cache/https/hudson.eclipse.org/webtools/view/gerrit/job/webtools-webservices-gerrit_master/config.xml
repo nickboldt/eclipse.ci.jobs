@@ -52,20 +52,47 @@
       </external-property>
     </entry>
     <entry>
+      <string>parametersDefinitionProperties</string>
+      <copy-write-list-property>
+        <originalValue class="hudson.util.CopyOnWriteList">
+          <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+              <hudson.model.ChoiceParameterDefinition>
+                <name>tychoVersion</name>
+                <description/>
+                <choices class="java.util.Arrays$ArrayList">
+                  <a class="string-array">
+                    <string>1.1.0-SNAPSHOT</string>
+                    <string>1.0.0</string>
+                  </a>
+                </choices>
+              </hudson.model.ChoiceParameterDefinition>
+              <hudson.model.StringParameterDefinition>
+                <name>MAVEN_FLAGS</name>
+                <description/>
+                <defaultValue>-Pintegration</defaultValue>
+              </hudson.model.StringParameterDefinition>
+            </parameterDefinitions>
+          </hudson.model.ParametersDefinitionProperty>
+        </originalValue>
+        <propertyOverridden>false</propertyOverridden>
+      </copy-write-list-property>
+    </entry>
+    <entry>
       <string>builders</string>
       <describable-list-property>
         <originalValue class="hudson.util.DescribableList">
           <maven-builder>
             <config>
-              <installationId>apache-maven-latest</installationId>
-              <goals>clean verify -Pintegration</goals>
+              <installationId>Maven 3.5.2</installationId>
+              <goals>clean verify ${MAVEN_FLAGS}</goals>
               <privateRepository>false</privateRepository>
               <privateTmpdir>false</privateTmpdir>
               <pomFile>pom.xml</pomFile>
               <properties>
                 <entries>
-                  <entry name="tycho-extras.version" value="1.0.0"/>
-                  <entry name="tycho.version" value="1.0.0"/>
+                  <entry name="tycho-extras.version" value="${tychoVersion}"/>
+                  <entry name="tycho.version" value="${tychoVersion}"/>
                 </entries>
               </properties>
               <errors>true</errors>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>NOTE: currently requires -Pintegration flag until we can update root pom to depend on upstream builds/repos instead </description>
+  <description/>
   <project-properties class="java.util.concurrent.ConcurrentHashMap">
     <entry>
       <string>hudson-plugins-disk_usage-DiskUsageProperty</string>
@@ -33,42 +33,51 @@
       </external-property>
     </entry>
     <entry>
-      <string>cleanWorkspaceRequired</string>
-      <boolean-property>
-        <originalValue class="boolean">true</originalValue>
-        <propertyOverridden>false</propertyOverridden>
-      </boolean-property>
-    </entry>
-    <entry>
       <string>hudson-tasks-junit-JUnitResultArchiver</string>
       <external-property>
         <originalValue class="hudson.tasks.junit.JUnitResultArchiver">
-          <testResults>**/TEST-*.xml</testResults>
+          <testResults>tests/*/target/surefire-reports/*.xml</testResults>
           <keepLongStdio>false</keepLongStdio>
           <testDataPublishers/>
         </originalValue>
         <propertyOverridden>false</propertyOverridden>
-        <modified>true</modified>
+        <modified>false</modified>
       </external-property>
+    </entry>
+    <entry>
+      <string>parametersDefinitionProperties</string>
+      <copy-write-list-property>
+        <originalValue class="hudson.util.CopyOnWriteList">
+          <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+              <hudson.model.StringParameterDefinition>
+                <name>webtools_buildSite</name>
+                <description>NOT USED - Override value in parent pom because it points to R3.10.0/I-latest which doesn't *YET* exist. 
+
+To use this add -Dwebtools.buildSite=${webtools_buildSite} to the maven properties </description>
+                <defaultValue>http://download.eclipse.org/webtools/downloads/drops/R3.9.2/R-3.9.2-20171201000141/repository/</defaultValue>
+              </hudson.model.StringParameterDefinition>
+            </parameterDefinitions>
+          </hudson.model.ParametersDefinitionProperty>
+        </originalValue>
+        <propertyOverridden>false</propertyOverridden>
+      </copy-write-list-property>
     </entry>
     <entry>
       <string>builders</string>
       <describable-list-property>
         <originalValue class="hudson.util.DescribableList">
-          <hudson.tasks.Shell>
-            <command># apply patches (use  --keep-redundant-commits when cherry picking)
-</command>
-          </hudson.tasks.Shell>
           <maven-builder>
             <config>
-              <installationId>Maven 3.5.2</installationId>
-              <goals>clean verify</goals>
+              <installationId>apache-maven-latest</installationId>
+              <goals>clean install</goals>
               <privateRepository>false</privateRepository>
               <privateTmpdir>false</privateTmpdir>
               <pomFile>pom.xml</pomFile>
               <properties>
                 <entries>
-                  <entry name="tycho-extras.version" value="${tychoVersion} tycho.version=${tychoVersion}"/>
+                  <entry name="maven.test.failure.ignore" value="true"/>
+                  <entry name="maven.test.error.ignore" value="true"/>
                 </entries>
               </properties>
               <errors>true</errors>
@@ -84,6 +93,13 @@
               <toolChainsId>NONE</toolChainsId>
             </config>
           </maven-builder>
+          <hudson.tasks.Shell>
+            <command># generate an empty TESTS-notests.xml file if no tests run
+#if [[ ! $(find ${WORKSPACE}/*/*/target/surefire-reports -name "TEST-*.xml") ]]; then
+#  mkdir -p ${WORKSPACE}/tests/target/surefire-reports/ &amp;&amp; touch ${WORKSPACE}/tests/target/surefire-reports/TEST-notests.xml
+#fi
+</command>
+          </hudson.tasks.Shell>
         </originalValue>
         <propertyOverridden>false</propertyOverridden>
       </describable-list-property>
@@ -103,11 +119,11 @@
           <gerritProjects>
             <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.data.GerritProject>
               <compareType>ANT</compareType>
-              <pattern>dali/webtools.dali</pattern>
+              <pattern>jsdt/webtools.jsdt</pattern>
               <branches>
                 <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.data.Branch>
                   <compareType>ANT</compareType>
-                  <pattern>master</pattern>
+                  <pattern>R3_9_maintenance</pattern>
                 </com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.data.Branch>
               </branches>
             </com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.data.GerritProject>
@@ -143,8 +159,8 @@
               <uris>
                 <org.eclipse.jgit.transport.URIish>
                   <scheme>git</scheme>
-                  <path>/gitroot/dali/webtools.dali.git</path>
-                  <rawPath>/gitroot/dali/webtools.dali.git</rawPath>
+                  <path>/gitroot/jsdt/webtools.jsdt.git</path>
+                  <rawPath>/gitroot/jsdt/webtools.jsdt.git</rawPath>
                   <port>-1</port>
                   <host>git.eclipse.org</host>
                 </org.eclipse.jgit.transport.URIish>
@@ -168,7 +184,7 @@
           </remoteRepositories>
           <branches>
             <hudson.plugins.git.BranchSpec>
-              <name>master</name>
+              <name>R3_9_maintenance</name>
             </hudson.plugins.git.BranchSpec>
           </branches>
           <mergeOptions/>
@@ -200,7 +216,7 @@
   </project-properties>
   <keepDependencies>false</keepDependencies>
   <createdBy>nboldt@redhat.com</createdBy>
-  <creationTime>1511814978087</creationTime>
+  <creationTime>1517249668951</creationTime>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>

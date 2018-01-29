@@ -52,6 +52,28 @@
       </external-property>
     </entry>
     <entry>
+      <string>parametersDefinitionProperties</string>
+      <copy-write-list-property>
+        <originalValue class="hudson.util.CopyOnWriteList">
+          <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+              <hudson.model.ChoiceParameterDefinition>
+                <name>tychoVersion</name>
+                <description/>
+                <choices class="java.util.Arrays$ArrayList">
+                  <a class="string-array">
+                    <string>1.1.0-SNAPSHOT</string>
+                    <string>1.0.0</string>
+                  </a>
+                </choices>
+              </hudson.model.ChoiceParameterDefinition>
+            </parameterDefinitions>
+          </hudson.model.ParametersDefinitionProperty>
+        </originalValue>
+        <propertyOverridden>false</propertyOverridden>
+      </copy-write-list-property>
+    </entry>
+    <entry>
       <string>hudson-plugins-build_timeout-BuildTimeoutWrapper</string>
       <external-property>
         <originalValue class="hudson.plugins.build_timeout.BuildTimeoutWrapper">
@@ -72,7 +94,7 @@
         <originalValue class="hudson.util.DescribableList">
           <maven-builder>
             <config>
-              <installationId>apache-maven-latest</installationId>
+              <installationId>Maven 3.5.2</installationId>
               <goals>clean
 verify
 -fae</goals>
@@ -80,7 +102,9 @@ verify
               <privateTmpdir>false</privateTmpdir>
               <pomFile>pom.xml</pomFile>
               <properties>
-                <entries/>
+                <entries>
+                  <entry name="tycho-extras.version" value="${tychoVersion} tycho.version=${tychoVersion}"/>
+                </entries>
               </properties>
               <errors>true</errors>
               <verbosity>NORMAL</verbosity>
