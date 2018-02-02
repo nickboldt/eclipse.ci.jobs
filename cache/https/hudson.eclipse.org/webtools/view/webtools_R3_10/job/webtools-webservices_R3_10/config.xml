@@ -80,8 +80,8 @@
                 <description/>
                 <choices class="java.util.Arrays$ArrayList">
                   <a class="string-array">
-                    <string>1.1.0-SNAPSHOT</string>
                     <string>1.0.0</string>
+                    <string>1.1.0-SNAPSHOT</string>
                   </a>
                 </choices>
               </hudson.model.ChoiceParameterDefinition>
@@ -258,13 +258,19 @@
   <creationTime>1511365379803</creationTime>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
+      <permission>hudson.model.Item.ExtendedRead:stryker@redhat.com</permission>
+      <permission>hudson.model.Item.Workspace:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
-      <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Configure:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Update:stryker@redhat.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Read:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Build:stryker@redhat.com</permission>
+      <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
   </properties>
   <cascadingChildrenNames class="java.util.concurrent.CopyOnWriteArraySet"/>

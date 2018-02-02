@@ -42,6 +42,18 @@
       </boolean-property>
     </entry>
     <entry>
+      <string>hudson-tasks-junit-JUnitResultArchiver</string>
+      <external-property>
+        <originalValue class="hudson.tasks.junit.JUnitResultArchiver">
+          <testResults>tests/*/target/surefire-reports/*.xml</testResults>
+          <keepLongStdio>false</keepLongStdio>
+          <testDataPublishers/>
+        </originalValue>
+        <propertyOverridden>false</propertyOverridden>
+        <modified>false</modified>
+      </external-property>
+    </entry>
+    <entry>
       <string>parametersDefinitionProperties</string>
       <copy-write-list-property>
         <originalValue class="hudson.util.CopyOnWriteList">
@@ -57,18 +69,6 @@
         </originalValue>
         <propertyOverridden>false</propertyOverridden>
       </copy-write-list-property>
-    </entry>
-    <entry>
-      <string>hudson-tasks-junit-JUnitResultArchiver</string>
-      <external-property>
-        <originalValue class="hudson.tasks.junit.JUnitResultArchiver">
-          <testResults>tests/*/target/surefire-reports/*.xml</testResults>
-          <keepLongStdio>false</keepLongStdio>
-          <testDataPublishers/>
-        </originalValue>
-        <propertyOverridden>false</propertyOverridden>
-        <modified>false</modified>
-      </external-property>
     </entry>
     <entry>
       <string>builders</string>
@@ -223,12 +223,12 @@
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
-      <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
   </properties>
   <cascadingChildrenNames class="java.util.concurrent.CopyOnWriteArraySet"/>

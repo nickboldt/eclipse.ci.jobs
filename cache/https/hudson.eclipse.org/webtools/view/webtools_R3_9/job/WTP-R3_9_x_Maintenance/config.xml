@@ -241,20 +241,20 @@ wtp.version=3.9.3</properties>
       <permission>hudson.model.Item.Workspace:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Workspace:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
-      <permission>hudson.model.Run.Delete:ccc@us.ibm.com</permission>
-      <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Delete:ccc@us.ibm.com</permission>
-      <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Build:ccc@us.ibm.com</permission>
-      <permission>hudson.model.Item.Build:stryker@redhat.com</permission>
-      <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Configure:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Delete:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Update:ccc@us.ibm.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Read:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Read:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Build:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Item.Build:stryker@redhat.com</permission>
+      <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Delete:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
   </properties>
   <cascadingChildrenNames class="java.util.concurrent.CopyOnWriteArraySet"/>

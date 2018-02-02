@@ -228,24 +228,24 @@
       <permission>hudson.model.Item.Workspace:mistria@redhat.com</permission>
       <permission>hudson.model.Item.Workspace:ROLE_WEBTOOLS.JSDT</permission>
       <permission>hudson.model.Item.Workspace:thanh.ha@eclipse.org</permission>
-      <permission>hudson.model.Run.Delete:mistria@redhat.com</permission>
-      <permission>hudson.model.Run.Delete:ROLE_WEBTOOLS.JSDT</permission>
-      <permission>hudson.model.Run.Delete:thanh.ha@eclipse.org</permission>
-      <permission>hudson.model.Item.Delete:mistria@redhat.com</permission>
-      <permission>hudson.model.Item.Delete:ROLE_WEBTOOLS.JSDT</permission>
-      <permission>hudson.model.Item.Delete:thanh.ha@eclipse.org</permission>
-      <permission>hudson.model.Item.Build:mistria@redhat.com</permission>
-      <permission>hudson.model.Item.Build:ROLE_WEBTOOLS.JSDT</permission>
-      <permission>hudson.model.Item.Build:thanh.ha@eclipse.org</permission>
       <permission>hudson.model.Item.Configure:mistria@redhat.com</permission>
       <permission>hudson.model.Item.Configure:ROLE_WEBTOOLS.JSDT</permission>
       <permission>hudson.model.Item.Configure:thanh.ha@eclipse.org</permission>
+      <permission>hudson.model.Run.Delete:mistria@redhat.com</permission>
+      <permission>hudson.model.Run.Delete:ROLE_WEBTOOLS.JSDT</permission>
+      <permission>hudson.model.Run.Delete:thanh.ha@eclipse.org</permission>
       <permission>hudson.model.Run.Update:mistria@redhat.com</permission>
       <permission>hudson.model.Run.Update:ROLE_WEBTOOLS.JSDT</permission>
       <permission>hudson.model.Run.Update:thanh.ha@eclipse.org</permission>
       <permission>hudson.model.Item.Read:mistria@redhat.com</permission>
       <permission>hudson.model.Item.Read:ROLE_WEBTOOLS.JSDT</permission>
       <permission>hudson.model.Item.Read:thanh.ha@eclipse.org</permission>
+      <permission>hudson.model.Item.Build:mistria@redhat.com</permission>
+      <permission>hudson.model.Item.Build:ROLE_WEBTOOLS.JSDT</permission>
+      <permission>hudson.model.Item.Build:thanh.ha@eclipse.org</permission>
+      <permission>hudson.model.Item.Delete:mistria@redhat.com</permission>
+      <permission>hudson.model.Item.Delete:ROLE_WEBTOOLS.JSDT</permission>
+      <permission>hudson.model.Item.Delete:thanh.ha@eclipse.org</permission>
     </hudson.security.AuthorizationMatrixProperty>
   </properties>
   <cascadingChildrenNames class="java.util.concurrent.CopyOnWriteArraySet"/>

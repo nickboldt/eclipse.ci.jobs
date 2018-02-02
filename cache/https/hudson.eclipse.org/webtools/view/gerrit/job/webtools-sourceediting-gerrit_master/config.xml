@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description/>
+  <description>Until source generation is fixed, use -Pintegration to resolve sources in features.</description>
   <project-properties class="java.util.concurrent.ConcurrentHashMap">
     <entry>
       <string>hudson-plugins-disk_usage-DiskUsageProperty</string>
@@ -62,11 +62,16 @@
                 <description/>
                 <choices class="java.util.Arrays$ArrayList">
                   <a class="string-array">
-                    <string>1.1.0-SNAPSHOT</string>
                     <string>1.0.0</string>
+                    <string>1.1.0-SNAPSHOT</string>
                   </a>
                 </choices>
               </hudson.model.ChoiceParameterDefinition>
+              <hudson.model.StringParameterDefinition>
+                <name>MAVEN_FLAGS</name>
+                <description/>
+                <defaultValue>-fae -Pintegration -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
+              </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
           </hudson.model.ParametersDefinitionProperty>
         </originalValue>
@@ -97,14 +102,12 @@
               <installationId>Maven 3.5.2</installationId>
               <goals>clean
 verify
--fae</goals>
+${MAVEN_FLAGS}</goals>
               <privateRepository>false</privateRepository>
               <privateTmpdir>false</privateTmpdir>
               <pomFile>pom.xml</pomFile>
               <properties>
-                <entries>
-                  <entry name="tycho-extras.version" value="${tychoVersion} tycho.version=${tychoVersion}"/>
-                </entries>
+                <entries/>
               </properties>
               <errors>true</errors>
               <verbosity>NORMAL</verbosity>
@@ -248,19 +251,19 @@ verify
       <permission>hudson.model.Item.Workspace:ROLE_WEBTOOLS.SOURCEEDITING</permission>
       <permission>hudson.model.Run.Delete:thanh.ha@alumni.carleton.ca</permission>
       <permission>hudson.model.Run.Delete:ROLE_WEBTOOLS.SOURCEEDITING</permission>
-      <permission>hudson.model.Item.Delete:thanh.ha@alumni.carleton.ca</permission>
-      <permission>hudson.model.Item.Delete:ROLE_WEBTOOLS.SOURCEEDITING</permission>
-      <permission>hudson.model.Item.Build:thanh.ha@alumni.carleton.ca</permission>
-      <permission>hudson.model.Item.Build:stryker@redhat.com</permission>
-      <permission>hudson.model.Item.Build:ROLE_WEBTOOLS.SOURCEEDITING</permission>
       <permission>hudson.model.Item.Configure:thanh.ha@alumni.carleton.ca</permission>
       <permission>hudson.model.Item.Configure:ROLE_WEBTOOLS.SOURCEEDITING</permission>
       <permission>hudson.model.Run.Update:thanh.ha@alumni.carleton.ca</permission>
       <permission>hudson.model.Run.Update:stryker@redhat.com</permission>
       <permission>hudson.model.Run.Update:ROLE_WEBTOOLS.SOURCEEDITING</permission>
+      <permission>hudson.model.Item.Build:thanh.ha@alumni.carleton.ca</permission>
+      <permission>hudson.model.Item.Build:stryker@redhat.com</permission>
+      <permission>hudson.model.Item.Build:ROLE_WEBTOOLS.SOURCEEDITING</permission>
       <permission>hudson.model.Item.Read:thanh.ha@alumni.carleton.ca</permission>
       <permission>hudson.model.Item.Read:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Read:ROLE_WEBTOOLS.SOURCEEDITING</permission>
+      <permission>hudson.model.Item.Delete:thanh.ha@alumni.carleton.ca</permission>
+      <permission>hudson.model.Item.Delete:ROLE_WEBTOOLS.SOURCEEDITING</permission>
     </hudson.security.AuthorizationMatrixProperty>
   </properties>
   <cascadingChildrenNames class="java.util.concurrent.CopyOnWriteArraySet"/>

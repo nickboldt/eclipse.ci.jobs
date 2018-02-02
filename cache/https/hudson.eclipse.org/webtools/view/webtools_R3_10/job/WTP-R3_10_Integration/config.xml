@@ -11,7 +11,8 @@
 
 &lt;p&gt;&lt;b&gt;-Pintegration flag needed to build all the integration tests in servertools which are not normally built as part of a standard build&lt;/b&gt;
 
-&lt;p&gt;Requires: Maven 3.3.3 (or later?) and Ant 1.8.4</description>
+&lt;p&gt;Requires: Maven 3.5.2 and Ant 1.8.4. &lt;b&gt;TODO: update to use Tycho 1.1.0 once &lt;a href=https://bugs.eclipse.org/bugs/show_bug.cgi?id=530467&gt;
+Xalan issue is solved in SSE&lt;/a&gt;.</description>
   <project-properties class="java.util.concurrent.ConcurrentHashMap">
     <entry>
       <string>hudson-plugins-disk_usage-DiskUsageProperty</string>
@@ -72,8 +73,8 @@
                 <description/>
                 <choices class="java.util.Arrays$ArrayList">
                   <a class="string-array">
-                    <string>1.1.0-SNAPSHOT</string>
                     <string>1.0.0</string>
+                    <string>1.1.0-SNAPSHOT</string>
                   </a>
                 </choices>
               </hudson.model.ChoiceParameterDefinition>
@@ -176,6 +177,11 @@ EOXML
 # https://git.eclipse.org/r/#/c/114518/
 #pushd webtools.sourceediting
 #git fetch https://git.eclipse.org/r/sourceediting/webtools.sourceediting refs/changes/18/114518/1 &amp;&amp; git cherry-pick FETCH_HEAD
+#popd
+
+# https://git.eclipse.org/r/#/c/116532/
+#pushd webtools.webservices
+#git fetch https://git.eclipse.org/r/webservices/webtools.webservices refs/changes/32/116532/1 &amp;&amp; git cherry-pick FETCH_HEAD
 #popd
 
 </command>
@@ -335,16 +341,16 @@ wtp.version=3.10.0</properties>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Delete:ccc@us.ibm.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Delete:ccc@us.ibm.com</permission>
-      <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Build:ccc@us.ibm.com</permission>
-      <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Configure:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Update:ccc@us.ibm.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Build:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Read:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Delete:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
   </properties>
   <cascadingChildrenNames class="java.util.concurrent.CopyOnWriteArraySet"/>

@@ -71,7 +71,7 @@
               <hudson.model.StringParameterDefinition>
                 <name>MAVEN_FLAGS</name>
                 <description/>
-                <defaultValue>-Pintegration</defaultValue>
+                <defaultValue>-Pintegration -fn</defaultValue>
               </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
           </hudson.model.ParametersDefinitionProperty>
@@ -106,16 +106,9 @@
               <makeMode>NONE</makeMode>
               <settingsId>NONE</settingsId>
               <globalSettingsId>NONE</globalSettingsId>
-              <toolChainsId>NONE</toolChainsId>
+              <toolChainsId>f1492191-c1d9-4caa-a6bf-44160486454d</toolChainsId>
             </config>
           </maven-builder>
-          <hudson.tasks.Shell>
-            <command># generate an empty TESTS-notests.xml file if no tests run
-if [[ ! $(find ${WORKSPACE}/*/*/target/surefire-reports -name "TEST-*.xml") ]]; then
-  mkdir -p ${WORKSPACE}/tests/target/surefire-reports/ &amp;&amp; touch ${WORKSPACE}/tests/target/surefire-reports/TEST-notests.xml
-fi
-</command>
-          </hudson.tasks.Shell>
         </originalValue>
         <propertyOverridden>false</propertyOverridden>
       </describable-list-property>
@@ -237,11 +230,11 @@ fi
     <hudson.security.AuthorizationMatrixProperty>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
   </properties>
   <cascadingChildrenNames class="java.util.concurrent.CopyOnWriteArraySet"/>

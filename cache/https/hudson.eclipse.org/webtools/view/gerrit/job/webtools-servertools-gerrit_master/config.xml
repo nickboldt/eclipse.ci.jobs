@@ -62,11 +62,16 @@
                 <description/>
                 <choices class="java.util.Arrays$ArrayList">
                   <a class="string-array">
-                    <string>1.1.0-SNAPSHOT</string>
                     <string>1.0.0</string>
+                    <string>1.1.0-SNAPSHOT</string>
                   </a>
                 </choices>
               </hudson.model.ChoiceParameterDefinition>
+              <hudson.model.StringParameterDefinition>
+                <name>MAVEN_FLAGS</name>
+                <description/>
+                <defaultValue>-P integration -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
+              </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
           </hudson.model.ParametersDefinitionProperty>
         </originalValue>
@@ -80,14 +85,12 @@
           <maven-builder>
             <config>
               <installationId>Maven 3.5.2</installationId>
-              <goals>clean verify -Pintegration</goals>
+              <goals>clean verify ${MAVEN_FLAGS}</goals>
               <privateRepository>false</privateRepository>
               <privateTmpdir>false</privateTmpdir>
               <pomFile>pom.xml</pomFile>
               <properties>
-                <entries>
-                  <entry name="tycho-extras.version" value="${tychoVersion} tycho.version=${tychoVersion}"/>
-                </entries>
+                <entries/>
               </properties>
               <errors>true</errors>
               <verbosity>NORMAL</verbosity>
@@ -223,11 +226,11 @@
     <hudson.security.AuthorizationMatrixProperty>
       <permission>hudson.model.Item.Workspace:nitind@pobox.com</permission>
       <permission>hudson.model.Run.Delete:nitind@pobox.com</permission>
-      <permission>hudson.model.Item.Delete:nitind@pobox.com</permission>
-      <permission>hudson.model.Item.Build:nitind@pobox.com</permission>
       <permission>hudson.model.Item.Configure:nitind@pobox.com</permission>
       <permission>hudson.model.Run.Update:nitind@pobox.com</permission>
+      <permission>hudson.model.Item.Build:nitind@pobox.com</permission>
       <permission>hudson.model.Item.Read:nitind@pobox.com</permission>
+      <permission>hudson.model.Item.Delete:nitind@pobox.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
   </properties>
   <cascadingChildrenNames class="java.util.concurrent.CopyOnWriteArraySet"/>
