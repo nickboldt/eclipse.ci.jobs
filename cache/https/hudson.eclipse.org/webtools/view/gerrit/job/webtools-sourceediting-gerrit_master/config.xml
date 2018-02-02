@@ -100,9 +100,7 @@
           <maven-builder>
             <config>
               <installationId>Maven 3.5.2</installationId>
-              <goals>clean
-verify
-${MAVEN_FLAGS}</goals>
+              <goals>clean verify ${MAVEN_FLAGS}</goals>
               <privateRepository>false</privateRepository>
               <privateTmpdir>false</privateTmpdir>
               <pomFile>pom.xml</pomFile>

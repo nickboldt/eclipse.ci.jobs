@@ -64,7 +64,7 @@
               <hudson.model.StringParameterDefinition>
                 <name>MAVEN_FLAGS</name>
                 <description/>
-                <defaultValue> -Pintegration</defaultValue>
+                <defaultValue>-fae -Pintegration -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
               </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
           </hudson.model.ParametersDefinitionProperty>
@@ -136,15 +136,10 @@ EOT
           <maven-builder>
             <config>
               <installationId>Maven 3.5.2</installationId>
-              <goals>clean install ${MAVEN_FLAGS}</goals>
+              <goals>clean verify ${MAVEN_FLAGS}</goals>
               <privateRepository>true</privateRepository>
               <privateTmpdir>false</privateTmpdir>
               <pomFile>pom.xml</pomFile>
-              <properties>
-                <entries>
-                  <entry name="tycho-extras.version" value="${tychoVersion} tycho.version=${tychoVersion}"/>
-                </entries>
-              </properties>
               <errors>true</errors>
               <verbosity>NORMAL</verbosity>
               <offline>false</offline>

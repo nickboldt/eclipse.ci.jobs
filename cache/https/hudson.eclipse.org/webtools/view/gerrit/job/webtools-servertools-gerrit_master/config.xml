@@ -70,7 +70,7 @@
               <hudson.model.StringParameterDefinition>
                 <name>MAVEN_FLAGS</name>
                 <description/>
-                <defaultValue>-P integration -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
+                <defaultValue>-fae -Pintegration -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
               </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
           </hudson.model.ParametersDefinitionProperty>

@@ -67,6 +67,11 @@
                   </a>
                 </choices>
               </hudson.model.ChoiceParameterDefinition>
+              <hudson.model.StringParameterDefinition>
+                <name>MAVEN_FLAGS</name>
+                <description/>
+                <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
+              </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
           </hudson.model.ParametersDefinitionProperty>
         </originalValue>
@@ -84,7 +89,7 @@
           <maven-builder>
             <config>
               <installationId>Maven 3.5.2</installationId>
-              <goals>clean verify</goals>
+              <goals>clean verify ${MAVEN_FLAGS}</goals>
               <privateRepository>false</privateRepository>
               <privateTmpdir>false</privateTmpdir>
               <pomFile>pom.xml</pomFile>
