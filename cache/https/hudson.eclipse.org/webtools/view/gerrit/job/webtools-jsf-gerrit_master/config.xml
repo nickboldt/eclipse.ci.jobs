@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>NOTE: currently requires -Pintegration flag until we can update root pom to depend on upstream builds/repos instead </description>
+  <description/>
   <project-properties class="java.util.concurrent.ConcurrentHashMap">
     <entry>
       <string>hudson-plugins-disk_usage-DiskUsageProperty</string>
@@ -89,6 +89,9 @@
               <privateRepository>false</privateRepository>
               <privateTmpdir>false</privateTmpdir>
               <pomFile>pom.xml</pomFile>
+              <properties>
+                <entries/>
+              </properties>
               <errors>true</errors>
               <verbosity>NORMAL</verbosity>
               <offline>false</offline>
@@ -222,11 +225,11 @@
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
   </properties>

@@ -62,15 +62,16 @@
                 <description/>
                 <choices class="java.util.Arrays$ArrayList">
                   <a class="string-array">
-                    <string>1.0.0</string>
+                    <string>1.1.10</string>
                     <string>1.1.0-SNAPSHOT</string>
+                    <string>1.0.0</string>
                   </a>
                 </choices>
               </hudson.model.ChoiceParameterDefinition>
               <hudson.model.StringParameterDefinition>
                 <name>MAVEN_FLAGS</name>
                 <description/>
-                <defaultValue>-fae -Pintegration -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
+                <defaultValue>-fn -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
               </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
           </hudson.model.ParametersDefinitionProperty>
@@ -116,7 +117,7 @@
               </profiles>
               <recursive>true</recursive>
               <checksumMode>NORMAL</checksumMode>
-              <failMode>NORMAL</failMode>
+              <failMode>NEVER</failMode>
               <makeMode>NONE</makeMode>
               <settingsId>NONE</settingsId>
               <globalSettingsId>NONE</globalSettingsId>
