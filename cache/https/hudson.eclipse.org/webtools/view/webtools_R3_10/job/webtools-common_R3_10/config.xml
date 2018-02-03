@@ -78,14 +78,13 @@
                 <choices class="java.util.Arrays$ArrayList">
                   <a class="string-array">
                     <string>1.1.0</string>
-                    <string>1.0.0</string>
                   </a>
                 </choices>
               </hudson.model.ChoiceParameterDefinition>
               <hudson.model.StringParameterDefinition>
                 <name>MAVEN_FLAGS</name>
                 <description/>
-                <defaultValue>-fae -Pintegration -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
+                <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
               </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
           </hudson.model.ParametersDefinitionProperty>
@@ -195,8 +194,8 @@ cat pom.xml | grep common -B2 -A2
               <properties>
                 <entries>
                   <entry name="maven.test.skip" value="false"/>
-                  <entry name="maven.test.error.ignore" value="true"/>
                   <entry name="maven.test.failure.ignore" value="true"/>
+                  <entry name="maven.test.error.ignore" value="true"/>
                   <entry name="tycho-extras.version" value="${tychoVersion}"/>
                   <entry name="surefire.timeout" value="1800"/>
                   <entry name="skipWithIssues" value="false"/>
@@ -331,23 +330,23 @@ cat pom.xml | grep common -B2 -A2
   <creationTime>1506611020787</creationTime>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
-      <permission>hudson.model.Item.ExtendedRead:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.ExtendedRead:anonymous</permission>
+      <permission>hudson.model.Item.ExtendedRead:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.ExtendedRead:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Workspace:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Configure:ccc@us.ibm.com</permission>
-      <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Delete:ccc@us.ibm.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Configure:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Update:ccc@us.ibm.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Read:ccc@us.ibm.com</permission>
-      <permission>hudson.model.Item.Read:anonymous</permission>
-      <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Build:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Build:anonymous</permission>
+      <permission>hudson.model.Item.Build:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Read:anonymous</permission>
+      <permission>hudson.model.Item.Read:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Delete:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
