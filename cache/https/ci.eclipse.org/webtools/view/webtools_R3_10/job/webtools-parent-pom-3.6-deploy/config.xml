@@ -2,137 +2,78 @@
 <project>
   <actions/>
   <description>Deploys the Webtools parent pom to repo.eclipse.org on a nightly basis.</description>
-  <project-properties class="java.util.concurrent.ConcurrentHashMap">
-    <entry>
-      <string>hudson-plugins-disk_usage-DiskUsageProperty</string>
-      <base-property>
-        <originalValue class="hudson.plugins.disk_usage.DiskUsageProperty"/>
-        <propertyOverridden>false</propertyOverridden>
-      </base-property>
-    </entry>
-    <entry>
-      <string>cleanWorkspaceRequired</string>
-      <boolean-property>
-        <originalValue class="boolean">true</originalValue>
-        <propertyOverridden>false</propertyOverridden>
-      </boolean-property>
-    </entry>
-    <entry>
-      <string>parametersDefinitionProperties</string>
-      <copy-write-list-property>
-        <originalValue class="hudson.util.CopyOnWriteList">
-          <hudson.model.ParametersDefinitionProperty>
-            <parameterDefinitions>
-              <hudson.model.ChoiceParameterDefinition>
-                <name>tychoVersion</name>
-                <description/>
-                <choices class="java.util.Arrays$ArrayList">
-                  <a class="string-array">
-                    <string>1.1.0</string>
-                    <string>1.0.0</string>
-                  </a>
-                </choices>
-              </hudson.model.ChoiceParameterDefinition>
-            </parameterDefinitions>
-          </hudson.model.ParametersDefinitionProperty>
-        </originalValue>
-        <propertyOverridden>false</propertyOverridden>
-      </copy-write-list-property>
-    </entry>
-    <entry>
-      <string>builders</string>
-      <describable-list-property>
-        <originalValue class="hudson.util.DescribableList">
-          <hudson.tasks.Shell>
-            <command>wget http://git.eclipse.org/c/webtools/webtools.releng.aggregator.git/plain/wtp-parent/pom.xml</command>
-          </hudson.tasks.Shell>
-          <maven-builder>
-            <config>
-              <installationId>Maven 3.5.2</installationId>
-              <goals>clean
-deploy</goals>
-              <privateRepository>false</privateRepository>
-              <privateTmpdir>false</privateTmpdir>
-              <pomFile>pom.xml</pomFile>
-              <properties>
-                <entries>
-                  <entry name="tycho-extras.version" value="${tychoVersion}"/>
-                  <entry name="tycho.version" value="${tychoVersion}"/>
-                </entries>
-              </properties>
-              <errors>false</errors>
-              <verbosity>NORMAL</verbosity>
-              <offline>false</offline>
-              <snapshotUpdateMode>NORMAL</snapshotUpdateMode>
-              <recursive>true</recursive>
-              <checksumMode>NORMAL</checksumMode>
-              <failMode>NORMAL</failMode>
-              <makeMode>NONE</makeMode>
-              <settingsId>e23a0b6a-ab36-4ea3-8d97-c6ce7ba3db90</settingsId>
-              <globalSettingsId>NONE</globalSettingsId>
-              <toolChainsId>NONE</toolChainsId>
-            </config>
-          </maven-builder>
-        </originalValue>
-        <propertyOverridden>false</propertyOverridden>
-      </describable-list-property>
-    </entry>
-    <entry>
-      <string>jdk</string>
-      <string-property>
-        <originalValue class="string">JDK 1.8.0 Latest</originalValue>
-        <propertyOverridden>false</propertyOverridden>
-      </string-property>
-    </entry>
-    <entry>
-      <string>hudson-plugins-parameterizedtrigger-BuildTrigger</string>
-      <external-property>
-        <originalValue class="hudson.plugins.parameterizedtrigger.BuildTrigger">
-          <configs>
-            <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
-              <configs class="java.util.Collections$EmptyList"/>
-              <projects>webtools-common_R3_10, </projects>
-              <condition>SUCCESS</condition>
-              <triggerWithNoParameters>true</triggerWithNoParameters>
-            </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
-          </configs>
-        </originalValue>
-        <propertyOverridden>false</propertyOverridden>
-        <modified>true</modified>
-      </external-property>
-    </entry>
-    <entry>
-      <string>scm</string>
-      <scm-property>
-        <originalValue class="hudson.scm.NullSCM"/>
-        <propertyOverridden>false</propertyOverridden>
-      </scm-property>
-    </entry>
-    <entry>
-      <string>hudson-triggers-TimerTrigger</string>
-      <trigger-property>
-        <originalValue class="hudson.triggers.TimerTrigger">
-          <spec>@weekly</spec>
-        </originalValue>
-        <propertyOverridden>false</propertyOverridden>
-      </trigger-property>
-    </entry>
-  </project-properties>
   <keepDependencies>false</keepDependencies>
-  <createdBy>thanh.ha@eclipse.org</createdBy>
-  <creationTime>1387220310154</creationTime>
   <properties>
-    <hudson.security.AuthorizationMatrixProperty/>
+    <hudson.security.AuthorizationMatrixProperty>
+      <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
+    </hudson.security.AuthorizationMatrixProperty>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>tychoVersion</name>
+          <description/>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>1.1.0</string>
+              <string>1.0.0</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
   </properties>
-  <cascadingChildrenNames class="java.util.concurrent.CopyOnWriteArraySet"/>
-  <cascading-job-properties class="java.util.concurrent.CopyOnWriteArraySet">
-    <string>hudson-plugins-disk_usage-DiskUsageProperty</string>
-  </cascading-job-properties>
   <scm class="hudson.scm.NullSCM"/>
-  <canRoam>false</canRoam>
+  <canRoam>true</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <jdk>jdk1.8.0-latest</jdk>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>@weekly</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
   <concurrentBuild>false</concurrentBuild>
-  <cleanWorkspaceRequired>false</cleanWorkspaceRequired>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>wget http://git.eclipse.org/c/webtools/webtools.releng.aggregator.git/plain/wtp-parent/pom.xml</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Maven>
+      <targets>clean
+deploy</targets>
+      <mavenName>apache-maven-latest</mavenName>
+      <pom>pom.xml</pom>
+      <properties>tycho-extras.version=${tychoVersion}
+tycho.version=${tychoVersion}</properties>
+      <usePrivateRepository>false</usePrivateRepository>
+      <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+      <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+      <injectBuildVariables>true</injectBuildVariables>
+    </hudson.tasks.Maven>
+  </builders>
+  <publishers>
+    <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.35.2">
+      <configs>
+        <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
+          <configs class="empty-list"/>
+          <projects>webtools-common_R3_10, </projects>
+          <condition>SUCCESS</condition>
+          <triggerWithNoParameters>true</triggerWithNoParameters>
+          <triggerFromChildProjects>false</triggerFromChildProjects>
+        </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
+      </configs>
+    </hudson.plugins.parameterizedtrigger.BuildTrigger>
+  </publishers>
+  <buildWrappers>
+    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.34">
+      <deleteDirs>false</deleteDirs>
+      <cleanupParameter/>
+      <externalDelete/>
+    </hudson.plugins.ws__cleanup.PreBuildCleanup>
+  </buildWrappers>
 </project>
