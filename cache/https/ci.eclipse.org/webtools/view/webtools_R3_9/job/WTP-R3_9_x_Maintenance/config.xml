@@ -7,7 +7,7 @@
 &lt;p&gt;Results here: &lt;a href=http://build.eclipse.org/webtools/committers/wtp-R3.9.3-M/&gt;http://build.eclipse.org/webtools/committers/wtp-R3.9.3-M/&lt;/a&gt;&lt;/p&gt;
 &lt;b style=red&gt;NOTE: This job does not collect JUnit test results yet. &lt;/b&gt;
 
-&lt;p&gt;Requires: Maven 3.2.5 and Ant 1.8.4</description>
+&lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -108,7 +108,8 @@
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
       <targets>clean install -V -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
-      <mavenName>apache-maven-3.2.5</mavenName>
+      <mavenName>apache-maven-3.5.2</mavenName>
+      <jvmOptions>-Xmx3G</jvmOptions>
       <pom>pom.xml</pom>
       <properties>maven.test.skip=true
 maven.test.error.ignore=true
@@ -124,15 +125,12 @@ tycho.version=0.21.0</properties>
     </hudson.tasks.Maven>
     <hudson.tasks.Ant plugin="ant@1.8">
       <targets>-lib ./libs/</targets>
-      <antName>apache-ant-1.8.4</antName>
+      <antName>apache-ant-10.1</antName>
       <buildFile>wtp-parent/postBuild.xml</buildFile>
       <properties>build.type=M
 publish=true
 wtp.version=3.9.3</properties>
     </hudson.tasks.Ant>
-    <hudson.tasks.Shell>
-      <command/>
-    </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.tasks.Mailer plugin="mailer@1.20">

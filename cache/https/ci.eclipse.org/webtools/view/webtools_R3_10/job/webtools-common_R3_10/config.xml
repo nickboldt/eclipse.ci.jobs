@@ -88,7 +88,7 @@
   <jdk>jdk1.8.0-latest</jdk>
   <triggers>
     <hudson.triggers.SCMTrigger>
-      <spec>2 */3 * * *</spec>
+      <spec>H */3 * * *</spec>
       <ignorePostCommitHooks>false</ignorePostCommitHooks>
     </hudson.triggers.SCMTrigger>
   </triggers>
