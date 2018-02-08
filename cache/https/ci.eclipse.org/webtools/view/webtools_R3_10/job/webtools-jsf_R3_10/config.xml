@@ -123,7 +123,7 @@ tycho.version=${tychoVersion}</properties>
       <configs>
         <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
           <configs class="empty-list"/>
-          <projects>webtools-webservices_R3_10, </projects>
+          <projects>webtools-webservices_R3_10</projects>
           <condition>SUCCESS</condition>
           <triggerWithNoParameters>true</triggerWithNoParameters>
           <triggerFromChildProjects>false</triggerFromChildProjects>

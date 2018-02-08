@@ -11,7 +11,9 @@
 
 &lt;p&gt;&lt;b&gt;-Pintegration flag needed to build all the integration tests in servertools which are not normally built as part of a standard build&lt;/b&gt;
 
-&lt;p&gt;Requires: Maven 3.5.2 and Ant 1.8.4. &lt;b&gt;TODO: update to use Tycho 1.1.0 once &lt;a href=https://bugs.eclipse.org/bugs/show_bug.cgi?id=530467&gt;
+&lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1. 
+  
+  &lt;p&gt;&lt;b&gt;TODO: update to use Tycho 1.1.0 once &lt;a href=https://bugs.eclipse.org/bugs/show_bug.cgi?id=530467&gt;
 Xalan issue is solved in SSE&lt;/a&gt;.</description>
   <keepDependencies>false</keepDependencies>
   <properties>
@@ -51,6 +53,7 @@ Xalan issue is solved in SSE&lt;/a&gt;.</description>
         <artifactNumToKeep>15</artifactNumToKeep>
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
       <autoRebuild>false</autoRebuild>
@@ -217,7 +220,7 @@ tycho.version=${tychoVersion}</properties>
     </hudson.tasks.Maven>
     <hudson.tasks.Ant plugin="ant@1.8">
       <targets>-lib ./libs/</targets>
-      <antName>apache-ant-1.9.6</antName>
+      <antName>apache-ant-10.1</antName>
       <buildFile>wtp-parent/postBuild.xml</buildFile>
       <properties>build.type=I
 publish=true

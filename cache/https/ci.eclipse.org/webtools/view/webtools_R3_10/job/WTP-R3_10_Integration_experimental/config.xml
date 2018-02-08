@@ -1,29 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>[Webtools Web Services 3.10 for **Photon**]
-[Build version: 3.10]
+  <description>[WTP 3.10.x Integration Build **Photon**]
+[Build version: 3.10.0]
 [git branch: master]
-&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;
-</description>
+
+&lt;p&gt;Results here: &lt;a href=http://build.eclipse.org/webtools/committers/wtp-R3.10.0-I/&gt;http://build.eclipse.org/webtools/committers/wtp-R3.10.0-I/&lt;/a&gt;&lt;/p&gt;
+
+&lt;b style=red&gt;NOTE: This job does not collect JUnit test results yet. &lt;/b&gt;
+
+&lt;p&gt;&lt;b&gt;-Pintegration flag needed to build all the integration tests in servertools which are not normally built as part of a standard build&lt;/b&gt;
+
+&lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1. 
+  
+  &lt;p&gt;&lt;b&gt;TODO: update to use Tycho 1.1.0 once &lt;a href=https://bugs.eclipse.org/bugs/show_bug.cgi?id=530467&gt;
+Xalan issue is solved in SSE&lt;/a&gt;.</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
       <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:nboldt@redhat.com</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:nboldt@redhat.com</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:nboldt@redhat.com</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:nboldt@redhat.com</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Build:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Cancel:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Configure:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Delete:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Discover:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.ExtendedRead:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Move:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Read:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Workspace:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Delete:ccc@us.ibm.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Replay:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Update:ccc@us.ibm.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
+      <permission>hudson.scm.SCM.Tag:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
     <jenkins.model.BuildDiscarderProperty>
       <strategy class="hudson.tasks.LogRotator">
-        <daysToKeep>7</daysToKeep>
-        <numToKeep>7</numToKeep>
-        <artifactDaysToKeep>-1</artifactDaysToKeep>
-        <artifactNumToKeep>1</artifactNumToKeep>
+        <daysToKeep>10</daysToKeep>
+        <numToKeep>15</numToKeep>
+        <artifactDaysToKeep>10</artifactDaysToKeep>
+        <artifactNumToKeep>15</artifactNumToKeep>
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
@@ -44,9 +71,9 @@
           </choices>
         </hudson.model.ChoiceParameterDefinition>
         <hudson.model.StringParameterDefinition>
-          <name>MAVEN_FLAGS</name>
-          <description/>
-          <defaultValue>-fae</defaultValue>
+          <name>platformRepoUrl</name>
+          <description>Or link to a specific build, like http://download.eclipse.org/eclipse/updates/4.8-I-builds/I20171119-2000/ or http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M5-201801242000/</description>
+          <defaultValue>http://download.eclipse.org/eclipse/updates/4.8-I-builds/</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -57,7 +84,7 @@
       <hudson.plugins.git.UserRemoteConfig>
         <name>origin</name>
         <refspec>+refs/heads/*:refs/remotes/origin/*</refspec>
-        <url>/gitroot/jeetools/webtools.javaee.git</url>
+        <url>git://git.eclipse.org/gitroot/webtools/webtools.releng.aggregator.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -69,6 +96,13 @@
     <submoduleCfg class="list"/>
     <extensions>
       <hudson.plugins.git.extensions.impl.WipeWorkspace/>
+      <hudson.plugins.git.extensions.impl.SubmoduleOption>
+        <disableSubmodules>false</disableSubmodules>
+        <recursiveSubmodules>false</recursiveSubmodules>
+        <trackingSubmodules>false</trackingSubmodules>
+        <reference/>
+        <parentCredentials>false</parentCredentials>
+      </hudson.plugins.git.extensions.impl.SubmoduleOption>
     </extensions>
   </scm>
   <canRoam>true</canRoam>
@@ -77,24 +111,30 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>jdk1.8.0-latest</jdk>
   <triggers>
-    <hudson.triggers.SCMTrigger>
-      <spec>H 2,5,8,11,14,17,20,23 * * *</spec>
-      <ignorePostCommitHooks>false</ignorePostCommitHooks>
-    </hudson.triggers.SCMTrigger>
+    <hudson.triggers.TimerTrigger>
+      <spec>@daily</spec>
+    </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command># apply patches (use --keep-redundant-commits when cherry picking)
-git fetch https://git.eclipse.org/r/jeetools/webtools.javaee refs/changes/45/116645/1 &amp;&amp; git cherry-pick FETCH_HEAD --keep-redundant-commits</command>
+      <command>#!/bin/bash
+./scripts/git-clean.sh
+./scripts/submodule-checkout.sh webtools.releng master
+</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
-      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
-      <mavenName>apache-maven-latest</mavenName>
-      <pom>pom.xml</pom>
-      <properties>maven.test.skip=false
-maven.test.failure.ignore=true
+      <targets>clean
+install
+-V
+-U -Pbree-libs -Peclipse-sign
+ -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
+      <mavenName>apache-maven-3.5.2</mavenName>
+      <pom>pom-aggregate-only.xml</pom>
+      <properties>maven.test.skip=true
+platform-repo.url=${platformRepoUrl}
 maven.test.error.ignore=true
+maven.test.failure.ignore=true
 tycho-extras.version=${tychoVersion}
 surefire.timeout=1800
 skipWithIssues=false
@@ -104,38 +144,24 @@ tycho.version=${tychoVersion}</properties>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
       <injectBuildVariables>true</injectBuildVariables>
     </hudson.tasks.Maven>
+    <hudson.tasks.Ant plugin="ant@1.8">
+      <targets>-lib ./libs/</targets>
+      <antName>apache-ant-10.1</antName>
+      <buildFile>wtp-parent/postBuild.xml</buildFile>
+      <properties>build.type=I
+publish=true
+wtp.version=3.10.0</properties>
+    </hudson.tasks.Ant>
   </builders>
   <publishers>
-    <hudson.tasks.Mailer plugin="mailer@1.20">
-      <recipients>wtp-releng@eclipse.org</recipients>
-      <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
-      <sendToIndividuals>true</sendToIndividuals>
-    </hudson.tasks.Mailer>
-    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.24">
-      <testResults>**/TEST-*.xml</testResults>
-      <keepLongStdio>false</keepLongStdio>
-      <healthScaleFactor>1.0</healthScaleFactor>
-      <allowEmptyResults>false</allowEmptyResults>
-    </hudson.tasks.junit.JUnitResultArchiver>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>**/site/target/*.zip, **/site/target/repository/**</artifacts>
+      <artifacts>webtools.repositories/*/target/*.zip, **/target/repository/**</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
       <defaultExcludes>true</defaultExcludes>
       <caseSensitive>true</caseSensitive>
     </hudson.tasks.ArtifactArchiver>
-    <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.35.2">
-      <configs>
-        <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
-          <configs class="empty-list"/>
-          <projects>webtools-dali_R3_10,webtools-jsf_R3_10</projects>
-          <condition>SUCCESS</condition>
-          <triggerWithNoParameters>true</triggerWithNoParameters>
-          <triggerFromChildProjects>false</triggerFromChildProjects>
-        </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
-      </configs>
-    </hudson.plugins.parameterizedtrigger.BuildTrigger>
   </publishers>
   <buildWrappers>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.34">
@@ -145,12 +171,12 @@ tycho.version=${tychoVersion}</properties>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.19">
       <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
-        <timeoutMinutes>90</timeoutMinutes>
+        <timeoutMinutes>410</timeoutMinutes>
       </strategy>
       <operationList/>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
     <hudson.plugins.xvnc.Xvnc plugin="xvnc@1.24">
-      <takeScreenshot>true</takeScreenshot>
+      <takeScreenshot>false</takeScreenshot>
       <useXauthority>true</useXauthority>
     </hudson.plugins.xvnc.Xvnc>
   </buildWrappers>
