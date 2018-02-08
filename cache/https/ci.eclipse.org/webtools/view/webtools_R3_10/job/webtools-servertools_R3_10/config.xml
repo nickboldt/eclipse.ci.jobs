@@ -92,9 +92,8 @@
   <builders>
     <hudson.tasks.Shell>
       <command># apply patches (use  --keep-redundant-commits when cherry picking)
-git fetch https://git.eclipse.org/r/servertools/webtools.servertools refs/changes/60/116560/1 &amp;&amp; git cherry-pick FETCH_HEAD --keep-redundant-commits
-git fetch https://git.eclipse.org/r/servertools/webtools.servertools refs/changes/00/115400/2 &amp;&amp; git cherry-pick FETCH_HEAD --keep-redundant-commits
-git fetch https://git.eclipse.org/r/servertools/webtools.servertools refs/changes/44/116344/1 &amp;&amp; git cherry-pick FETCH_HEAD --keep-redundant-commits</command>
+
+</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
       <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>

@@ -48,7 +48,6 @@
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
               <string>1.1.0</string>
-              <string>1.0.0</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -143,6 +142,18 @@
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
+    <hudson.tasks.Shell>
+      <command># apply patches (use --keep-redundant-commits when cherry-picking)
+
+# fix xalan plugin BREE, fix source gen, add sources to update site
+git fetch https://git.eclipse.org/r/sourceediting/webtools.sourceediting refs/changes/66/116966/1 &amp;&amp; git cherry-pick FETCH_HEAD \
+--keep-redundant-commits
+
+# fix broken test
+git fetch https://git.eclipse.org/r/sourceediting/webtools.sourceediting refs/changes/74/116974/1 &amp;&amp; git cherry-pick FETCH_HEAD \
+--keep-redundant-commits
+</command>
+    </hudson.tasks.Shell>
     <hudson.tasks.Maven>
       <targets>clean verify ${MAVEN_FLAGS} -Pbree-libs -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
       <mavenName>apache-maven-latest</mavenName>
@@ -154,6 +165,14 @@
     </hudson.tasks.Maven>
   </builders>
   <publishers>
+    <hudson.tasks.ArtifactArchiver>
+      <artifacts>**/site/target/repository/**</artifacts>
+      <allowEmptyArchive>false</allowEmptyArchive>
+      <onlyIfSuccessful>false</onlyIfSuccessful>
+      <fingerprint>false</fingerprint>
+      <defaultExcludes>true</defaultExcludes>
+      <caseSensitive>true</caseSensitive>
+    </hudson.tasks.ArtifactArchiver>
     <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.24">
       <testResults>**/surefire-reports/*.xml</testResults>
       <keepLongStdio>false</keepLongStdio>

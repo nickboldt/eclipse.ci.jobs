@@ -41,7 +41,6 @@
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
               <string>1.1.0</string>
-              <string>1.0.0</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -83,7 +82,15 @@
   <builders>
     <hudson.tasks.Shell>
       <command># apply patches (use --keep-redundant-commits when cherry-picking)
-git fetch https://git.eclipse.org/r/sourceediting/webtools.sourceediting refs/changes/65/116565/2 &amp;&amp; git cherry-pick FETCH_HEAD --keep-redundant-commits</command>
+
+# fix xalan plugin BREE, fix source gen, add sources to update site
+git fetch https://git.eclipse.org/r/sourceediting/webtools.sourceediting refs/changes/66/116966/1 &amp;&amp; git cherry-pick FETCH_HEAD \
+--keep-redundant-commits
+
+# fix broken test
+git fetch https://git.eclipse.org/r/sourceediting/webtools.sourceediting refs/changes/74/116974/1 &amp;&amp; git cherry-pick FETCH_HEAD \
+--keep-redundant-commits
+</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
       <targets>clean install -fn -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
