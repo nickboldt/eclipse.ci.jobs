@@ -38,10 +38,14 @@
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
               <string>1.1.0</string>
-              <string>1.0.0</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>MAVEN_FLAGS</name>
+          <description/>
+          <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -79,16 +83,14 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Maven>
-      <targets>clean install  -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
-      <mavenName>apache-maven-latest</mavenName>
+      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
+      <mavenName>apache-maven-3.5.2</mavenName>
       <pom>pom.xml</pom>
       <properties>maven.test.skip=false
 maven.test.failure.ignore=true
 maven.test.error.ignore=true
-tycho-extras.version=${tychoVersion}
 surefire.timeout=1800
-skipWithIssues=false
-tycho.version=${tychoVersion}</properties>
+skipWithIssues=false</properties>
       <usePrivateRepository>true</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>

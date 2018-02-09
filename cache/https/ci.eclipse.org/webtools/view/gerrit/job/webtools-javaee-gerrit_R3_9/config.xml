@@ -20,6 +20,7 @@ Note 2: No tests are run as they're in another repo.
       <permission>hudson.model.Item.Workspace:John.J.Collier@ibm.com</permission>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Replay:John.J.Collier@ibm.com</permission>
       <permission>hudson.model.Run.Update:John.J.Collier@ibm.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>

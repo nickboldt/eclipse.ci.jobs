@@ -4,7 +4,9 @@
   <description>[Webtools Server Tools 3.10 for **Photon**]
 [Build version: 3.10]
 [git branch: master]
-&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;
+
+TODO: do we still need -Pintegration flag ?</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -45,14 +47,13 @@
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
               <string>1.1.0</string>
-              <string>1.0.0</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>MAVEN_FLAGS</name>
-          <description/>
-          <defaultValue>-fae -Pintegration -Dtycho.version=${tychoVersion} -Dtycho-extras.version=${tychoVersion}</defaultValue>
+          <description>TODO: do we still need -Pintegration here?</description>
+          <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -Pintegration</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -97,7 +98,7 @@
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
       <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
-      <mavenName>apache-maven-latest</mavenName>
+      <mavenName>apache-maven-3.5.2</mavenName>
       <pom>pom.xml</pom>
       <properties>maven.test.skip=false
 maven.test.error.ignore=true

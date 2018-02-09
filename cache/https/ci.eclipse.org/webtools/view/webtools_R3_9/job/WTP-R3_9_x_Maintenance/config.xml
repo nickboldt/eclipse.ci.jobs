@@ -104,7 +104,8 @@
 # https://git.eclipse.org/r/#/c/112219/
 #pushd webtools.webservices
 #  git fetch https://git.eclipse.org/r/webservices/webtools.webservices refs/changes/19/112219/1 &amp;&amp; git cherry-pick FETCH_HEAD
-#popd</command>
+#popd
+</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
       <targets>clean install -V -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>

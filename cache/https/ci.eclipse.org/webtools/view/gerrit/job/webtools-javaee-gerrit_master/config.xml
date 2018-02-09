@@ -13,6 +13,7 @@
       <permission>hudson.model.Item.Build:kaloyan.r@zend.com</permission>
       <permission>hudson.model.Item.Build:ROLE_WEBTOOLS.JEETOOLS</permission>
       <permission>hudson.model.Item.Build:vaninder@ca.ibm.com</permission>
+      <permission>hudson.model.Item.Cancel:John.J.Collier@ibm.com</permission>
       <permission>hudson.model.Item.Configure:adalbert@mx1.ibm.com</permission>
       <permission>hudson.model.Item.Configure:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Configure:John.J.Collier@ibm.com</permission>
@@ -22,6 +23,7 @@
       <permission>hudson.model.Item.Delete:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Delete:kaloyan.r@zend.com</permission>
       <permission>hudson.model.Item.Delete:ROLE_WEBTOOLS.JEETOOLS</permission>
+      <permission>hudson.model.Item.Discover:John.J.Collier@ibm.com</permission>
       <permission>hudson.model.Item.ExtendedRead:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.ExtendedRead:John.J.Collier@ibm.com</permission>
       <permission>hudson.model.Item.ExtendedRead:ROLE_WEBTOOLS.JEETOOLS</permission>
@@ -43,6 +45,7 @@
       <permission>hudson.model.Run.Delete:kaloyan.r@zend.com</permission>
       <permission>hudson.model.Run.Delete:ROLE_WEBTOOLS.JEETOOLS</permission>
       <permission>hudson.model.Run.Delete:vaninder@ca.ibm.com</permission>
+      <permission>hudson.model.Run.Replay:John.J.Collier@ibm.com</permission>
       <permission>hudson.model.Run.Update:adalbert@mx1.ibm.com</permission>
       <permission>hudson.model.Run.Update:ccc@us.ibm.com</permission>
       <permission>hudson.model.Run.Update:John.J.Collier@ibm.com</permission>
@@ -70,15 +73,14 @@
           <description/>
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
-              <string>1.1.0-SNAPSHOT</string>
-              <string>1.0.0</string>
+              <string>1.1.0</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>MAVEN_FLAGS</name>
           <description/>
-          <defaultValue>-fae -Pintegration -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
+          <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -167,78 +169,22 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>cat &lt;&lt;EOT &gt; settings.webtools.xml
-&lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
-  &lt;profiles&gt;
-    &lt;profile&gt;
-      &lt;id&gt;webtools-default&lt;/id&gt;
-      &lt;activation&gt;
-        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
-      &lt;/activation&gt;
-    
-      &lt;repositories&gt;
-        &lt;repository&gt;
-          &lt;id&gt;webtools.releases&lt;/id&gt;
-          &lt;name&gt;Webtools Repository - Snapshots&lt;/name&gt;
-          &lt;releases&gt;
-            &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-          &lt;/releases&gt;
-          &lt;snapshots&gt;
-            &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;fail&lt;/checksumPolicy&gt;
-          &lt;/snapshots&gt;
-          &lt;layout&gt;default&lt;/layout&gt;
-          &lt;url&gt;https://repo.eclipse.org/content/repositories/webtools-snapshots/&lt;/url&gt;
-        &lt;/repository&gt;
-        &lt;!-- currently the release repo is empty --&gt;
-        &lt;!-- &lt;repository&gt;
-          &lt;id&gt;webtools.releases&lt;/id&gt;
-          &lt;name&gt;Webtools Repository - Releases&lt;/name&gt;
-          &lt;releases&gt;
-            &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-          &lt;/releases&gt;
-          &lt;snapshots&gt;
-            &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;fail&lt;/checksumPolicy&gt;
-          &lt;/snapshots&gt;
-          &lt;layout&gt;default&lt;/layout&gt;
-          &lt;url&gt;https://repo.eclipse.org/content/repositories/webtools-releases/&lt;/url&gt;
-        &lt;/repository&gt; --&gt;
-      &lt;/repositories&gt;
-    &lt;/profile&gt;
-  &lt;/profiles&gt;
-
-  &lt;activeProfiles&gt;
-    &lt;activeProfile&gt;webtools-default&lt;/activeProfile&gt;
-  &lt;/activeProfiles&gt;
-
-&lt;/settings&gt;
-EOT
-
-#  -s settings.webtools.xml</command>
+      <command># apply patches (use  --keep-redundant-commits when cherry picking)
+</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
-      <targets>clean verify ${MAVEN_FLAGS}</targets>
-      <mavenName>apache-maven-latest</mavenName>
-      <pom>pom.xml</pom>
+      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
+      <mavenName>apache-maven-3.5.2</mavenName>
+      <properties>maven.test.skip=false
+maven.test.error.ignore=true
+maven.test.failure.ignore=true
+surefire.timeout=1800
+skipWithIssues=false</properties>
       <usePrivateRepository>true</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
       <injectBuildVariables>true</injectBuildVariables>
     </hudson.tasks.Maven>
-    <hudson.tasks.Shell>
-      <command># generate an empty TESTS-notests.xml file if no tests run
-#if [[ ! $(find ${WORKSPACE}/*/*/target/surefire-reports -name "TEST-*.xml") ]]; then
-#  mkdir -p ${WORKSPACE}/tests/target/surefire-reports/ &amp;&amp; touch ${WORKSPACE}/tests/target/surefire-reports/TEST-notests.xml
-#fi
-</command>
-    </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.24">

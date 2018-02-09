@@ -94,81 +94,15 @@
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
-    <hudson.tasks.Shell>
-      <command>cat &lt;&lt;EOT &gt; settings.webtools.xml
-&lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
-  &lt;profiles&gt;
-    &lt;profile&gt;
-      &lt;id&gt;webtools-default&lt;/id&gt;
-      &lt;activation&gt;
-        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
-      &lt;/activation&gt;
-    
-      &lt;repositories&gt;
-        &lt;repository&gt;
-          &lt;id&gt;webtools.releases&lt;/id&gt;
-          &lt;name&gt;Webtools Repository - Snapshots&lt;/name&gt;
-          &lt;releases&gt;
-            &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-          &lt;/releases&gt;
-          &lt;snapshots&gt;
-            &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;fail&lt;/checksumPolicy&gt;
-          &lt;/snapshots&gt;
-          &lt;layout&gt;default&lt;/layout&gt;
-          &lt;url&gt;https://repo.eclipse.org/content/repositories/webtools-snapshots/&lt;/url&gt;
-        &lt;/repository&gt;
-        &lt;!-- currently the release repo is empty --&gt;
-        &lt;!-- &lt;repository&gt;
-          &lt;id&gt;webtools.releases&lt;/id&gt;
-          &lt;name&gt;Webtools Repository - Releases&lt;/name&gt;
-          &lt;releases&gt;
-            &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-          &lt;/releases&gt;
-          &lt;snapshots&gt;
-            &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;fail&lt;/checksumPolicy&gt;
-          &lt;/snapshots&gt;
-          &lt;layout&gt;default&lt;/layout&gt;
-          &lt;url&gt;https://repo.eclipse.org/content/repositories/webtools-releases/&lt;/url&gt;
-        &lt;/repository&gt; --&gt;
-      &lt;/repositories&gt;
-    &lt;/profile&gt;
-  &lt;/profiles&gt;
-
-  &lt;activeProfiles&gt;
-    &lt;activeProfile&gt;webtools-default&lt;/activeProfile&gt;
-  &lt;/activeProfiles&gt;
-
-&lt;/settings&gt;
-EOT
-
-cat pom.xml | grep common -B2 -A2
-
-# add to maven exec if needed: -s settings.webtools.xml
-# add to maven properties if needed: 
-# platform-repo.url=http://download.eclipse.org/eclipse/updates/4.8-I-builds/
-# tycho.version=1.0.0
-# tycho-extras.version=1.0.0
-</command>
-    </hudson.tasks.Shell>
     <hudson.tasks.Maven>
       <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
-      <mavenName>apache-maven-latest</mavenName>
+      <mavenName>apache-maven-3.5.2</mavenName>
       <pom>pom.xml</pom>
       <properties>maven.test.skip=false
 maven.test.failure.ignore=true
 maven.test.error.ignore=true
-tycho-extras.version=${tychoVersion}
 surefire.timeout=1800
-skipWithIssues=false
-tycho.version=${tychoVersion}</properties>
+skipWithIssues=false</properties>
       <usePrivateRepository>true</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
