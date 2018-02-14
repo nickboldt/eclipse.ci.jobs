@@ -12,8 +12,7 @@
 &lt;p&gt;&lt;b&gt;-Pintegration flag needed to build all the integration tests in servertools which are not normally built as part of a standard build&lt;/b&gt;
 
 &lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1. 
-  
-  &lt;p&gt;patches: sse/117279, ws/117258</description>
+  </description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -81,7 +80,6 @@ or http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M5-20180124200
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
-    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@3.7.0">
     <configVersion>2</configVersion>
@@ -130,15 +128,10 @@ or http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M5-20180124200
 
 # apply patches (use --keep-redundant-commits when cherry-picking)
 
-pushd webtools.sourceediting
-git fetch https://git.eclipse.org/r/sourceediting/webtools.sourceediting refs/changes/79/117279/1 &amp;&amp; git cherry-pick FETCH_HEAD \
---keep-redundant-commits
-popd
-
-pushd webtools.webservices
-git fetch https://git.eclipse.org/r/webservices/webtools.webservices refs/changes/58/117258/1 &amp;&amp; git cherry-pick FETCH_HEAD \
---keep-redundant-commits
-popd
+#pushd webtools.webservices
+#git fetch https://git.eclipse.org/r/webservices/webtools.webservices refs/changes/58/117258/1 &amp;&amp; git cherry-pick FETCH_HEAD \
+#--keep-redundant-commits
+#popd
 
 </command>
     </hudson.tasks.Shell>

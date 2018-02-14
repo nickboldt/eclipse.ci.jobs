@@ -8,7 +8,7 @@
 
 &lt;b&gt;NOTE: -P integration flag required for now. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=519793#c10 and https://bugs.eclipse.org/bugs/show_bug.cgi?id=520040 &lt;/b&gt;
 
-&lt;p&gt;patch: 117081</description>
+</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -95,8 +95,7 @@
     <hudson.tasks.Shell>
       <command># apply patches (use --keep-redundant-commits when cherry-picking)
 
-git fetch https://git.eclipse.org/r/webservices/webtools.webservices refs/changes/81/117081/1 &amp;&amp; git cherry-pick FETCH_HEAD \
---keep-redundant-commits</command>
+</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
       <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
