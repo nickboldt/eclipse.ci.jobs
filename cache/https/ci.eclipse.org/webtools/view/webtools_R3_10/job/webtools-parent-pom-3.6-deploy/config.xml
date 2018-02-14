@@ -20,7 +20,6 @@
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
               <string>1.1.0</string>
-              <string>1.0.0</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -46,7 +45,7 @@
     <hudson.tasks.Maven>
       <targets>clean
 deploy</targets>
-      <mavenName>apache-maven-latest</mavenName>
+      <mavenName>apache-maven-3.5.2</mavenName>
       <pom>pom.xml</pom>
       <properties>tycho-extras.version=${tychoVersion}
 tycho.version=${tychoVersion}</properties>
@@ -57,6 +56,9 @@ tycho.version=${tychoVersion}</properties>
     </hudson.tasks.Maven>
   </builders>
   <publishers>
+    <hudson.tasks.test.AggregatedTestResultPublisher plugin="junit@1.24">
+      <includeFailedBuilds>true</includeFailedBuilds>
+    </hudson.tasks.test.AggregatedTestResultPublisher>
     <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.35.2">
       <configs>
         <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>

@@ -9,12 +9,12 @@
 
 &lt;b style=red&gt;NOTE: This job does not collect JUnit test results yet. &lt;/b&gt;
 
-&lt;p&gt;&lt;b&gt;-Pintegration flag needed to build all the integration tests in servertools which are not normally built as part of a standard build&lt;/b&gt;
-
-&lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1. 
+&lt;p&gt;&lt;b&gt;-Pintegration flag MAY be needed to build all the integration tests in servertools which are not normally built as part of a standard build&lt;/b&gt;
+  &lt;p&gt;-P CI flag needed to enable the CI repos, so the aggregate build can resolve the 8 projects' update sites
+    
+    &lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1. 
   
-  &lt;p&gt;&lt;b&gt;TODO: update to use Tycho 1.1.0 once &lt;a href=https://bugs.eclipse.org/bugs/show_bug.cgi?id=530467&gt;
-Xalan issue is solved in SSE&lt;/a&gt;.</description>
+    &lt;p&gt;patches: sse/117279, ws/117258</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -66,14 +66,19 @@ Xalan issue is solved in SSE&lt;/a&gt;.</description>
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
               <string>1.1.0</string>
-              <string>1.0.0</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>platformRepoUrl</name>
-          <description>Or link to a specific build, like http://download.eclipse.org/eclipse/updates/4.8-I-builds/I20171119-2000/ or http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M5-201801242000/</description>
+          <description>Or link to a specific build, like http://download.eclipse.org/eclipse/updates/4.8-I-builds/I20171119-2000/ 
+or http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M5-201801242000/</description>
           <defaultValue>http://download.eclipse.org/eclipse/updates/4.8-I-builds/</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>MAVEN_FLAGS</name>
+          <description/>
+          <defaultValue>-fae -V -U -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -Dplatform-repo.url=${platformRepoUrl} -PCI</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -121,24 +126,30 @@ Xalan issue is solved in SSE&lt;/a&gt;.</description>
       <command>#!/bin/bash
 ./scripts/git-clean.sh
 ./scripts/submodule-checkout.sh webtools.releng master
+
+# apply patches (use --keep-redundant-commits when cherry-picking)
+
+pushd webtools.sourceediting
+git fetch https://git.eclipse.org/r/sourceediting/webtools.sourceediting refs/changes/79/117279/1 &amp;&amp; git cherry-pick FETCH_HEAD \
+--keep-redundant-commits
+popd
+
+pushd webtools.webservices
+git fetch https://git.eclipse.org/r/webservices/webtools.webservices refs/changes/58/117258/1 &amp;&amp; git cherry-pick FETCH_HEAD \
+--keep-redundant-commits
+popd
+
 </command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
-      <targets>clean
-install
--V
--U -Pbree-libs -Peclipse-sign -PCI
- -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
+      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
       <mavenName>apache-maven-3.5.2</mavenName>
       <pom>pom-aggregate-only.xml</pom>
       <properties>maven.test.skip=true
-platform-repo.url=${platformRepoUrl}
 maven.test.error.ignore=true
 maven.test.failure.ignore=true
-tycho-extras.version=${tychoVersion}
 surefire.timeout=1800
-skipWithIssues=false
-tycho.version=${tychoVersion}</properties>
+skipWithIssues=false</properties>
       <usePrivateRepository>true</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
