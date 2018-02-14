@@ -1,21 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>[Webtools Web Services 3.10 for **Photon**]
-[Build version: 3.10]
-[git branch: master]
-&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;
-</description>
+  <description>[WTP 3.9.x Integration Build **Oxygen**]
+[Build version: 3.9.0]
+[git branch: master]</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
       <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
+      <permission>hudson.model.Item.Build:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Item.Build:mfadhel@ca.ibm.com</permission>
+      <permission>hudson.model.Item.Build:mikbal@ca.ibm.com</permission>
       <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Configure:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Item.Configure:mfadhel@ca.ibm.com</permission>
+      <permission>hudson.model.Item.Configure:mikbal@ca.ibm.com</permission>
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Delete:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Item.Read:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Item.Read:mfadhel@ca.ibm.com</permission>
+      <permission>hudson.model.Item.Read:mikbal@ca.ibm.com</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Workspace:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Item.Workspace:mfadhel@ca.ibm.com</permission>
+      <permission>hudson.model.Item.Workspace:mikbal@ca.ibm.com</permission>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
-      <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Delete:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Run.Update:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Run.Update:mfadhel@ca.ibm.com</permission>
+      <permission>hudson.model.Run.Update:mikbal@ca.ibm.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
     <jenkins.model.BuildDiscarderProperty>
@@ -23,7 +36,7 @@
         <daysToKeep>7</daysToKeep>
         <numToKeep>7</numToKeep>
         <artifactDaysToKeep>-1</artifactDaysToKeep>
-        <artifactNumToKeep>1</artifactNumToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
@@ -31,24 +44,6 @@
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
-    <hudson.model.ParametersDefinitionProperty>
-      <parameterDefinitions>
-        <hudson.model.ChoiceParameterDefinition>
-          <name>tychoVersion</name>
-          <description/>
-          <choices class="java.util.Arrays$ArrayList">
-            <a class="string-array">
-              <string>1.1.0</string>
-            </a>
-          </choices>
-        </hudson.model.ChoiceParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>MAVEN_FLAGS</name>
-          <description/>
-          <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
-        </hudson.model.StringParameterDefinition>
-      </parameterDefinitions>
-    </hudson.model.ParametersDefinitionProperty>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@3.7.0">
     <configVersion>2</configVersion>
@@ -56,7 +51,7 @@
       <hudson.plugins.git.UserRemoteConfig>
         <name>origin</name>
         <refspec>+refs/heads/*:refs/remotes/origin/*</refspec>
-        <url>git://git.eclipse.org/gitroot/dali/webtools.dali.git</url>
+        <url>git://git.eclipse.org/gitroot/webtools/webtools.releng.aggregator.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -75,23 +70,20 @@
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>jdk1.8.0-latest</jdk>
-  <triggers>
-    <hudson.triggers.SCMTrigger>
-      <spec>H 2,5,8,11,14,17,20,23 * * *</spec>
-      <ignorePostCommitHooks>false</ignorePostCommitHooks>
-    </hudson.triggers.SCMTrigger>
-  </triggers>
+  <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command># apply patches (use  --keep-redundant-commits when cherry picking)
-</command>
+      <command>#!/bin/bash
+./scripts/git-clean.sh
+./scripts/submodule-checkout.sh
+./scripts/build-preparation.sh</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
-      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
-      <mavenName>apache-maven-3.5.2</mavenName>
+      <targets>clean install -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
+      <mavenName>apache-maven-latest</mavenName>
       <pom>pom.xml</pom>
-      <properties>maven.test.skip=false
+      <properties>maven.test.skip=true
 maven.test.error.ignore=true
 maven.test.failure.ignore=true
 surefire.timeout=1800
@@ -101,63 +93,26 @@ skipWithIssues=false</properties>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
       <injectBuildVariables>true</injectBuildVariables>
     </hudson.tasks.Maven>
+    <hudson.tasks.Ant plugin="ant@1.8">
+      <targets>-lib ./libs/</targets>
+      <antName>apache-ant-1.9.6</antName>
+      <buildFile>wtp-parent/postBuild.xml</buildFile>
+      <properties>build.type=I
+publish=true
+wtp.version=3.9.0</properties>
+    </hudson.tasks.Ant>
+    <hudson.tasks.Shell>
+      <command/>
+    </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.65">
-      <healthy/>
-      <unHealthy/>
-      <thresholdLimit>low</thresholdLimit>
-      <pluginName>[WARNINGS] </pluginName>
-      <defaultEncoding/>
-      <canRunOnFailed>false</canRunOnFailed>
-      <usePreviousBuildAsReference>false</usePreviousBuildAsReference>
-      <useStableBuildAsReference>false</useStableBuildAsReference>
-      <useDeltaValues>false</useDeltaValues>
-      <thresholds plugin="analysis-core@1.94">
-        <unstableTotalAll/>
-        <unstableTotalHigh/>
-        <unstableTotalNormal/>
-        <unstableTotalLow/>
-        <unstableNewAll/>
-        <unstableNewHigh/>
-        <unstableNewNormal/>
-        <unstableNewLow/>
-        <failedTotalAll/>
-        <failedTotalHigh/>
-        <failedTotalNormal/>
-        <failedTotalLow/>
-        <failedNewAll/>
-        <failedNewHigh/>
-        <failedNewNormal/>
-        <failedNewLow/>
-      </thresholds>
-      <shouldDetectModules>false</shouldDetectModules>
-      <dontComputeNew>true</dontComputeNew>
-      <doNotResolveRelativePaths>true</doNotResolveRelativePaths>
-      <includePattern/>
-      <excludePattern/>
-      <messagesPattern/>
-      <categoriesPattern/>
-      <parserConfigurations/>
-      <consoleParsers>
-        <hudson.plugins.warnings.ConsoleParser>
-          <parserName>Maven</parserName>
-        </hudson.plugins.warnings.ConsoleParser>
-      </consoleParsers>
-    </hudson.plugins.warnings.WarningsPublisher>
     <hudson.tasks.Mailer plugin="mailer@1.20">
       <recipients>wtp-releng@eclipse.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>true</sendToIndividuals>
     </hudson.tasks.Mailer>
-    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.24">
-      <testResults>**/TEST-*.xml</testResults>
-      <keepLongStdio>false</keepLongStdio>
-      <healthScaleFactor>1.0</healthScaleFactor>
-      <allowEmptyResults>false</allowEmptyResults>
-    </hudson.tasks.junit.JUnitResultArchiver>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>**/site/target/*.zip, **/site/target/repository/**</artifacts>
+      <artifacts>webtools.repositories/*/target/*.zip</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
@@ -173,12 +128,12 @@ skipWithIssues=false</properties>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.19">
       <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
-        <timeoutMinutes>90</timeoutMinutes>
+        <timeoutMinutes>410</timeoutMinutes>
       </strategy>
       <operationList/>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
     <hudson.plugins.xvnc.Xvnc plugin="xvnc@1.24">
-      <takeScreenshot>true</takeScreenshot>
+      <takeScreenshot>false</takeScreenshot>
       <useXauthority>true</useXauthority>
     </hudson.plugins.xvnc.Xvnc>
   </buildWrappers>
