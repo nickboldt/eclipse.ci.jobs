@@ -89,7 +89,7 @@
   <jdk>jdk1.8.0-latest</jdk>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>@daily</spec>
+      <spec>H H(0-7) * * *</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>

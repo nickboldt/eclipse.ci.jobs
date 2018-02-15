@@ -78,6 +78,13 @@ or http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M5-20180124200
           <description/>
           <defaultValue>-fae -V -U -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -Dplatform-repo.url=${platformRepoUrl} -Pintegration</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>CHERRY_PICKS</name>
+          <description>space-sparated list of repo+gerrit/rev #s to cherry pick (because we're often behind on gerrit reviews)
+
+eg., webservices/webtools.webservices+117258/1</description>
+          <defaultValue>webservices/webtools.webservices+117258/1</defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -115,7 +122,7 @@ or http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M5-20180124200
   <jdk>jdk1.8.0-latest</jdk>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>@daily</spec>
+      <spec>H H(0-7) * * *</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
@@ -127,13 +134,17 @@ or http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M5-20180124200
 ./scripts/build-preparation.sh
 
 # apply patches (use --keep-redundant-commits when cherry-picking)
-
-#pushd webtools.webservices
-#git fetch https://git.eclipse.org/r/webservices/webtools.webservices refs/changes/58/117258/1 &amp;&amp; git cherry-pick FETCH_HEAD \
-#--keep-redundant-commits
-#popd
-
-</command>
+if [[ ${CHERRY_PICKS} ]]; then
+  for cp in ${CHERRY_PICKS}; do # echo ${cp} 
+    repo=${cp%%+*}; echo $repo
+    path=${repo##*/}; echo $path
+    gerrit=${cp##*+}; echo $gerrit
+    gerrit_pre=${gerrit%%/*}; gerrit_pre=${gerrit_pre: -2}; # echo $gerrit_pre
+    if [[ -d ${path} ]]; then pushd $path; fi
+    git fetch https://git.eclipse.org/r/${repo} refs/changes/${gerrit_pre}/${gerrit} &amp;&amp; git cherry-pick FETCH_HEAD --keep-redundant-commits
+    if [[ -d ${path} ]]; then popd; fi
+  done
+fi</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
       <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml </targets>
