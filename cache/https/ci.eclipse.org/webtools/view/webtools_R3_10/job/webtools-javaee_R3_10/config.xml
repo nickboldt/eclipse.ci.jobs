@@ -153,7 +153,7 @@ skipWithIssues=false</properties>
       </consoleParsers>
     </hudson.plugins.warnings.WarningsPublisher>
     <hudson.tasks.BuildTrigger>
-      <childProjects>webtools-dali_R3_10,webtools-jsf_R3_10</childProjects>
+      <childProjects>webtools-dali_R3_10, webtools-jsf_R3_10</childProjects>
       <threshold>
         <name>UNSTABLE</name>
         <ordinal>1</ordinal>
