@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>Deploys the Webtools parent pom to repo.eclipse.org on a nightly basis.</description>
+  <description>Deploys the Webtools parent pom from master branch to repo.eclipse.org on a weekly basis.</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -34,7 +34,7 @@
   <jdk>jdk1.8.0-latest</jdk>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>@weekly</spec>
+      <spec>H H(0-7) * * H(5-6)</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
@@ -56,9 +56,6 @@ tycho.version=${tychoVersion}</properties>
     </hudson.tasks.Maven>
   </builders>
   <publishers>
-    <hudson.tasks.test.AggregatedTestResultPublisher plugin="junit@1.24">
-      <includeFailedBuilds>true</includeFailedBuilds>
-    </hudson.tasks.test.AggregatedTestResultPublisher>
     <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.35.2">
       <configs>
         <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>

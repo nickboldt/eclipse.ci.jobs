@@ -12,7 +12,11 @@
 &lt;p&gt;&lt;b&gt;-Pintegration flag needed to build all the integration tests in servertools which are not normally built as part of a standard build&lt;/b&gt;
 
 &lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1. 
-  </description>
+  
+  
+  &lt;p&gt;patched to build with 20180211 platform build and cherry picks ws/117627, sse/117487
+
+</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -68,22 +72,18 @@
           </choices>
         </hudson.model.ChoiceParameterDefinition>
         <hudson.model.StringParameterDefinition>
-          <name>platformRepoUrl</name>
-          <description>Or link to a specific build, like http://download.eclipse.org/eclipse/updates/4.8-I-builds/I20171119-2000/ 
-or http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M5-201801242000/</description>
-          <defaultValue>http://download.eclipse.org/eclipse/updates/4.8-I-builds/</defaultValue>
-        </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
           <name>MAVEN_FLAGS</name>
-          <description/>
-          <defaultValue>-fae -V -U -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -Dplatform-repo.url=${platformRepoUrl} -Pintegration</defaultValue>
+          <description>Use version of platform not affected by SSE bug: https://bugs.eclipse.org/bugs/show_bug.cgi?id=531277
+
+-Dplatform-repo.url=http://download.eclipse.org/eclipse/updates/4.8-I-builds/I20180211-2000/</description>
+          <defaultValue>-fae -V -U -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -Pdeprecated-repositories -Pintegration -Dplatform-repo.url=http://download.eclipse.org/eclipse/updates/4.8-I-builds/I20180211-2000/</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>CHERRY_PICKS</name>
           <description>space-sparated list of repo+gerrit/rev #s to cherry pick (because we're often behind on gerrit reviews)
 
-eg., webservices/webtools.webservices+117258/1</description>
-          <defaultValue>webservices/webtools.webservices+117258/1</defaultValue>
+eg., for https://git.eclipse.org/r/#/c/117439/ use "webservices/webtools.webservices+117439/1"</description>
+          <defaultValue>webservices/webtools.webservices+117577/1</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -116,7 +116,7 @@ eg., webservices/webtools.webservices+117258/1</description>
     </extensions>
   </scm>
   <canRoam>true</canRoam>
-  <disabled>false</disabled>
+  <disabled>true</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>jdk1.8.0-latest</jdk>
@@ -136,15 +136,19 @@ eg., webservices/webtools.webservices+117258/1</description>
 # apply patches (use --keep-redundant-commits when cherry-picking)
 if [[ ${CHERRY_PICKS} ]]; then
   for cp in ${CHERRY_PICKS}; do # echo ${cp} 
-    repo=${cp%%+*}; echo $repo
-    path=${repo##*/}; echo $path
-    gerrit=${cp##*+}; echo $gerrit
-    gerrit_pre=${gerrit%%/*}; gerrit_pre=${gerrit_pre: -2}; # echo $gerrit_pre
-    if [[ -d ${path} ]]; then pushd $path; fi
+    repo=${cp%%+*}; echo repo=$repo
+    path=${repo##*/}; echo path=$path
+    gerrit=${cp##*+}; echo gerrit=$gerrit
+    gerrit_pre=${gerrit%%/*}; gerrit_pre=${gerrit_pre: -2}; echo gerrit_pre=$gerrit_pre
+    if [[ -d ${path} ]]; then pushd $path; echo "In folder: `pwd`"; fi
+    
+    git --no-pager log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %C(blue)%aE%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative | head -5
+
     git fetch https://git.eclipse.org/r/${repo} refs/changes/${gerrit_pre}/${gerrit} &amp;&amp; git cherry-pick FETCH_HEAD --keep-redundant-commits
-    if [[ -d ${path} ]]; then popd; fi
+    if [[ -d ${path} ]]; then popd; echo "In folder: `pwd`"; fi
   done
-fi</command>
+fi
+</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
       <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml </targets>

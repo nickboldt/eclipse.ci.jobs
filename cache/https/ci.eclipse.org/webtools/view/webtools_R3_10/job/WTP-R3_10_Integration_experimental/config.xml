@@ -7,15 +7,12 @@
 
 &lt;p&gt;Results here: &lt;a href=http://build.eclipse.org/webtools/committers/wtp-R3.10.0-I/&gt;http://build.eclipse.org/webtools/committers/wtp-R3.10.0-I/&lt;/a&gt;&lt;/p&gt;
 
-&lt;b style=red&gt;NOTE: This job does not collect JUnit test results yet. &lt;/b&gt;
+&lt;b style=red&gt;NOTE: This job does not collect JUnit test results. See &lt;a href="https://ci.eclipse.org/webtools/view/webtools_R3_10/"&gt;charts and tables&lt;/a&gt;. &lt;/b&gt;
 
 &lt;p&gt;&lt;b&gt;-Pintegration flag MAY be needed to build all the integration tests in servertools which are not normally built as part of a standard build&lt;/b&gt;
   &lt;p&gt;-P CI flag needed to enable the CI repos, so the aggregate build can resolve the 8 projects' update sites
-    
-    &lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1. 
-  
-      
-      &lt;p&gt;&lt;b style="color:red"&gt;  Blocked by upstream builds for sse, ws. Once those are rebuilt, this can be reattempted</description>
+
+    &lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1. </description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>

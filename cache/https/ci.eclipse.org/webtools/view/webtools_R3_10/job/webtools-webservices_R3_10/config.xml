@@ -5,8 +5,6 @@
 [Build version: 3.10]
 [git branch: master]
 &lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;
-
-&lt;b&gt;NOTE: -P integration flag required for now. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=519793#c10 and https://bugs.eclipse.org/bugs/show_bug.cgi?id=520040 &lt;/b&gt;
 </description>
   <keepDependencies>false</keepDependencies>
   <properties>
@@ -35,6 +33,7 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
@@ -59,8 +58,8 @@
           <name>CHERRY_PICKS</name>
           <description>space-sparated list of repo+gerrit/rev #s to cherry pick (because we're often behind on gerrit reviews)
 
-eg., webservices/webtools.webservices+117258/1</description>
-          <defaultValue>webservices/webtools.webservices+117258/1</defaultValue>
+eg., for https://git.eclipse.org/r/#/c/117439/ use "webservices/webtools.webservices+117439/1"</description>
+          <defaultValue>webservices/webtools.webservices+117821/1</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -198,6 +197,13 @@ skipWithIssues=false</properties>
       <defaultExcludes>true</defaultExcludes>
       <caseSensitive>true</caseSensitive>
     </hudson.tasks.ArtifactArchiver>
+    <hudson.plugins.descriptionsetter.DescriptionSetterPublisher plugin="description-setter@1.10">
+      <regexp>.+ -DCHERRY_PICKS=([a-z+1-9/]+) .+</regexp>
+      <regexpForFailed>.+(Missing requirement:|Software being installed: .+)</regexpForFailed>
+      <description>\1</description>
+      <descriptionForFailed>\1</descriptionForFailed>
+      <setForMatrix>false</setForMatrix>
+    </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.34">
@@ -207,7 +213,7 @@ skipWithIssues=false</properties>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.19">
       <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
-        <timeoutMinutes>90</timeoutMinutes>
+        <timeoutMinutes>150</timeoutMinutes>
       </strategy>
       <operationList/>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
