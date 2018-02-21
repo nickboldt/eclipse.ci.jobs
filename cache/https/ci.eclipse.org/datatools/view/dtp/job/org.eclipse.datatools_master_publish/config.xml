@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <actions/>
+  <description>Publish &lt;a href="../org.eclipse.datatools_masterlastSuccessfulBuild/artifact/site/target/repository/"&gt;latest org.eclipse.datatools_master CI&lt;/a&gt; to &lt;a href="http://download.eclipse.org/datatools/updates/"&gt;
+/home/data/httpd/download.eclipse.org/datatools/updates/&lt;/a&gt;
+</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.security.AuthorizationMatrixProperty>
+      <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
+      <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
+    </hudson.security.AuthorizationMatrixProperty>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>VERSION</name>
+          <description/>
+          <defaultValue>1.14.100-SNAPSHOT</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>true</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <jdk>(System)</jdk>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>if [[ ${VERSION} ]]; then
+  rm -fr staging; mkdir -p staging; cd staging
+  wget https://hudson.eclipse.org/datatools/job/org.eclipse.datatools_master/lastSuccessfulBuild/artifact/site/target/site.zip -O ${WORKSPACE}/staging/dtp-repository-${VERSION}.zip
+  unzip ${WORKSPACE}/staging/dtp-repository-${VERSION}.zip -d ${WORKSPACE}/staging/repository/
+  rsync -zrlt --delete ${WORKSPACE}/staging/* /home/data/httpd/download.eclipse.org/datatools/updates/${VERSION}/
+  chmod g+w -R /home/data/httpd/download.eclipse.org/datatools/updates/${VERSION}/
+fi</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
