@@ -4,8 +4,7 @@
   <description>[Webtools Web Services 3.10 for **Photon**]
 [Build version: 3.10]
 [git branch: master]
-&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -33,7 +32,6 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
@@ -58,7 +56,7 @@
           <name>CHERRY_PICKS</name>
           <description>space-sparated list of repo+gerrit/rev #s to cherry pick (because we're often behind on gerrit reviews)
 
-eg., for https://git.eclipse.org/r/#/c/117439/ use "webservices/webtools.webservices+117439/1"</description>
+eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
           <defaultValue>webservices/webtools.webservices+117821/1</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
@@ -116,8 +114,8 @@ fi</command>
       <mavenName>apache-maven-3.5.2</mavenName>
       <pom>pom.xml</pom>
       <properties>maven.test.skip=false
-maven.test.failure.ignore=true
 maven.test.error.ignore=true
+maven.test.failure.ignore=true
 surefire.timeout=1800
 skipWithIssues=false</properties>
       <usePrivateRepository>true</usePrivateRepository>

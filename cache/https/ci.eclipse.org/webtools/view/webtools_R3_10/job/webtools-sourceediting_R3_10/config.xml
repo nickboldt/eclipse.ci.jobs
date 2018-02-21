@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>[WebToolsPlatform Source Editing 3.10 for **Photon**]
+  <description>[WebTools Source Editing 3.10 for **Photon**]
 [Build version: 3.10]
 [git branch: master]
-&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;
-patched to cherry pick 117594, 117596</description>
+&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -55,9 +52,8 @@ patched to cherry pick 117594, 117596</description>
           <name>CHERRY_PICKS</name>
           <description>space-sparated list of repo+gerrit/rev #s to cherry pick (because we're often behind on gerrit reviews)
 
-eg., for https://git.eclipse.org/r/#/c/117594/ use "sourceediting/webtools.sourceediting+117594/1"
-</description>
-          <defaultValue>sourceediting/webtools.sourceediting+117594/1 sourceediting/webtools.sourceediting+117596/1</defaultValue>
+eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
+          <defaultValue/>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -195,6 +191,13 @@ skipWithIssues=false</properties>
       <defaultExcludes>true</defaultExcludes>
       <caseSensitive>true</caseSensitive>
     </hudson.tasks.ArtifactArchiver>
+    <hudson.plugins.descriptionsetter.DescriptionSetterPublisher plugin="description-setter@1.10">
+      <regexp>.+ -DCHERRY_PICKS=([a-z+1-9/]+) .+</regexp>
+      <regexpForFailed>.+(Missing requirement:|Software being installed: .+)</regexpForFailed>
+      <description>\1</description>
+      <descriptionForFailed>\1</descriptionForFailed>
+      <setForMatrix>false</setForMatrix>
+    </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.34">

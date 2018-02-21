@@ -116,8 +116,8 @@ fi</command>
       <mavenName>apache-maven-3.5.2</mavenName>
       <pom>pom.xml</pom>
       <properties>maven.test.skip=false
-maven.test.failure.ignore=true
 maven.test.error.ignore=true
+maven.test.failure.ignore=true
 surefire.timeout=1800
 skipWithIssues=false</properties>
       <usePrivateRepository>true</usePrivateRepository>

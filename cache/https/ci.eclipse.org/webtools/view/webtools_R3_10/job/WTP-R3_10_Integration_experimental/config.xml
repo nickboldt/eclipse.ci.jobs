@@ -12,7 +12,7 @@
 &lt;p&gt;&lt;b&gt;-Pintegration flag MAY be needed to build all the integration tests in servertools which are not normally built as part of a standard build&lt;/b&gt;
   &lt;p&gt;-P CI flag needed to enable the CI repos, so the aggregate build can resolve the 8 projects' update sites
 
-    &lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1. </description>
+&lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1.</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -68,15 +68,16 @@
           </choices>
         </hudson.model.ChoiceParameterDefinition>
         <hudson.model.StringParameterDefinition>
-          <name>platformRepoUrl</name>
-          <description>Or link to a specific build, like http://download.eclipse.org/eclipse/updates/4.8-I-builds/I20171119-2000/ 
-or http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M5-201801242000/</description>
-          <defaultValue>http://download.eclipse.org/eclipse/updates/4.8-I-builds/</defaultValue>
-        </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
           <name>MAVEN_FLAGS</name>
           <description/>
-          <defaultValue>-fae -V -U -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -Dplatform-repo.url=${platformRepoUrl} -PCI</defaultValue>
+          <defaultValue>-fae -V -U -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -PCI</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>CHERRY_PICKS</name>
+          <description>space-sparated list of repo+gerrit/rev #s to cherry pick (because we're often behind on gerrit reviews)
+
+eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
+          <defaultValue>dali/webtools.dali+117862/1 jsdt/webtools.jsdt+117864/1 jeetools/webtools.javaee+117801/1 webservices/webtools.webservices+117821/1</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -135,10 +136,22 @@ or http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M5-20180124200
 /usr/local/bin/git submodule update webtools.releng
 
 ./scripts/submodule-checkout.sh webtools.releng master
-</command>
+
+# apply patches (use --keep-redundant-commits when cherry-picking)
+if [[ ${CHERRY_PICKS} ]]; then
+  for cp in ${CHERRY_PICKS}; do # echo ${cp} 
+    repo=${cp%%+*}; echo $repo
+    path=${repo##*/}; echo $path
+    gerrit=${cp##*+}; echo $gerrit
+    gerrit_pre=${gerrit%%/*}; gerrit_pre=${gerrit_pre: -2}; # echo $gerrit_pre
+    if [[ -d ${path} ]]; then pushd $path; fi
+    git fetch https://git.eclipse.org/r/${repo} refs/changes/${gerrit_pre}/${gerrit} &amp;&amp; git cherry-pick FETCH_HEAD --keep-redundant-commits
+    if [[ -d ${path} ]]; then popd; fi
+  done
+fi</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
-      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
+      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
       <mavenName>apache-maven-3.5.2</mavenName>
       <pom>pom-aggregate-only.xml</pom>
       <properties>maven.test.skip=true
@@ -203,6 +216,12 @@ wtp.version=3.10.0</properties>
         </hudson.plugins.warnings.ConsoleParser>
       </consoleParsers>
     </hudson.plugins.warnings.WarningsPublisher>
+    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.24">
+      <testResults>**/TEST-*.xml</testResults>
+      <keepLongStdio>false</keepLongStdio>
+      <healthScaleFactor>1.0</healthScaleFactor>
+      <allowEmptyResults>true</allowEmptyResults>
+    </hudson.tasks.junit.JUnitResultArchiver>
     <hudson.tasks.ArtifactArchiver>
       <artifacts>webtools.repositories/*/target/*.zip, **/target/repository/**</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
@@ -212,6 +231,13 @@ wtp.version=3.10.0</properties>
       <caseSensitive>true</caseSensitive>
     </hudson.tasks.ArtifactArchiver>
     <hudson.plugins.disk__usage.project.DiskUsagePostBuildCalculation plugin="disk-usage@0.28"/>
+    <hudson.plugins.descriptionsetter.DescriptionSetterPublisher plugin="description-setter@1.10">
+      <regexp>.+ -DCHERRY_PICKS=([a-z+1-9/]+) .+</regexp>
+      <regexpForFailed>.+(Missing requirement:|Software being installed: .+)</regexpForFailed>
+      <description>\1</description>
+      <descriptionForFailed>\1</descriptionForFailed>
+      <setForMatrix>false</setForMatrix>
+    </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.34">

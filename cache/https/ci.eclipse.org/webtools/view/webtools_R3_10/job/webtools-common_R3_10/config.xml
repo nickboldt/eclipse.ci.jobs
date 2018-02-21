@@ -118,10 +118,9 @@ fi</command>
     <hudson.tasks.Maven>
       <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
       <mavenName>apache-maven-3.5.2</mavenName>
-      <pom>pom.xml</pom>
       <properties>maven.test.skip=false
-maven.test.failure.ignore=true
 maven.test.error.ignore=true
+maven.test.failure.ignore=true
 surefire.timeout=1800
 skipWithIssues=false</properties>
       <usePrivateRepository>true</usePrivateRepository>
@@ -201,6 +200,13 @@ skipWithIssues=false</properties>
       <defaultExcludes>true</defaultExcludes>
       <caseSensitive>true</caseSensitive>
     </hudson.tasks.ArtifactArchiver>
+    <hudson.plugins.descriptionsetter.DescriptionSetterPublisher plugin="description-setter@1.10">
+      <regexp>.+ -DCHERRY_PICKS=([a-z+1-9/]+) .+</regexp>
+      <regexpForFailed>.+(Missing requirement:|Software being installed: .+)</regexpForFailed>
+      <description>\1</description>
+      <descriptionForFailed>\1</descriptionForFailed>
+      <setForMatrix>false</setForMatrix>
+    </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.34">
