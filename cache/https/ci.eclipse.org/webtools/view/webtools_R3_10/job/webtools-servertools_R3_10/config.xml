@@ -6,7 +6,7 @@
 [git branch: master]
 &lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;
 
-TODO: do we still need -Pintegration flag ?</description>
+TODO: do we still need -Pintegration flag ? Yes, until we can move the integration tests into a downstream repo. :(</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>

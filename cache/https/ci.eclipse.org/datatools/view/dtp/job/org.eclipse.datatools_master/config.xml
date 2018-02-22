@@ -70,7 +70,7 @@ If blank, do not push.</description>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  <jdk>(System)</jdk>
+  <jdk>jdk1.8.0-latest</jdk>
   <triggers>
     <hudson.triggers.SCMTrigger>
       <spec>15 */8 * * * </spec>
@@ -80,8 +80,8 @@ If blank, do not push.</description>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Maven>
-      <targets>clean install -e -fn -B -Peclipse-sign</targets>
-      <mavenName>apache-maven-latest</mavenName>
+      <targets>clean install -e -fn -B -Peclipse-sign -V</targets>
+      <mavenName>apache-maven-3.5.2</mavenName>
       <pom>pom.xml</pom>
       <properties>maven.test.skip=false
 maven.test.failure.ignore=true

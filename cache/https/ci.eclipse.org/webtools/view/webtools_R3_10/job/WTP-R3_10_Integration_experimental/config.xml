@@ -77,7 +77,7 @@
           <description>space-sparated list of repo+gerrit/rev #s to cherry pick (because we're often behind on gerrit reviews)
 
 eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
-          <defaultValue>dali/webtools.dali+117862/1 jsdt/webtools.jsdt+117864/1 jeetools/webtools.javaee+117801/1 webservices/webtools.webservices+117821/1</defaultValue>
+          <defaultValue>dali/webtools.dali+117867/1 jsdt/webtools.jsdt+117864/1 jeetools/webtools.javaee+117801/</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -99,7 +99,6 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
     <submoduleCfg class="list"/>
     <extensions>
-      <hudson.plugins.git.extensions.impl.WipeWorkspace/>
       <hudson.plugins.git.extensions.impl.SubmoduleOption>
         <disableSubmodules>true</disableSubmodules>
         <recursiveSubmodules>false</recursiveSubmodules>
@@ -240,14 +239,9 @@ wtp.version=3.10.0</properties>
     </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.34">
-      <deleteDirs>false</deleteDirs>
-      <cleanupParameter/>
-      <externalDelete/>
-    </hudson.plugins.ws__cleanup.PreBuildCleanup>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.19">
       <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
-        <timeoutMinutes>410</timeoutMinutes>
+        <timeoutMinutes>30</timeoutMinutes>
       </strategy>
       <operationList/>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
