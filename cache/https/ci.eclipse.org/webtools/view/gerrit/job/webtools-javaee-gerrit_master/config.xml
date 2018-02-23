@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>&lt;b&gt;NOTE: -P integration flag required for now. See https://bugs.eclipse.org/bugs/show_bug.cgi?id=519793#c10 and https://bugs.eclipse.org/bugs/show_bug.cgi?id=520040 &lt;/b&gt;
-</description>
+  <description/>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>

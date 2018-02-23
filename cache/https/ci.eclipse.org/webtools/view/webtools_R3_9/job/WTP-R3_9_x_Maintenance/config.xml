@@ -54,6 +54,17 @@
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>CHERRY_PICKS</name>
+          <description>space-sparated list of repo+gerrit/rev #s to cherry pick (because we're often behind on gerrit reviews)
+
+eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
+          <defaultValue/>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@3.7.0">
     <configVersion>2</configVersion>
@@ -89,7 +100,7 @@
   <jdk>jdk1.8.0-latest</jdk>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>H H(0-7) * * *</spec>
+      <spec>H H(0-5) * * *</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
@@ -100,25 +111,46 @@
 ./scripts/submodule-checkout.sh
 ./scripts/build-preparation.sh
 
-# apply patches / hacks / unmerged gerrit requests here 
-# https://git.eclipse.org/r/#/c/112219/
-#pushd webtools.webservices
-#  git fetch https://git.eclipse.org/r/webservices/webtools.webservices refs/changes/19/112219/1 &amp;&amp; git cherry-pick FETCH_HEAD
-#popd
-</command>
+# apply patches (use --keep-redundant-commits when cherry-picking)
+if [[ ${CHERRY_PICKS} ]]; then
+  for cp in ${CHERRY_PICKS}; do # echo ${cp} 
+    repo=${cp%%+*}; echo $repo
+    path=${repo##*/}; echo $path
+    gerrit=${cp##*+}; echo $gerrit
+    gerrit_pre=${gerrit%%/*}; gerrit_pre=${gerrit_pre: -2}; # echo $gerrit_pre
+    if [[ -d ${path} ]]; then pushd $path; fi
+    git fetch https://git.eclipse.org/r/${repo} refs/changes/${gerrit_pre}/${gerrit} &amp;&amp; git cherry-pick FETCH_HEAD --keep-redundant-commits
+    if [[ -d ${path} ]]; then popd; fi
+  done
+fi</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
       <targets>clean install -V -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
       <mavenName>apache-maven-3.5.2</mavenName>
       <jvmOptions>-Xmx3G</jvmOptions>
       <pom>pom.xml</pom>
-      <properties>maven.test.skip=true
+      <properties>tycho.version=0.21.0
+tycho-extras.version=0.21.0
+
+maven.test.skip=true
 maven.test.error.ignore=true
 maven.test.failure.ignore=true
-tycho-extras.version=0.21.0
 surefire.timeout=1800
 skipWithIssues=false
-tycho.version=0.21.0</properties>
+
+license-repo.url=http://download.eclipse.org/cbi/updates/license
+gef-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration/
+platform-repo.url=http://download.eclipse.org/eclipse/updates/4.7-M-builds/M-4.7.3RC2-201802150545/
+orbit-repo.url=http://download.eclipse.org/tools/orbit/downloads/drops/M20180206163158/repository/
+jetty-repo.url=http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.7.v20170914/
+emf-repo.url=http://download.eclipse.org/modeling/emf/emf/updates/2.13milestones/
+jgit-repo.url=http://download.eclipse.org/egit/updates
+dtp-repo.url=http://download.eclipse.org/datatools/1.14.1.201712071719/repository/
+emf-transaction-repo.url=http://download.eclipse.org/modeling/emf/transaction/updates/releases/
+emf-validation-repo.url=http://download.eclipse.org/modeling/emf/validation/updates/releases/
+graphiti-repo.url=http://download.eclipse.org/graphiti/updates/milestones
+eclipselink-repo.url=http://build.eclipse.org/webtools/downloadsites/eclipseLink/eclipseLink-2.6.0/
+swtbot-repo.url=http://download.eclipse.org/technology/swtbot/releases/latest</properties>
       <usePrivateRepository>true</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>

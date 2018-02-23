@@ -43,6 +43,13 @@
           <description/>
           <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>CHERRY_PICKS</name>
+          <description>space-sparated list of repo+gerrit/rev #s to cherry pick (because we're often behind on gerrit reviews)
+
+eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
+          <defaultValue>jsf/webtools.jsf+118050/1</defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -130,8 +137,18 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command># apply patches (use  --keep-redundant-commits when cherry picking)
-</command>
+      <command># apply patches (use --keep-redundant-commits when cherry-picking)
+if [[ ${CHERRY_PICKS} ]]; then
+  for cp in ${CHERRY_PICKS}; do # echo ${cp} 
+    repo=${cp%%+*}; echo $repo
+    path=${repo##*/}; echo $path
+    gerrit=${cp##*+}; echo $gerrit
+    gerrit_pre=${gerrit%%/*}; gerrit_pre=${gerrit_pre: -2}; # echo $gerrit_pre
+    if [[ -d ${path} ]]; then pushd $path; fi
+    git fetch https://git.eclipse.org/r/${repo} refs/changes/${gerrit_pre}/${gerrit} &amp;&amp; git cherry-pick FETCH_HEAD --keep-redundant-commits
+    if [[ -d ${path} ]]; then popd; fi
+  done
+fi</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
       <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
