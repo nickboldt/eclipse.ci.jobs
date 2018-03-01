@@ -52,7 +52,7 @@
           <description>space-sparated list of repo+gerrit/rev #s to cherry pick (because we're often behind on gerrit reviews)
 
 eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
-          <defaultValue>dali/webtools.dali+118391/1</defaultValue>
+          <defaultValue>dali/webtools.dali+118469/1</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
