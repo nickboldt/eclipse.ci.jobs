@@ -66,9 +66,6 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
-    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@3.7.0">
     <configVersion>2</configVersion>
@@ -207,6 +204,7 @@ wtp.version=3.9.3</properties>
       </strategy>
       <operationList/>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.9"/>
     <hudson.plugins.xvnc.Xvnc plugin="xvnc@1.24">
       <takeScreenshot>false</takeScreenshot>
       <useXauthority>true</useXauthority>
