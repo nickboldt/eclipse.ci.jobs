@@ -50,6 +50,7 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
@@ -65,6 +66,9 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@3.7.0">
     <configVersion>2</configVersion>
@@ -100,7 +104,7 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
   <jdk>jdk1.8.0-latest</jdk>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>H H(0-5) * * *</spec>
+      <spec>H H(0-4) * * *</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
@@ -150,7 +154,18 @@ emf-transaction-repo.url=http://download.eclipse.org/modeling/emf/transaction/up
 emf-validation-repo.url=http://download.eclipse.org/modeling/emf/validation/updates/releases/
 graphiti-repo.url=http://download.eclipse.org/graphiti/updates/milestones
 eclipselink-repo.url=http://build.eclipse.org/webtools/downloadsites/eclipseLink/eclipseLink-2.6.0/
-swtbot-repo.url=http://download.eclipse.org/technology/swtbot/releases/latest</properties>
+swtbot-repo.url=http://download.eclipse.org/technology/swtbot/releases/latest
+webtools-common-site=${platform-repo.url}
+webtools-servertools-site=${platform-repo.url}
+webtools-jsdt-site=${platform-repo.url}
+webtools-sourceediting-site=${platform-repo.url}
+
+webtools-jeetools-site=${platform-repo.url}
+webtools-dali-site=${platform-repo.url}
+webtools-jsf-site=${platform-repo.url}
+webtools-webservices-site=${platform-repo.url}
+webtools.buildSite=http://download.eclipse.org/webtools/downloads/drops/R3.9.3/S-3.9.3RC1-20180209112900
+skipITests=false</properties>
       <usePrivateRepository>true</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
@@ -188,7 +203,7 @@ wtp.version=3.9.3</properties>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.19">
       <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
-        <timeoutMinutes>410</timeoutMinutes>
+        <timeoutMinutes>180</timeoutMinutes>
       </strategy>
       <operationList/>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
