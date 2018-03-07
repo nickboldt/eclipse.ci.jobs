@@ -25,9 +25,9 @@ If VERSION is set,  to publish build results to &lt;a href="http://download.ecli
     <jenkins.model.BuildDiscarderProperty>
       <strategy class="hudson.tasks.LogRotator">
         <daysToKeep>7</daysToKeep>
-        <numToKeep>7</numToKeep>
-        <artifactDaysToKeep>-1</artifactDaysToKeep>
-        <artifactNumToKeep>-1</artifactNumToKeep>
+        <numToKeep>5</numToKeep>
+        <artifactDaysToKeep>2</artifactDaysToKeep>
+        <artifactNumToKeep>1</artifactNumToKeep>
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
@@ -93,9 +93,12 @@ maven.test.error.ignore=true</properties>
     </hudson.tasks.Maven>
     <hudson.tasks.Shell>
       <command>if [[ ${VERSION} ]]; then
+  repozip=dtp-repository-${VERSION}.zip
+  rm -f ${repozip}
   mkdir -p /home/data/httpd/download.eclipse.org/datatools/updates/${VERSION}/
-  cp ${WORKSPACE}/site/target/site.zip dtp-repository-${VERSION}.zip
-  rsync -zrlt --delete ${WORKSPACE}/site/target/repository ${WORKSPACE}/site/target/site.zip /home/data/httpd/download.eclipse.org/datatools/updates/${VERSION}/
+  cp ${WORKSPACE}/site/target/site.zip ${repozip}
+  rsync -zrlt --delete ${WORKSPACE}/site/target/repository ${repozip} \
+    /home/data/httpd/download.eclipse.org/datatools/updates/${VERSION}/
   chmod g+w -R /home/data/httpd/download.eclipse.org/datatools/updates/${VERSION}/
 fi
 </command>

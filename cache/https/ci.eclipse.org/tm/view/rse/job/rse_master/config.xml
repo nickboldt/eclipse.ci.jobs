@@ -25,10 +25,10 @@
     </hudson.security.AuthorizationMatrixProperty>
     <jenkins.model.BuildDiscarderProperty>
       <strategy class="hudson.tasks.LogRotator">
-        <daysToKeep>5</daysToKeep>
+        <daysToKeep>7</daysToKeep>
         <numToKeep>5</numToKeep>
-        <artifactDaysToKeep>-1</artifactDaysToKeep>
-        <artifactNumToKeep>-1</artifactNumToKeep>
+        <artifactDaysToKeep>2</artifactDaysToKeep>
+        <artifactNumToKeep>1</artifactNumToKeep>
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
@@ -36,6 +36,18 @@
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>VERSION</name>
+          <description>Set a version to push this build to &lt;a href="http://download.eclipse.org/tm/updates/"&gt;
+/home/data/httpd/download.eclipse.org/tm/updates/&lt;/a&gt;, eg., 3.7.100-SNAPSHOT or 3.7.100
+
+If blank, do not push.</description>
+          <defaultValue/>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@3.7.0">
     <configVersion>2</configVersion>
@@ -81,6 +93,18 @@ surefire.timeout=1800</properties>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
       <injectBuildVariables>true</injectBuildVariables>
     </hudson.tasks.Maven>
+    <hudson.tasks.Shell>
+      <command>if [[ ${VERSION} ]]; then
+  repozip=rse-repository-${VERSION}.zip
+  rm -fr ${repozip}
+  mkdir -p /home/data/httpd/download.eclipse.org/tm/updates/${VERSION}/
+  cp ${WORKSPACE}/rse/site/target/org.eclipse.tm.rse.site.zip  ${repozip}
+  rsync -zrlt --delete ${WORKSPACE}/rse/site/target/repository ${repozip} \
+    /home/data/httpd/download.eclipse.org/tm/updates/${VERSION}/
+  chmod g+w -R /home/data/httpd/download.eclipse.org/tm/updates/${VERSION}/
+fi
+</command>
+    </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.plugins.findbugs.FindBugsPublisher plugin="findbugs@4.72">
