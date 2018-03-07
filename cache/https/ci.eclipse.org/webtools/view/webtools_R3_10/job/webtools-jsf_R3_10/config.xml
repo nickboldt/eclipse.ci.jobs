@@ -163,18 +163,9 @@ skipWithIssues=false</properties>
         </hudson.plugins.warnings.ConsoleParser>
       </consoleParsers>
     </hudson.plugins.warnings.WarningsPublisher>
-    <hudson.tasks.BuildTrigger>
-      <childProjects>webtools-webservices_R3_10</childProjects>
-      <threshold>
-        <name>UNSTABLE</name>
-        <ordinal>1</ordinal>
-        <color>YELLOW</color>
-        <completeBuild>true</completeBuild>
-      </threshold>
-    </hudson.tasks.BuildTrigger>
     <hudson.plugins.disk__usage.project.DiskUsagePostBuildCalculation plugin="disk-usage@0.28"/>
     <hudson.tasks.Mailer plugin="mailer@1.20">
-      <recipients>wtp-releng@eclipse.org</recipients>
+      <recipients>wtp-releng@eclipse.org, Ian.trimble@oracle.com</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>true</sendToIndividuals>
     </hudson.tasks.Mailer>

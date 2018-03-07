@@ -9,8 +9,7 @@
 
 &lt;b style=red&gt;NOTE: This job does not collect JUnit test results. See &lt;a href="https://ci.eclipse.org/webtools/view/webtools_R3_10/"&gt;charts and tables&lt;/a&gt;. &lt;/b&gt;
 
-&lt;p&gt;&lt;b&gt;-Pintegration flag MAY be needed to build all the integration tests in servertools which are not normally built as part of a standard build&lt;/b&gt;
-  &lt;p&gt;-P CI flag needed to enable the CI repos, so the aggregate build can resolve the 8 projects' update sites
+&lt;p&gt;-P CI flag needed to enable the CI repos, so the aggregate build can resolve the 8 projects' update sites
 
 &lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1.</description>
   <keepDependencies>false</keepDependencies>
@@ -81,7 +80,6 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
-    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@3.8.0">
     <configVersion>2</configVersion>
@@ -115,9 +113,10 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>jdk1.8.0-latest</jdk>
   <triggers>
-    <hudson.triggers.TimerTrigger>
-      <spec>H H(0-5) * * *</spec>
-    </hudson.triggers.TimerTrigger>
+    <hudson.triggers.SCMTrigger>
+      <spec>H/15 * * * * </spec>
+      <ignorePostCommitHooks>false</ignorePostCommitHooks>
+    </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>

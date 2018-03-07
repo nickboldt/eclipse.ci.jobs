@@ -68,7 +68,7 @@ tycho.version=${tychoVersion}</properties>
       <configs>
         <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
           <configs class="empty-list"/>
-          <projects>webtools-common_R3_10</projects>
+          <projects>WTP-Pipeline_R3_10, </projects>
           <condition>SUCCESS</condition>
           <triggerWithNoParameters>true</triggerWithNoParameters>
           <triggerFromChildProjects>false</triggerFromChildProjects>
