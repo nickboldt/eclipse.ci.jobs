@@ -85,7 +85,7 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
   <jdk>jdk1.8.0-latest</jdk>
   <triggers>
     <hudson.triggers.SCMTrigger>
-      <spec>H 2,5,8,11,14,17,20,23 * * *</spec>
+      <spec>H/5 * * * * </spec>
       <ignorePostCommitHooks>false</ignorePostCommitHooks>
     </hudson.triggers.SCMTrigger>
   </triggers>
