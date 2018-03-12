@@ -57,6 +57,9 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
@@ -146,9 +149,15 @@ if [[ ${CHERRY_PICKS} ]]; then
 fi</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
-      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
+      <targets>clean
+install
+${MAVEN_FLAGS}
+-Pbree-libs
+-Peclipse-sign
+-t
+/opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
       <mavenName>apache-maven-3.5.2</mavenName>
-      <pom>pom.xml</pom>
+      <pom>pom-build-everything.xml</pom>
       <properties>maven.test.skip=true
 maven.test.error.ignore=true
 maven.test.failure.ignore=true
@@ -179,7 +188,7 @@ wtp.version=3.10.0</properties>
       <usePreviousBuildAsReference>false</usePreviousBuildAsReference>
       <useStableBuildAsReference>false</useStableBuildAsReference>
       <useDeltaValues>false</useDeltaValues>
-      <thresholds plugin="analysis-core@1.94">
+      <thresholds plugin="analysis-core@1.95">
         <unstableTotalAll/>
         <unstableTotalHigh/>
         <unstableTotalNormal/>

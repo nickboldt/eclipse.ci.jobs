@@ -51,6 +51,9 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
@@ -122,6 +125,12 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
   <builders>
     <hudson.tasks.Shell>
       <command>#!/bin/bash
+
+echo "== Checking upstream projects' SHAs have all been built in upstream jobs..."
+./scripts/fetch-SHAs.sh &amp;&amp; SHACHECK=$!
+if [[ ${SHACHECK} == 1 ]]; then exit 1; fi #if results are not OK from fetch-SHAs.sh, stop build here. 
+echo "== Check OK"
+
 ./scripts/git-clean.sh
 
 # only need one submodule updated 
@@ -134,6 +143,7 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
 /usr/local/bin/git config -f .gitmodules --get submodule.webtools.releng.path # timeout=10
 /usr/local/bin/git submodule update webtools.releng
 
+# TODO do we still need webtools.releng submodule? Can we build it upstream instead of here?
 ./scripts/submodule-checkout.sh webtools.releng master
 
 # apply patches (use --keep-redundant-commits when cherry-picking)
@@ -147,12 +157,20 @@ if [[ ${CHERRY_PICKS} ]]; then
     git fetch https://git.eclipse.org/r/${repo} refs/changes/${gerrit_pre}/${gerrit} &amp;&amp; git cherry-pick FETCH_HEAD --keep-redundant-commits
     if [[ -d ${path} ]]; then popd; fi
   done
-fi</command>
+fi
+
+</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
-      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
+      <targets>clean
+install
+${MAVEN_FLAGS}
+-Pbree-libs
+-Peclipse-sign
+-t
+/opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
       <mavenName>apache-maven-3.5.2</mavenName>
-      <pom>pom-aggregate-only.xml</pom>
+      <pom>pom.xml</pom>
       <properties>maven.test.skip=true
 maven.test.error.ignore=true
 maven.test.failure.ignore=true
@@ -183,7 +201,7 @@ wtp.version=3.10.0</properties>
       <usePreviousBuildAsReference>false</usePreviousBuildAsReference>
       <useStableBuildAsReference>false</useStableBuildAsReference>
       <useDeltaValues>false</useDeltaValues>
-      <thresholds plugin="analysis-core@1.94">
+      <thresholds plugin="analysis-core@1.95">
         <unstableTotalAll/>
         <unstableTotalHigh/>
         <unstableTotalNormal/>
@@ -246,6 +264,9 @@ wtp.version=3.10.0</properties>
       <operationList/>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.9"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.5.2">
+      <colorMapName>xterm</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
     <hudson.plugins.xvnc.Xvnc plugin="xvnc@1.24">
       <takeScreenshot>false</takeScreenshot>
       <useXauthority>true</useXauthority>
