@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <actions/>
+  <description>&lt;b style="color:red"&gt;Work in progress&lt;/b&gt;.
+&lt;p&gt;
+  Job to replicate the steps documented on &lt;a href=https://wiki.eclipse.org/WTP/Releng/Processes#Publish_I_build&gt;Publish I build&lt;/a&gt;
+but also for renaming an I as an S build
+&lt;p&gt;
+When job is done, see next steps here: &lt;a href=https://wiki.eclipse.org/WTP/Releng/Processes#Release_latest_build_to_simrel&gt;Release latest build to simrel&lt;/a&gt;</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>timestamp</name>
+          <description>enter timestamp in format 20180209112900</description>
+          <defaultValue/>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>build_alias</name>
+          <description>to publish an I build as M or RC, enter build_alias=S-3.10.0.M6</description>
+          <defaultValue/>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <jdk>(System)</jdk>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command># 1/5. move old/new builds out of the promote folder
+# TODO eventually we can skip this step?
+cd /shared/webtools/committers/R3.10.0-I/
+mkdir ../wtp-tmp; mv * ../wtp-tmp
+mv ../wtp-tmp/${timestamp} . # just include the one build we want to promote
+
+if [[ ! ${build_alias} ]]; then 
+  # 2/5. promote the build WITH email send
+  cd /shared/webtools/releng.control &amp;&amp; ./promote.sh -vrdscap wtp-R3.10.0-I # add -r flag to update I-latest, -s for email
+else 
+  # 2/5. promote the build without email send
+  cd /shared/webtools/releng.control &amp;&amp; ./promote.sh -vdcap wtp-R3.10.0-I # no -s flag
+
+  # 3/5. now rename &amp; promote again
+  cd /shared/webtools/committers/wtp-R3.10.0-I/${timestamp}
+  cp /shared/webtools/releng.control/renameBuild.sh .
+  ./renameBuild.sh R3.10.0-${timestamp} ${build_alias}-${timestamp}
+  rm -f renameBuild.sh
+  cd /shared/webtools/releng.control &amp;&amp; ./promote.sh -vdrscap wtp-R3.10.0-I # add -r flag to update I-latest, -s for email
+fi
+
+# 4/5. put back the other builds
+cd /shared/webtools/committers/wtp-R3.10.0-I/
+mv ../wtp-tmp/* .
+rmdir ../wtp-tmp
+
+# 5/5. release this new build into to the simrel aggregation
+# TODO script this?</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
