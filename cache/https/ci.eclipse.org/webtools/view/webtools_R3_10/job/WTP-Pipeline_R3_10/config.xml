@@ -57,15 +57,20 @@
     build("webtools-sourceediting_R3_10")
     build("webtools-javaee_R3_10")
     
-    parallel firstBranch: {
+    parallel jsf_ws: {
         build("webtools-jsf_R3_10")
         build("webtools-webservices_R3_10")
-    }, secondBranch: {
+    }, dali: {
         build("webtools-dali_R3_10")
     }, failFast: true
 }
-stage('Build Aggregates') {
-    build("WTP-CI_R3_10")
+
+stage('Build Aggregates, Run Integration Tests') {
+    parallel ci_build: {
+        build("WTP-CI_R3_10")
+    }, integration: {
+        build("webtools-servertools-integration_R3_10")
+    }, failFast: true
 }
 </script>
     <sandbox>true</sandbox>
