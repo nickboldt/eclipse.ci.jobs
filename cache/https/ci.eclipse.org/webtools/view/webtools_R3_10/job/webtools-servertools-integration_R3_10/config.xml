@@ -6,7 +6,9 @@
 [git branch: master]
 &lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site-integration/target/repository/"&gt;lastSuccessfulBuild/artifact/site-integration/target/repository/&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;This job requires -PCI to build the integration tests, which rely on downsteam repos.&lt;/p&gt;</description>
+&lt;p&gt;This job requires the &lt;b&gt;integration-tests&lt;/b&gt; and &lt;b&gt;CI&lt;/b&gt; profiles to build the integration tests, 
+&lt;br/&gt;since these tests rely on repos which are downstream from servertools.&lt;br/&gt;
+Therefore this job should be run after webservices.</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -55,8 +57,8 @@
         </hudson.model.ChoiceParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>MAVEN_FLAGS</name>
-          <description>This job requires -PCI to build the integration tests, which rely on downsteam repos.</description>
-          <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -PCI</defaultValue>
+          <description/>
+          <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -P integration-tests -PCI -DskipITests=false</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>CHERRY_PICKS</name>
