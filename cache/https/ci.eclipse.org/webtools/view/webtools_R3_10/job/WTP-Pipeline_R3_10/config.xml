@@ -35,7 +35,7 @@
       <triggers>
         <jenkins.triggers.ReverseBuildTrigger>
           <spec/>
-          <upstreamProjects>webtools-parent-pom-deploy</upstreamProjects>
+          <upstreamProjects>webtools-parent-pom_R3_10</upstreamProjects>
           <threshold>
             <name>SUCCESS</name>
             <ordinal>0</ordinal>
