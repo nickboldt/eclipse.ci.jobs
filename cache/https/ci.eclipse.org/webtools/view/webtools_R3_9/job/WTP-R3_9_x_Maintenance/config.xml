@@ -50,6 +50,9 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
@@ -94,7 +97,7 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
     </extensions>
   </scm>
   <canRoam>true</canRoam>
-  <disabled>true</disabled>
+  <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>jdk1.8.0-latest</jdk>
@@ -140,7 +143,7 @@ skipWithIssues=false
 
 license-repo.url=http://download.eclipse.org/cbi/updates/license
 gef-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration/
-platform-repo.url=http://download.eclipse.org/eclipse/updates/4.7-M-builds/M-4.7.3RC3-201802211700/
+platform-repo.url=http://download.eclipse.org/eclipse/updates/4.7-M-builds/M20180315-0710/
 orbit-repo.url=http://download.eclipse.org/tools/orbit/downloads/drops/M20180228194429/repository/
 jetty-repo.url=http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.8.v20171121/
 emf-repo.url=http://download.eclipse.org/modeling/emf/emf/updates/2.13milestones/
@@ -149,7 +152,7 @@ dtp-repo.url=http://download.eclipse.org/datatools/1.14.1.201712071719/repositor
 emf-transaction-repo.url=http://download.eclipse.org/modeling/emf/transaction/updates/releases/
 emf-validation-repo.url=http://download.eclipse.org/modeling/emf/validation/updates/releases/
 graphiti-repo.url=http://download.eclipse.org/graphiti/updates/milestones
-eclipselink-repo.url=http://build.eclipse.org/webtools/downloadsites/eclipseLink/eclipseLink-2.6.0/
+eclipselink-repo.url=http://download.eclipse.org/rt/eclipselink/updates/2.7.1.v20171221-bd47e8f/
 swtbot-repo.url=http://download.eclipse.org/technology/swtbot/releases/latest
 webtools-common-site=${platform-repo.url}
 webtools-servertools-site=${platform-repo.url}
