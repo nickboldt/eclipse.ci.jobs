@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <actions/>
+  <description>&lt;p&gt;
+  Job to replicate the steps documented on &lt;a href=https://wiki.eclipse.org/WTP/Releng/Processes#Publish_I_build&gt;Publish I build&lt;/a&gt;
+but also for renaming an I as an S build, or &lt;a href=https://wiki.eclipse.org/WTP/Releng/Processes#Publish_M_build_as_S_build&gt;renaming
+  an M as an S or R build&lt;/a&gt;
+&lt;p&gt;
+When job is done, see next steps here: 
+  
+  &lt;a href=https://wiki.eclipse.org/WTP/Releng/Processes#Release_latest_build_to_simrel&gt;Release latest build to simrel&lt;/a&gt;</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>timestamp</name>
+          <description>enter timestamp in format 20180302093744</description>
+          <defaultValue/>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>build_alias</name>
+          <description>to publish an I build as milestone/RC/R, enter build_alias=S-3.10.0.M6 or R-3.9.3</description>
+          <defaultValue/>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>stream</name>
+          <description>3.9.3-M or 3.10.0-I</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>3.10.0-I</string>
+              <string>3.9.3-M</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>renameSource</name>
+          <description>If you're renaming an S to an R, you need to specify the source folder to rename, eg., S-3.9.3RC4-20180302093744 ... 
+
+If not set, will assume a value like M-3.9.3-20180302093744</description>
+          <defaultValue/>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <jdk>(System)</jdk>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#0. compute strings
+suffix=${stream: -1} # I or M
+streamver=${stream%-*} # 3.10.0 or 3.9.3
+
+# 1. move old/new builds out of the promote folder
+# TODO eventually we can skip this step?
+workdir=/shared/webtools/committers/wtp-R${streamver}-${suffix}
+tmpdir=${workdir}-tmp
+
+cd ${workdir}
+mkdir -p ${tmpdir}; mv * ${tmpdir}
+mv ${tmpdir}/${timestamp} . # just include the one build we want to promote
+
+# 2. delete old I-latest or M-latest contents
+latestdir=/home/data/httpd/download.eclipse.org/webtools/downloads/drops/R${streamver}/I-latest
+mkdir -p ${latestdir}/
+rm -fr ${latestdir}/*
+
+if [[ ! ${build_alias} ]]; then 
+  # 3. promote the build WITH email send
+  cd /shared/webtools/releng.control &amp;&amp; ./promote.sh -vrdscap wtp-R${streamver}-${suffix} # add -r flag to update I-latest, -s for email
+else 
+  # 3a. promote the build without email send
+  cd /shared/webtools/releng.control &amp;&amp; ./promote.sh -vdcap wtp-R${streamver}-${suffix}
+
+  # 3b. now rename &amp; promote again
+  cd ${workdir}/${timestamp}
+  cp /shared/webtools/releng.control/renameBuild.sh .
+  if [[ ${renameSource} ]]; then
+    ./renameBuild.sh ${renameSource} ${build_alias}-${timestamp}
+  else
+    ./renameBuild.sh ${suffix}-${streamver}-${timestamp} ${build_alias}-${timestamp}
+  fi
+  rm -f renameBuild.sh
+  cd /shared/webtools/releng.control &amp;&amp; ./promote.sh -vrdscap wtp-R${streamver}-${suffix} # add -r flag to update I-latest, -s for email
+fi
+
+# 4. put back the other builds
+cd ${workdir}/
+mv ${tmpdir}/* .
+rmdir ${tmpdir}
+
+# 5. if this was an M build, rename I-latest to M-latest
+if [[ ${suffix} == "M" ]]; then
+  mv ${latestdir} ${latestdir/I-latest/M-latest}
+fi
+
+# 5. release this new build into to the simrel aggregation
+# TODO script this?</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
