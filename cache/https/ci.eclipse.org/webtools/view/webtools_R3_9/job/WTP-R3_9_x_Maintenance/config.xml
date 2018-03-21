@@ -164,7 +164,7 @@ webtools-jeetools-site=${platform-repo.url}
 webtools-dali-site=${platform-repo.url}
 webtools-jsf-site=${platform-repo.url}
 webtools-webservices-site=${platform-repo.url}
-webtools.buildSite=http://download.eclipse.org/webtools/downloads/drops/R3.9.3/S-3.9.3RC4-20180302093744/
+webtools.buildSite=http://build.eclipse.org/webtools/committers/wtp-R3.9.3-M/20180321133021/M-3.9.3-20180321133021/
 skipITests=false</properties>
       <usePrivateRepository>true</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>

@@ -130,41 +130,10 @@ Note 2: No tests are run as they're in another repo.
   <builders>
     <hudson.tasks.Maven>
       <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
-      <mavenName>apache-maven-latest</mavenName>
+      <mavenName>apache-maven-3.5.2</mavenName>
       <pom>pom.xml</pom>
-      <properties>tycho.version=0.21.0
-tycho-extras.version=0.21.0
-
-maven.test.skip=true
-maven.test.error.ignore=true
-maven.test.failure.ignore=true
-surefire.timeout=1800
-skipWithIssues=false
-
-license-repo.url=http://download.eclipse.org/cbi/updates/license
-gef-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration/
-platform-repo.url=http://download.eclipse.org/eclipse/updates/4.7-M-builds/M20180315-0710/
-orbit-repo.url=http://download.eclipse.org/tools/orbit/downloads/drops/M20180228194429/repository/
-jetty-repo.url=http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.9.v20180320/
-emf-repo.url=http://download.eclipse.org/modeling/emf/emf/updates/2.13milestones/
-jgit-repo.url=http://download.eclipse.org/egit/updates
-dtp-repo.url=http://download.eclipse.org/datatools/1.14.1.201712071719/repository/
-emf-transaction-repo.url=http://download.eclipse.org/modeling/emf/transaction/updates/releases/
-emf-validation-repo.url=http://download.eclipse.org/modeling/emf/validation/updates/releases/
-graphiti-repo.url=http://download.eclipse.org/graphiti/updates/milestones
-eclipselink-repo.url=http://download.eclipse.org/rt/eclipselink/updates/2.7.1.v20171221-bd47e8f/
-swtbot-repo.url=http://download.eclipse.org/technology/swtbot/releases/latest
-webtools-common-site=${platform-repo.url}
-webtools-servertools-site=${platform-repo.url}
-webtools-jsdt-site=${platform-repo.url}
-webtools-sourceediting-site=${platform-repo.url}
-
-webtools-jeetools-site=${platform-repo.url}
-webtools-dali-site=${platform-repo.url}
-webtools-jsf-site=${platform-repo.url}
-webtools-webservices-site=${platform-repo.url}
-webtools.buildSite=http://download.eclipse.org/webtools/downloads/drops/R3.9.3/S-3.9.3RC4-20180302093744/
-skipITests=false</properties>
+      <properties>maven.test.failure.ignore=true
+maven.test.error.ignore=true</properties>
       <usePrivateRepository>true</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>

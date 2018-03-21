@@ -26,6 +26,9 @@ Note 2: No tests are run as they're in another repo.
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
@@ -36,6 +39,7 @@ Note 2: No tests are run as they're in another repo.
           <name>MAVEN_FLAGS</name>
           <description/>
           <defaultValue>-Pbuild-individual-bundles -Pintegration -DskipITests=false</defaultValue>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -124,99 +128,12 @@ Note 2: No tests are run as they're in another repo.
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
-    <hudson.tasks.Shell>
-      <command>cat &lt;&lt;EOT &gt; settings.webtools.xml
-&lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
-  &lt;profiles&gt;
-    &lt;profile&gt;
-      &lt;id&gt;webtools-default&lt;/id&gt;
-      &lt;activation&gt;
-        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
-      &lt;/activation&gt;
-    
-      &lt;repositories&gt;
-        &lt;repository&gt;
-          &lt;id&gt;webtools.releases&lt;/id&gt;
-          &lt;name&gt;Webtools Repository - Snapshots&lt;/name&gt;
-          &lt;releases&gt;
-            &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-          &lt;/releases&gt;
-          &lt;snapshots&gt;
-            &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;fail&lt;/checksumPolicy&gt;
-          &lt;/snapshots&gt;
-          &lt;layout&gt;default&lt;/layout&gt;
-          &lt;url&gt;https://repo.eclipse.org/content/repositories/webtools-snapshots/&lt;/url&gt;
-        &lt;/repository&gt;
-        &lt;!-- currently the release repo is empty --&gt;
-        &lt;!-- &lt;repository&gt;
-          &lt;id&gt;webtools.releases&lt;/id&gt;
-          &lt;name&gt;Webtools Repository - Releases&lt;/name&gt;
-          &lt;releases&gt;
-            &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-          &lt;/releases&gt;
-          &lt;snapshots&gt;
-            &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;fail&lt;/checksumPolicy&gt;
-          &lt;/snapshots&gt;
-          &lt;layout&gt;default&lt;/layout&gt;
-          &lt;url&gt;https://repo.eclipse.org/content/repositories/webtools-releases/&lt;/url&gt;
-        &lt;/repository&gt; --&gt;
-      &lt;/repositories&gt;
-    &lt;/profile&gt;
-  &lt;/profiles&gt;
-
-  &lt;activeProfiles&gt;
-    &lt;activeProfile&gt;webtools-default&lt;/activeProfile&gt;
-  &lt;/activeProfiles&gt;
-
-&lt;/settings&gt;
-EOT
-</command>
-    </hudson.tasks.Shell>
     <hudson.tasks.Maven>
-      <targets>clean install ${MAVEN_FLAGS} -s settings.webtools.xml -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
+      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
       <mavenName>apache-maven-latest</mavenName>
       <pom>pom.xml</pom>
-      <properties>tycho.version=0.21.0
-tycho-extras.version=0.21.0
-
-maven.test.skip=true
-maven.test.error.ignore=true
-maven.test.failure.ignore=true
-surefire.timeout=1800
-skipWithIssues=false
-
-license-repo.url=http://download.eclipse.org/cbi/updates/license
-gef-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration/
-platform-repo.url=http://download.eclipse.org/eclipse/updates/4.7-M-builds/M-4.7.3RC3-201802211700/
-orbit-repo.url=http://download.eclipse.org/tools/orbit/downloads/drops/M20180228194429/repository/
-jetty-repo.url=http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.7.v20170914/
-emf-repo.url=http://download.eclipse.org/modeling/emf/emf/updates/2.13milestones/
-jgit-repo.url=http://download.eclipse.org/egit/updates
-dtp-repo.url=http://download.eclipse.org/datatools/1.14.1.201712071719/repository/
-emf-transaction-repo.url=http://download.eclipse.org/modeling/emf/transaction/updates/releases/
-emf-validation-repo.url=http://download.eclipse.org/modeling/emf/validation/updates/releases/
-graphiti-repo.url=http://download.eclipse.org/graphiti/updates/milestones
-eclipselink-repo.url=http://build.eclipse.org/webtools/downloadsites/eclipseLink/eclipseLink-2.6.0/
-swtbot-repo.url=http://download.eclipse.org/technology/swtbot/releases/latest
-webtools-common-site=${platform-repo.url}
-webtools-servertools-site=${platform-repo.url}
-webtools-jsdt-site=${platform-repo.url}
-webtools-sourceediting-site=${platform-repo.url}
-
-webtools-jeetools-site=${platform-repo.url}
-webtools-dali-site=${platform-repo.url}
-webtools-jsf-site=${platform-repo.url}
-webtools-webservices-site=${platform-repo.url}
-webtools.buildSite=http://download.eclipse.org/webtools/downloads/drops/R3.9.3/S-3.9.3RC4-20180302093744/
-skipITests=false</properties>
+      <properties>maven.test.failure.ignore=true
+maven.test.error.ignore=true</properties>
       <usePrivateRepository>true</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>

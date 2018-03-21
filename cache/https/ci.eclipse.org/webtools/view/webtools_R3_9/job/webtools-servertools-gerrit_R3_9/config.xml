@@ -26,6 +26,9 @@ Note 2: No tests are run as they're in another repo.
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
@@ -35,12 +38,13 @@ Note 2: No tests are run as they're in another repo.
         <hudson.model.StringParameterDefinition>
           <name>MAVEN_FLAGS</name>
           <description/>
-          <defaultValue>-Pbuild-individual-bundles -Pintegration -Dwebtools.buildSite=http://build.eclipse.org/webtools/committers/wtp-R3.9.3-M/20180125030226/M-3.9.3-20180125030226/ -Dplatform-repo.url=http://download.eclipse.org/eclipse/updates/4.7-M-builds/M20180117-0400/ -Dorbit-repo.url=http://download.eclipse.org/tools/orbit/downloads/drops/R20170919201930/repository/ -Djetty-repo.url=http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.7.v20170914/ -Djgit-repo.url=http://download.eclipse.org/egit/updates -Dgef-legacy-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration// -Dgef-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration/ -Dgraphiti-repo.url=http://download.eclipse.org/graphiti/updates/milestones -DskipITests=false</defaultValue>
+          <defaultValue>-Pbuild-individual-bundles -Pintegration -DskipITests=false</defaultValue>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.7.0">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.8.0">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -58,7 +62,7 @@ Note 2: No tests are run as they're in another repo.
     <submoduleCfg class="list"/>
     <extensions>
       <hudson.plugins.git.extensions.impl.BuildChooserSetting>
-        <buildChooser class="com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.GerritTriggerBuildChooser" plugin="gerrit-trigger@2.23.2">
+        <buildChooser class="com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.GerritTriggerBuildChooser" plugin="gerrit-trigger@2.27.5">
           <separator>#</separator>
         </buildChooser>
       </hudson.plugins.git.extensions.impl.BuildChooserSetting>
@@ -70,7 +74,7 @@ Note 2: No tests are run as they're in another repo.
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>jdk1.8.0-latest</jdk>
   <triggers>
-    <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.GerritTrigger plugin="gerrit-trigger@2.23.2">
+    <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.GerritTrigger plugin="gerrit-trigger@2.27.5">
       <spec/>
       <gerritProjects>
         <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.data.GerritProject>
@@ -85,6 +89,7 @@ Note 2: No tests are run as they're in another repo.
           <disableStrictForbiddenFileVerification>false</disableStrictForbiddenFileVerification>
         </com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.data.GerritProject>
       </gerritProjects>
+      <dynamicGerritProjects class="empty-list"/>
       <skipVote>
         <onSuccessful>false</onSuccessful>
         <onFailed>false</onFailed>
@@ -123,64 +128,8 @@ Note 2: No tests are run as they're in another repo.
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
-    <hudson.tasks.Shell>
-      <command>cat &lt;&lt;EOT &gt; settings.webtools.xml
-&lt;settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
-  &lt;profiles&gt;
-    &lt;profile&gt;
-      &lt;id&gt;webtools-default&lt;/id&gt;
-      &lt;activation&gt;
-        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
-      &lt;/activation&gt;
-    
-      &lt;repositories&gt;
-        &lt;repository&gt;
-          &lt;id&gt;webtools.releases&lt;/id&gt;
-          &lt;name&gt;Webtools Repository - Snapshots&lt;/name&gt;
-          &lt;releases&gt;
-            &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-          &lt;/releases&gt;
-          &lt;snapshots&gt;
-            &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;fail&lt;/checksumPolicy&gt;
-          &lt;/snapshots&gt;
-          &lt;layout&gt;default&lt;/layout&gt;
-          &lt;url&gt;https://repo.eclipse.org/content/repositories/webtools-snapshots/&lt;/url&gt;
-        &lt;/repository&gt;
-        &lt;!-- currently the release repo is empty --&gt;
-        &lt;!-- &lt;repository&gt;
-          &lt;id&gt;webtools.releases&lt;/id&gt;
-          &lt;name&gt;Webtools Repository - Releases&lt;/name&gt;
-          &lt;releases&gt;
-            &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-          &lt;/releases&gt;
-          &lt;snapshots&gt;
-            &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;fail&lt;/checksumPolicy&gt;
-          &lt;/snapshots&gt;
-          &lt;layout&gt;default&lt;/layout&gt;
-          &lt;url&gt;https://repo.eclipse.org/content/repositories/webtools-releases/&lt;/url&gt;
-        &lt;/repository&gt; --&gt;
-      &lt;/repositories&gt;
-    &lt;/profile&gt;
-  &lt;/profiles&gt;
-
-  &lt;activeProfiles&gt;
-    &lt;activeProfile&gt;webtools-default&lt;/activeProfile&gt;
-  &lt;/activeProfiles&gt;
-
-&lt;/settings&gt;
-EOT
-</command>
-    </hudson.tasks.Shell>
     <hudson.tasks.Maven>
-      <targets>clean install ${MAVEN_FLAGS} -s settings.webtools.xml -Pbree-libs -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
+      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
       <mavenName>apache-maven-latest</mavenName>
       <pom>pom.xml</pom>
       <properties>maven.test.failure.ignore=true
