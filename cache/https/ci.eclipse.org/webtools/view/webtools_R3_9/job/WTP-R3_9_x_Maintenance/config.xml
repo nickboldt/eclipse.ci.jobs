@@ -65,6 +65,7 @@
 
 eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
           <defaultValue/>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -145,7 +146,7 @@ license-repo.url=http://download.eclipse.org/cbi/updates/license
 gef-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration/
 platform-repo.url=http://download.eclipse.org/eclipse/updates/4.7-M-builds/M20180315-0710/
 orbit-repo.url=http://download.eclipse.org/tools/orbit/downloads/drops/M20180228194429/repository/
-jetty-repo.url=http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.8.v20171121/
+jetty-repo.url=http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.9.v20180320/
 emf-repo.url=http://download.eclipse.org/modeling/emf/emf/updates/2.13milestones/
 jgit-repo.url=http://download.eclipse.org/egit/updates
 dtp-repo.url=http://download.eclipse.org/datatools/1.14.1.201712071719/repository/

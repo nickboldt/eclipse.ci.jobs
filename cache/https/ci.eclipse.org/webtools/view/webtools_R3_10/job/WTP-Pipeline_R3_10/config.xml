@@ -65,7 +65,7 @@
     }, failFast: true
 }
 
-stage('Build Aggregates, Run Integration Tests') {
+stage('Build Aggregates And Run Integration Tests') {
     parallel ci_build: {
         build("WTP-CI_R3_10")
     }, integration: {

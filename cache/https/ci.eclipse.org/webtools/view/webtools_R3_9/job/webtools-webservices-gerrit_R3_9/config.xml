@@ -26,6 +26,9 @@ Note 2: No tests are run as they're in another repo.
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
@@ -35,12 +38,13 @@ Note 2: No tests are run as they're in another repo.
         <hudson.model.StringParameterDefinition>
           <name>MAVEN_FLAGS</name>
           <description/>
-          <defaultValue>-Pbuild-individual-bundles -Pintegration -Dwebtools.buildSite=http://build.eclipse.org/webtools/committers/wtp-R3.9.3-M/20180125030226/M-3.9.3-20180125030226/ -Dplatform-repo.url=http://download.eclipse.org/eclipse/updates/4.7-M-builds/M20180117-0400/ -Dorbit-repo.url=http://download.eclipse.org/tools/orbit/downloads/drops/R20170919201930/repository/ -Djetty-repo.url=http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.7.v20170914/ -Djgit-repo.url=http://download.eclipse.org/egit/updates -Dgef-legacy-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration// -Dgef-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration/ -Dgraphiti-repo.url=http://download.eclipse.org/graphiti/updates/milestones -DskipITests=false</defaultValue>
+          <defaultValue>-Pbuild-individual-bundles -Pintegration -DskipITests=false</defaultValue>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.7.0">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.8.0">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -58,7 +62,7 @@ Note 2: No tests are run as they're in another repo.
     <submoduleCfg class="list"/>
     <extensions>
       <hudson.plugins.git.extensions.impl.BuildChooserSetting>
-        <buildChooser class="com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.GerritTriggerBuildChooser" plugin="gerrit-trigger@2.23.2">
+        <buildChooser class="com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.GerritTriggerBuildChooser" plugin="gerrit-trigger@2.27.5">
           <separator>#</separator>
         </buildChooser>
       </hudson.plugins.git.extensions.impl.BuildChooserSetting>
@@ -70,7 +74,7 @@ Note 2: No tests are run as they're in another repo.
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>jdk1.8.0-latest</jdk>
   <triggers>
-    <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.GerritTrigger plugin="gerrit-trigger@2.23.2">
+    <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.GerritTrigger plugin="gerrit-trigger@2.27.5">
       <spec/>
       <gerritProjects>
         <com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.data.GerritProject>
@@ -85,6 +89,7 @@ Note 2: No tests are run as they're in another repo.
           <disableStrictForbiddenFileVerification>false</disableStrictForbiddenFileVerification>
         </com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.data.GerritProject>
       </gerritProjects>
+      <dynamicGerritProjects class="empty-list"/>
       <skipVote>
         <onSuccessful>false</onSuccessful>
         <onFailed>false</onFailed>
@@ -127,8 +132,39 @@ Note 2: No tests are run as they're in another repo.
       <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
       <mavenName>apache-maven-latest</mavenName>
       <pom>pom.xml</pom>
-      <properties>maven.test.failure.ignore=true
-maven.test.error.ignore=true</properties>
+      <properties>tycho.version=0.21.0
+tycho-extras.version=0.21.0
+
+maven.test.skip=true
+maven.test.error.ignore=true
+maven.test.failure.ignore=true
+surefire.timeout=1800
+skipWithIssues=false
+
+license-repo.url=http://download.eclipse.org/cbi/updates/license
+gef-repo.url=http://download.eclipse.org/tools/gef/updates/legacy/integration/
+platform-repo.url=http://download.eclipse.org/eclipse/updates/4.7-M-builds/M20180315-0710/
+orbit-repo.url=http://download.eclipse.org/tools/orbit/downloads/drops/M20180228194429/repository/
+jetty-repo.url=http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.9.v20180320/
+emf-repo.url=http://download.eclipse.org/modeling/emf/emf/updates/2.13milestones/
+jgit-repo.url=http://download.eclipse.org/egit/updates
+dtp-repo.url=http://download.eclipse.org/datatools/1.14.1.201712071719/repository/
+emf-transaction-repo.url=http://download.eclipse.org/modeling/emf/transaction/updates/releases/
+emf-validation-repo.url=http://download.eclipse.org/modeling/emf/validation/updates/releases/
+graphiti-repo.url=http://download.eclipse.org/graphiti/updates/milestones
+eclipselink-repo.url=http://download.eclipse.org/rt/eclipselink/updates/2.7.1.v20171221-bd47e8f/
+swtbot-repo.url=http://download.eclipse.org/technology/swtbot/releases/latest
+webtools-common-site=${platform-repo.url}
+webtools-servertools-site=${platform-repo.url}
+webtools-jsdt-site=${platform-repo.url}
+webtools-sourceediting-site=${platform-repo.url}
+
+webtools-jeetools-site=${platform-repo.url}
+webtools-dali-site=${platform-repo.url}
+webtools-jsf-site=${platform-repo.url}
+webtools-webservices-site=${platform-repo.url}
+webtools.buildSite=http://download.eclipse.org/webtools/downloads/drops/R3.9.3/S-3.9.3RC4-20180302093744/
+skipITests=false</properties>
       <usePrivateRepository>true</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>

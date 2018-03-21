@@ -38,6 +38,9 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
@@ -55,7 +58,7 @@
         </hudson.model.ChoiceParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>MAVEN_FLAGS</name>
-          <description/>
+          <description>-Dplatform-repo.url=http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M6-201803080630/</description>
           <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
