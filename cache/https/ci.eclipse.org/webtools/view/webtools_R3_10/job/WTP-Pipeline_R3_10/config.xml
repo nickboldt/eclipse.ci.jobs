@@ -62,15 +62,17 @@
         build("webtools-webservices_R3_10")
     }, dali: {
         build("webtools-dali_R3_10")
-    }, failFast: true
+    }, failFast: false
 }
 
 stage('Build Aggregates And Run Integration Tests') {
     parallel ci_build: {
         build("WTP-CI_R3_10")
-    }, integration: {
+    }, servertools_integration: {
         build("webtools-servertools-integration_R3_10")
-    }, failFast: true
+    }, javaee_integration: {
+        build("webtools-javaee-integration_R3_10")
+    }, failFast: false
 }
 </script>
     <sandbox>true</sandbox>

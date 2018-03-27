@@ -11,6 +11,7 @@
       <permission>hudson.model.Item.Build:John.J.Collier@ibm.com</permission>
       <permission>hudson.model.Item.Build:kaloyan.r@zend.com</permission>
       <permission>hudson.model.Item.Build:ROLE_WEBTOOLS.JEETOOLS</permission>
+      <permission>hudson.model.Item.Build:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Build:vaninder@ca.ibm.com</permission>
       <permission>hudson.model.Item.Cancel:John.J.Collier@ibm.com</permission>
       <permission>hudson.model.Item.Configure:adalbert@mx1.ibm.com</permission>
@@ -18,26 +19,31 @@
       <permission>hudson.model.Item.Configure:John.J.Collier@ibm.com</permission>
       <permission>hudson.model.Item.Configure:kaloyan.r@zend.com</permission>
       <permission>hudson.model.Item.Configure:ROLE_WEBTOOLS.JEETOOLS</permission>
+      <permission>hudson.model.Item.Configure:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Configure:vaninder@ca.ibm.com</permission>
       <permission>hudson.model.Item.Delete:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Delete:kaloyan.r@zend.com</permission>
       <permission>hudson.model.Item.Delete:ROLE_WEBTOOLS.JEETOOLS</permission>
       <permission>hudson.model.Item.Discover:John.J.Collier@ibm.com</permission>
+      <permission>hudson.model.Item.Discover:stryker@redhat.com</permission>
       <permission>hudson.model.Item.ExtendedRead:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.ExtendedRead:John.J.Collier@ibm.com</permission>
       <permission>hudson.model.Item.ExtendedRead:ROLE_WEBTOOLS.JEETOOLS</permission>
+      <permission>hudson.model.Item.ExtendedRead:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Read:adalbert@mx1.ibm.com</permission>
       <permission>hudson.model.Item.Read:anonymous</permission>
       <permission>hudson.model.Item.Read:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Read:John.J.Collier@ibm.com</permission>
       <permission>hudson.model.Item.Read:kaloyan.r@zend.com</permission>
       <permission>hudson.model.Item.Read:ROLE_WEBTOOLS.JEETOOLS</permission>
+      <permission>hudson.model.Item.Read:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Read:vaninder@ca.ibm.com</permission>
       <permission>hudson.model.Item.Workspace:adalbert@mx1.ibm.com</permission>
       <permission>hudson.model.Item.Workspace:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Workspace:John.J.Collier@ibm.com</permission>
       <permission>hudson.model.Item.Workspace:kaloyan.r@zend.com</permission>
       <permission>hudson.model.Item.Workspace:ROLE_WEBTOOLS.JEETOOLS</permission>
+      <permission>hudson.model.Item.Workspace:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Workspace:vaninder@ca.ibm.com</permission>
       <permission>hudson.model.Run.Delete:adalbert@mx1.ibm.com</permission>
       <permission>hudson.model.Run.Delete:ccc@us.ibm.com</permission>
@@ -45,11 +51,13 @@
       <permission>hudson.model.Run.Delete:ROLE_WEBTOOLS.JEETOOLS</permission>
       <permission>hudson.model.Run.Delete:vaninder@ca.ibm.com</permission>
       <permission>hudson.model.Run.Replay:John.J.Collier@ibm.com</permission>
+      <permission>hudson.model.Run.Replay:stryker@redhat.com</permission>
       <permission>hudson.model.Run.Update:adalbert@mx1.ibm.com</permission>
       <permission>hudson.model.Run.Update:ccc@us.ibm.com</permission>
       <permission>hudson.model.Run.Update:John.J.Collier@ibm.com</permission>
       <permission>hudson.model.Run.Update:kaloyan.r@zend.com</permission>
       <permission>hudson.model.Run.Update:ROLE_WEBTOOLS.JEETOOLS</permission>
+      <permission>hudson.model.Run.Update:stryker@redhat.com</permission>
       <permission>hudson.model.Run.Update:vaninder@ca.ibm.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
     <jenkins.model.BuildDiscarderProperty>
@@ -61,6 +69,9 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
+      <optOut>false</optOut>
+    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
@@ -79,7 +90,8 @@
         <hudson.model.StringParameterDefinition>
           <name>MAVEN_FLAGS</name>
           <description/>
-          <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
+          <defaultValue>-fn -B -e -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -176,9 +188,8 @@
       <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
       <mavenName>apache-maven-3.5.2</mavenName>
       <properties>maven.test.skip=false
-maven.test.error.ignore=true
-maven.test.failure.ignore=true
-surefire.timeout=1800
+maven.test.error.ignore=false
+maven.test.failure.ignore=false
 skipWithIssues=false</properties>
       <usePrivateRepository>true</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
@@ -196,6 +207,10 @@ skipWithIssues=false</properties>
     </hudson.tasks.junit.JUnitResultArchiver>
   </publishers>
   <buildWrappers>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.9"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.5.2">
+      <colorMapName>xterm</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
     <hudson.plugins.xvnc.Xvnc plugin="xvnc@1.24">
       <takeScreenshot>false</takeScreenshot>
       <useXauthority>true</useXauthority>

@@ -11,6 +11,14 @@ When job is done, see next steps here:
   &lt;a href=https://wiki.eclipse.org/WTP/Releng/Processes#Release_latest_build_to_simrel&gt;Release latest build to simrel&lt;/a&gt;</description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>7</daysToKeep>
+        <numToKeep>5</numToKeep>
+        <artifactDaysToKeep>2</artifactDaysToKeep>
+        <artifactNumToKeep>1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
     <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
       <optOut>false</optOut>
@@ -29,17 +37,17 @@ When job is done, see next steps here:
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>build_alias</name>
-          <description>to publish an I build as milestone/RC/R, enter build_alias=S-3.10.0.M6 or R-3.9.3</description>
+          <description>to publish an I build as milestone/RC/R, enter build_alias=S-3.10.0.M6 or R-3.9.4</description>
           <defaultValue/>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.ChoiceParameterDefinition>
           <name>stream</name>
-          <description>3.9.3-M or 3.10.0-I</description>
+          <description>3.9.4-M or 3.10.0-I</description>
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
               <string>3.10.0-I</string>
-              <string>3.9.3-M</string>
+              <string>3.9.4-M</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -47,10 +55,15 @@ When job is done, see next steps here:
           <name>renameSource</name>
           <description>If you're renaming an S to an R, you need to specify the source folder to rename, eg., S-3.9.3RC4-20180302093744 ... 
 
-If not set, will assume a value like M-3.9.3-20180302093744</description>
+If not set, will assume a value like M-3.9.4-20180322133713</description>
           <defaultValue/>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>sendEmail</name>
+          <description>If checked, email will be sent announcing this build.</description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -64,7 +77,15 @@ If not set, will assume a value like M-3.9.3-20180302093744</description>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>#0. compute strings
+      <command>rcfile=${HOME}/.buildermailrc
+if [[ -f ${rcfile} ]]; then 
+  mv ${rcfile} ${rcfile}.wtppublish.bak
+  echo 'set from="\"WTP Releng\"&lt;nboldt@redhat.com&gt;"' &gt; ${rcfile}
+else
+  echo 'set from="\"WTP Releng\"&lt;nboldt@redhat.com&gt;"' &gt; ${rcfile}
+fi
+
+#0. compute strings
 suffix=${stream: -1} # I or M
 streamver=${stream%-*} # 3.10.0 or 3.9.3
 
@@ -80,11 +101,18 @@ mv ${tmpdir}/${timestamp} . # just include the one build we want to promote
 # 2. delete old I-latest or M-latest contents
 latestdir=/home/data/httpd/download.eclipse.org/webtools/downloads/drops/R${streamver}/I-latest
 mkdir -p ${latestdir}/
-rm -fr ${latestdir}/*
+rm -fr ${latestdir}/* ${latestdir/I-latest/M-latest}
+
+# add -r flag to update I-latest, -s for email
+if [[ ${sendEmail} == "true" ]]; then
+  flags="vrdscap"
+else
+  flags="vrdcap"
+fi
 
 if [[ ! ${build_alias} ]]; then 
   # 3. promote the build WITH email send
-  cd /shared/webtools/releng.control &amp;&amp; ./promote.sh -vrdscap wtp-R${streamver}-${suffix} # add -r flag to update I-latest, -s for email
+  cd /shared/webtools/releng.control &amp;&amp; ./promote.sh -${flags} wtp-R${streamver}-${suffix}
 else 
   # 3a. promote the build without email send
   cd /shared/webtools/releng.control &amp;&amp; ./promote.sh -vdcap wtp-R${streamver}-${suffix}
@@ -98,13 +126,21 @@ else
     ./renameBuild.sh ${suffix}-${streamver}-${timestamp} ${build_alias}-${timestamp}
   fi
   rm -f renameBuild.sh
-  cd /shared/webtools/releng.control &amp;&amp; ./promote.sh -vrdscap wtp-R${streamver}-${suffix} # add -r flag to update I-latest, -s for email
+  cd /shared/webtools/releng.control &amp;&amp; ./promote.sh -${flags} wtp-R${streamver}-${suffix}
 fi
 
 # 4. put back the other builds
 cd ${workdir}/
 mv ${tmpdir}/* .
 rmdir ${tmpdir}
+
+if [[ -f ${rcfile}.wtppublish.bak ]]; then 
+  rm -f ${rcfile}
+  mv ${rcfile}.wtppublish.bak ${rcfile}
+else
+  rm -f ${rcfile}
+fi
+
 
 # 5. if this was an M build, rename I-latest to M-latest
 if [[ ${suffix} == "M" ]]; then
