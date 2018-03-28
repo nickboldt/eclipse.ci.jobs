@@ -44,10 +44,10 @@
     </hudson.security.AuthorizationMatrixProperty>
     <jenkins.model.BuildDiscarderProperty>
       <strategy class="hudson.tasks.LogRotator">
-        <daysToKeep>10</daysToKeep>
-        <numToKeep>10</numToKeep>
-        <artifactDaysToKeep>5</artifactDaysToKeep>
-        <artifactNumToKeep>5</artifactNumToKeep>
+        <daysToKeep>7</daysToKeep>
+        <numToKeep>5</numToKeep>
+        <artifactDaysToKeep>2</artifactDaysToKeep>
+        <artifactNumToKeep>1</artifactNumToKeep>
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
@@ -263,9 +263,8 @@ wtp.version=3.10.0</properties>
       <projectRulePath>scripts/webtools-console-log-parser.txt</projectRulePath>
     </hudson.plugins.logparser.LogParserPublisher>
     <hudson.plugins.descriptionsetter.DescriptionSetterPublisher plugin="description-setter@1.10">
-      <regexp>.+ -DCHERRY_PICKS=([a-z+1-9/]+) .+</regexp>
-      <regexpForFailed>.+(Missing requirement:|Software being installed: .+)</regexpForFailed>
-      <description>\1</description>
+      <regexp/>
+      <regexpForFailed>.*(.+projects need to be built upstream before we can rebuild the CI job.+|Missing requirement:|Software being installed: .+)</regexpForFailed>
       <descriptionForFailed>\1</descriptionForFailed>
       <setForMatrix>false</setForMatrix>
     </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
