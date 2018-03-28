@@ -96,6 +96,7 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>jdk1.8.0-latest</jdk>
+  <authToken>CI-BUILD</authToken>
   <triggers>
     <hudson.triggers.SCMTrigger>
       <spec>H/5 * * * * </spec>

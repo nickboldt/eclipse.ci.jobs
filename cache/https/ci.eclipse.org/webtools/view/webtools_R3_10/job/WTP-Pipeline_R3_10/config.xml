@@ -32,7 +32,8 @@
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
     <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
-      <triggers>
+      <authToken>CI-BUILD</authToken>
+  <triggers>
         <jenkins.triggers.ReverseBuildTrigger>
           <spec/>
           <upstreamProjects>webtools-parent-pom_R3_10</upstreamProjects>

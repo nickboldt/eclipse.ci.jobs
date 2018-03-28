@@ -73,6 +73,7 @@
           <name>MAVEN_FLAGS</name>
           <description/>
           <defaultValue>-fae -V -U -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -PCI</defaultValue>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>CHERRY_PICKS</name>
@@ -80,6 +81,7 @@
 
 eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
           <defaultValue/>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -115,6 +117,7 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>jdk1.8.0-latest</jdk>
+  <authToken>CI-BUILD</authToken>
   <triggers>
     <hudson.triggers.SCMTrigger>
       <spec>H/15 * * * * </spec>
@@ -127,8 +130,13 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
       <command>#!/bin/bash
 
 echo "== Checking upstream projects' SHAs have all been built in upstream jobs..."
-./scripts/fetch-SHAs.sh &amp;&amp; SHACHECK=$!
-if [[ ${SHACHECK} == 1 ]]; then exit 1; fi #if results are not OK from fetch-SHAs.sh, stop build here. 
+
+./scripts/fetch-SHAs.sh | tee SHACHECK.txt
+SHACHECK=$(cat SHACHECK.txt)
+if [[ ${SHACHECK} == *"ERROR"* ]]; then 
+  exit 1
+fi #if results are not OK from fetch-SHAs.sh, stop build here. 
+
 echo "== Check OK"
 
 ./scripts/git-clean.sh
@@ -158,7 +166,6 @@ if [[ ${CHERRY_PICKS} ]]; then
     if [[ -d ${path} ]]; then popd; fi
   done
 fi
-
 </command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
@@ -191,7 +198,7 @@ wtp.version=3.10.0</properties>
     </hudson.tasks.Ant>
   </builders>
   <publishers>
-    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.65">
+    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.66">
       <healthy/>
       <unHealthy/>
       <thresholdLimit>low</thresholdLimit>
@@ -248,6 +255,13 @@ wtp.version=3.10.0</properties>
       <caseSensitive>true</caseSensitive>
     </hudson.tasks.ArtifactArchiver>
     <hudson.plugins.disk__usage.project.DiskUsagePostBuildCalculation plugin="disk-usage@0.28"/>
+    <hudson.plugins.logparser.LogParserPublisher plugin="log-parser@2.0">
+      <unstableOnWarning>true</unstableOnWarning>
+      <failBuildOnError>false</failBuildOnError>
+      <showGraphs>true</showGraphs>
+      <useProjectRule>true</useProjectRule>
+      <projectRulePath>scripts/webtools-console-log-parser.txt</projectRulePath>
+    </hudson.plugins.logparser.LogParserPublisher>
     <hudson.plugins.descriptionsetter.DescriptionSetterPublisher plugin="description-setter@1.10">
       <regexp>.+ -DCHERRY_PICKS=([a-z+1-9/]+) .+</regexp>
       <regexpForFailed>.+(Missing requirement:|Software being installed: .+)</regexpForFailed>

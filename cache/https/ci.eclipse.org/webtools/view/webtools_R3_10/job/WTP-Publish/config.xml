@@ -73,6 +73,7 @@ If not set, will assume a value like M-3.9.4-20180322133713</description>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>(System)</jdk>
+  <authToken>CI-BUILD</authToken>
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
