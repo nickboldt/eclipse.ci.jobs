@@ -7,7 +7,7 @@
 
 &lt;p&gt;NOTE:
   This build is the old "build everything from submodules" approach that was used up to and including WTP 3.9.3.  
-  Because it is not agile and can take 2-4 hours, it will now run on weekends only.
+  Because it is not agile and can take 2-4 hours, it will now run on Saturdays.
 &lt;/p&gt;
 &lt;p&gt;For CI integration builds, see &lt;a href="../WTP-R3_10_CI"&gt;WTP-R3_10_CI&lt;/a&gt;
 
@@ -79,6 +79,7 @@
           <name>MAVEN_FLAGS</name>
           <description/>
           <defaultValue>-fae -V -U -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -Pintegration</defaultValue>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>CHERRY_PICKS</name>
@@ -86,6 +87,7 @@
 
 eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
           <defaultValue/>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -125,7 +127,7 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
   <authToken>CI-BUILD</authToken>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>H H(2-4) * * H(5-6)</spec>
+      <spec>H H(2-4) * * H(6-7)</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
@@ -179,7 +181,7 @@ wtp.version=3.10.0</properties>
     </hudson.tasks.Ant>
   </builders>
   <publishers>
-    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.65">
+    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.66">
       <healthy/>
       <unHealthy/>
       <thresholdLimit>low</thresholdLimit>

@@ -7,7 +7,9 @@
 &lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;This job requires the &lt;b&gt;integration-tests&lt;/b&gt; profile to run the integration tests, and will build the whole javaee project, 
-  including plugins / tests / features / update site.</description>
+  including plugins / tests / features / update site.
+  
+  &lt;p&gt;Runs weekly on Sundays.</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -98,10 +100,9 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
   <jdk>jdk1.8.0-latest</jdk>
   <authToken>CI-BUILD</authToken>
   <triggers>
-    <hudson.triggers.SCMTrigger>
-      <spec>H/5 * * * * </spec>
-      <ignorePostCommitHooks>false</ignorePostCommitHooks>
-    </hudson.triggers.SCMTrigger>
+    <hudson.triggers.TimerTrigger>
+      <spec>H H(8-9) * * H(6-7)</spec>
+    </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>

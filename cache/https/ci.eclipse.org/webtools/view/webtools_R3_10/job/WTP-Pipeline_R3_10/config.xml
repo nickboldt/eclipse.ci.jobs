@@ -32,8 +32,7 @@
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
     <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
-      <authToken>CI-BUILD</authToken>
-  <triggers>
+      <triggers>
         <jenkins.triggers.ReverseBuildTrigger>
           <spec/>
           <upstreamProjects>webtools-parent-pom_R3_10</upstreamProjects>
@@ -69,10 +68,8 @@
 stage('Build Aggregates And Run Integration Tests') {
     parallel ci_build: {
         build("WTP-CI_R3_10")
-    }, servertools_integration: {
+    }, integration: {
         build("webtools-servertools-integration_R3_10")
-    }, javaee_integration: {
-        build("webtools-javaee-integration_R3_10")
     }, failFast: false
 }
 </script>

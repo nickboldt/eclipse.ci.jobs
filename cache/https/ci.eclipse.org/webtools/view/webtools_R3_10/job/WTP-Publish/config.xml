@@ -8,7 +8,16 @@ but also for renaming an I as an S build, or &lt;a href=https://wiki.eclipse.org
 &lt;p&gt;
 When job is done, see next steps here: 
   
-  &lt;a href=https://wiki.eclipse.org/WTP/Releng/Processes#Release_latest_build_to_simrel&gt;Release latest build to simrel&lt;/a&gt;</description>
+  &lt;a href=https://wiki.eclipse.org/WTP/Releng/Processes#Release_latest_build_to_simrel&gt;Release latest build to simrel&lt;/a&gt;
+ 
+  &lt;p&gt;
+  Builds, once pushed, are here:
+  
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/downloads/drops/R3.10.0/?d&gt;3.10.0&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/downloads/drops/R3.9.4/?d&gt;3.9.4&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+      </description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.model.BuildDiscarderProperty>

@@ -11,7 +11,9 @@
 
 &lt;p&gt;-P CI flag needed to enable the CI repos, so the aggregate build can resolve the 8 projects' update sites
 
-&lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1.</description>
+&lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1.
+  
+    &lt;p&gt;To publish the results of this job, use &lt;a href=../WTP-Publish/&gt;WTP-Publish&lt;/a&gt;</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -256,7 +258,7 @@ wtp.version=3.10.0</properties>
     </hudson.tasks.ArtifactArchiver>
     <hudson.plugins.disk__usage.project.DiskUsagePostBuildCalculation plugin="disk-usage@0.28"/>
     <hudson.plugins.logparser.LogParserPublisher plugin="log-parser@2.0">
-      <unstableOnWarning>true</unstableOnWarning>
+      <unstableOnWarning>false</unstableOnWarning>
       <failBuildOnError>false</failBuildOnError>
       <showGraphs>true</showGraphs>
       <useProjectRule>true</useProjectRule>
