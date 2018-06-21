@@ -27,9 +27,6 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
-      <optOut>false</optOut>
-    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
@@ -49,6 +46,7 @@
           <name>MAVEN_FLAGS</name>
           <description/>
           <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>CHERRY_PICKS</name>
@@ -56,6 +54,7 @@
 
 eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
           <defaultValue/>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -124,7 +123,7 @@ skipWithIssues=false</properties>
     </hudson.tasks.Maven>
   </builders>
   <publishers>
-    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.65">
+    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.66">
       <healthy/>
       <unHealthy/>
       <thresholdLimit>low</thresholdLimit>
@@ -167,7 +166,7 @@ skipWithIssues=false</properties>
       </consoleParsers>
     </hudson.plugins.warnings.WarningsPublisher>
     <hudson.plugins.disk__usage.project.DiskUsagePostBuildCalculation plugin="disk-usage@0.28"/>
-    <hudson.tasks.Mailer plugin="mailer@1.20">
+    <hudson.tasks.Mailer plugin="mailer@1.21">
       <recipients>wtp-releng@eclipse.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>true</sendToIndividuals>

@@ -9,30 +9,53 @@
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
       <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
+      <permission>hudson.model.Item.Build:authenticated</permission>
       <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Build:shane_clarke@hotmail.com</permission>
       <permission>hudson.model.Item.Build:stryker@redhat.com</permission>
+      <permission>hudson.model.Item.Cancel:authenticated</permission>
+      <permission>hudson.model.Item.Cancel:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Cancel:shane_clarke@hotmail.com</permission>
+      <permission>hudson.model.Item.Cancel:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Configure:shane_clarke@hotmail.com</permission>
       <permission>hudson.model.Item.Configure:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Discover:anonymous</permission>
+      <permission>hudson.model.Item.Discover:authenticated</permission>
+      <permission>hudson.model.Item.Discover:shane_clarke@hotmail.com</permission>
+      <permission>hudson.model.Item.ExtendedRead:anonymous</permission>
+      <permission>hudson.model.Item.ExtendedRead:authenticated</permission>
+      <permission>hudson.model.Item.ExtendedRead:shane_clarke@hotmail.com</permission>
       <permission>hudson.model.Item.ExtendedRead:stryker@redhat.com</permission>
+      <permission>hudson.model.Item.Read:anonymous</permission>
+      <permission>hudson.model.Item.Read:authenticated</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Read:shane_clarke@hotmail.com</permission>
       <permission>hudson.model.Item.Read:stryker@redhat.com</permission>
+      <permission>hudson.model.Item.Workspace:anonymous</permission>
+      <permission>hudson.model.Item.Workspace:authenticated</permission>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Workspace:shane_clarke@hotmail.com</permission>
       <permission>hudson.model.Item.Workspace:stryker@redhat.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Replay:authenticated</permission>
+      <permission>hudson.model.Run.Replay:shane_clarke@hotmail.com</permission>
+      <permission>hudson.model.Run.Update:authenticated</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Update:shane_clarke@hotmail.com</permission>
       <permission>hudson.model.Run.Update:stryker@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
     <jenkins.model.BuildDiscarderProperty>
       <strategy class="hudson.tasks.LogRotator">
-        <daysToKeep>7</daysToKeep>
-        <numToKeep>5</numToKeep>
-        <artifactDaysToKeep>2</artifactDaysToKeep>
-        <artifactNumToKeep>1</artifactNumToKeep>
+        <daysToKeep>10</daysToKeep>
+        <numToKeep>10</numToKeep>
+        <artifactDaysToKeep>10</artifactDaysToKeep>
+        <artifactNumToKeep>4</artifactNumToKeep>
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.28">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
@@ -50,7 +73,8 @@
         <hudson.model.StringParameterDefinition>
           <name>MAVEN_FLAGS</name>
           <description/>
-          <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
+          <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -Dsurefire.exitTimeout=7200 -Dsurefire.timeout=7200</defaultValue>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>CHERRY_PICKS</name>
@@ -58,6 +82,7 @@
 
 eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
           <defaultValue/>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -126,7 +151,7 @@ skipWithIssues=false</properties>
     </hudson.tasks.Maven>
   </builders>
   <publishers>
-    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.65">
+    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.66">
       <healthy/>
       <unHealthy/>
       <thresholdLimit>low</thresholdLimit>
@@ -136,7 +161,7 @@ skipWithIssues=false</properties>
       <usePreviousBuildAsReference>false</usePreviousBuildAsReference>
       <useStableBuildAsReference>false</useStableBuildAsReference>
       <useDeltaValues>false</useDeltaValues>
-      <thresholds plugin="analysis-core@1.94">
+      <thresholds plugin="analysis-core@1.95">
         <unstableTotalAll/>
         <unstableTotalHigh/>
         <unstableTotalNormal/>
@@ -169,7 +194,7 @@ skipWithIssues=false</properties>
       </consoleParsers>
     </hudson.plugins.warnings.WarningsPublisher>
     <hudson.plugins.disk__usage.project.DiskUsagePostBuildCalculation plugin="disk-usage@0.28"/>
-    <hudson.tasks.Mailer plugin="mailer@1.20">
+    <hudson.tasks.Mailer plugin="mailer@1.21">
       <recipients>wtp-releng@eclipse.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>true</sendToIndividuals>
@@ -181,7 +206,7 @@ skipWithIssues=false</properties>
       <allowEmptyResults>false</allowEmptyResults>
     </hudson.tasks.junit.JUnitResultArchiver>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>**/site/target/*.zip, **/site/target/repository/**</artifacts>
+      <artifacts>**/site/target/*.zip, **/site/target/repository/**, **/.log</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
@@ -204,7 +229,7 @@ skipWithIssues=false</properties>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.19">
       <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
-        <timeoutMinutes>150</timeoutMinutes>
+        <timeoutMinutes>300</timeoutMinutes>
       </strategy>
       <operationList/>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>

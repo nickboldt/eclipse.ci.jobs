@@ -11,6 +11,7 @@ Some tests are not run here because they take too long. See &lt;a href=webtools-
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
       <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
+      <permission>hudson.model.Item.Build:authenticated</permission>
       <permission>hudson.model.Item.Build:John.J.Collier@ibm.com </permission>
       <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Build:stryker@redhat.com</permission>
@@ -18,11 +19,14 @@ Some tests are not run here because they take too long. See &lt;a href=webtools-
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Configure:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.ExtendedRead:authenticated</permission>
       <permission>hudson.model.Item.ExtendedRead:John.J.Collier@ibm.com </permission>
       <permission>hudson.model.Item.ExtendedRead:stryker@redhat.com</permission>
+      <permission>hudson.model.Item.Read:authenticated</permission>
       <permission>hudson.model.Item.Read:John.J.Collier@ibm.com </permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Read:stryker@redhat.com</permission>
+      <permission>hudson.model.Item.Workspace:authenticated</permission>
       <permission>hudson.model.Item.Workspace:John.J.Collier@ibm.com </permission>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Workspace:stryker@redhat.com</permission>
@@ -42,10 +46,7 @@ Some tests are not run here because they take too long. See &lt;a href=webtools-
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.17.2">
-      <optOut>false</optOut>
-    </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.28">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
@@ -184,7 +185,7 @@ skipWithIssues=false</properties>
       </consoleParsers>
     </hudson.plugins.warnings.WarningsPublisher>
     <hudson.plugins.disk__usage.project.DiskUsagePostBuildCalculation plugin="disk-usage@0.28"/>
-    <hudson.tasks.Mailer plugin="mailer@1.20">
+    <hudson.tasks.Mailer plugin="mailer@1.21">
       <recipients>wtp-releng@eclipse.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>true</sendToIndividuals>

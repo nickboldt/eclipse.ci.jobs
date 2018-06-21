@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>Nightly build using Tycho+Maven, monitoring Git every 6 hrs for changes</description>
+  <description>Nightly build using Tycho+Maven, monitoring Git every 6 hrs for changes
+
+Results: &lt;a href=http://download.eclipse.org/tm/updates/&gt;http://download.eclipse.org/tm/updates/&lt;/a&gt;
+
+
+      &lt;p&gt;When a build is ready for publication, use &lt;a href=../TM-Publish&gt;TM-Publish&lt;/a&gt; to copy it to a more stable location.</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>

@@ -43,7 +43,7 @@ If VERSION is set,  to publish build results to &lt;a href="http://download.ecli
 /home/data/httpd/download.eclipse.org/datatools/updates/&lt;/a&gt;, eg., 1.14.100-SNAPSHOT or 1.14.100
 
 If blank, do not push.</description>
-          <defaultValue/>
+          <defaultValue>1.14.100-SNAPSHOT</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
