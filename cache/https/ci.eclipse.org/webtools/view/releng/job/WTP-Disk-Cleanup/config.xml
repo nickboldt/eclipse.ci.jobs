@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <actions/>
+  <description>Job that collects &lt;a href=https://ci.eclipse.org/webtools/plugin/disk-usage/&gt;disk usage&lt;/a&gt; and can:
+&lt;ul&gt;
+  &lt;li&gt;delete old workspaces (without deleting jobs), eg.,
+    &lt;ul&gt;&lt;li&gt;&lt;b&gt;/jobs/genie.webtools/&lt;/b&gt; and &lt;b&gt;*DEPRECATED/workspace/*&lt;/b&gt;&lt;/li&gt;&lt;/ul&gt;
+      &lt;li&gt;delete old builds (on build.eclipse)eg.,
+        &lt;ul&gt;&lt;li&gt;&lt;b&gt;/shared/webtools/committers/wtp-R3.10.0-I/&lt;/b&gt; and &lt;b&gt;2018052*&lt;/b&gt;&lt;/li&gt;&lt;/ul&gt;
+          &lt;li&gt;delete old releases (on download.eclipse), eg., 
+            &lt;ul&gt;&lt;li&gt;&lt;b&gt;/home/data/httpd/download.eclipse.org/webtools/downloads/drops/R3.10.0/&lt;/b&gt; and &lt;b&gt;I-3.10.0-201806*&lt;/b&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/ul&gt;</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>2</daysToKeep>
+        <numToKeep>2</numToKeep>
+        <artifactDaysToKeep>2</artifactDaysToKeep>
+        <artifactNumToKeep>2</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.28">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>baseDir</name>
+          <description>Base dir from which to get usage summary, then delete files, eg., /jobs/genie.webtools/*/workspace*/* or
+/shared/webtools/committers/wtp-R3.10.0-I/ or 
+/home/data/httpd/download.eclipse.org/webtools/downloads/drops/R3.10.0/
+</description>
+          <defaultValue>/jobs/genie.webtools/*/workspace*/*</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>dirsToDelete</name>
+          <description>space separated list of folders to delete, if found. Bash wildcards supported, eg., WTP-R3_9_x_Maintenance, 
+2018052* or I-3.10.0-201806*
+
+To delete nothing, use a pattern that won't match, like I_AM_NOT_A_FILE</description>
+          <defaultValue>I_AM_NOT_A_FILE</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>doDelete</name>
+          <description>Check to actually perform deletion, when you're SURE you're not going to break stuff.</description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <jdk>jdk1.8.0-latest</jdk>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>function sizeReport () 
+{
+  echo "=========================="
+  echo "Disk Usage ${1} Cleanup:"
+
+  if [[ $2 == "nocount" ]]; then 
+    du -sh ${baseDir} | egrep -v "(8.0K|4.0K|0)[[:space:]]" &gt; du.list.txt
+  else
+    du -shc ${baseDir} | egrep -v "(8.0K|4.0K|0)[[:space:]]" &gt; du.list.txt
+  fi
+
+  cat du.list.txt | egrep "^([[:digit:]]{2})M[[:space:]]" | sort
+  echo "=========================="
+  cat du.list.txt | egrep "([[:digit:]]{3})M[[:space:]]" | sort
+  echo "=========================="
+  cat du.list.txt | egrep "G[[:space:]]" | sort
+  echo "=========================="
+}
+
+if [[ ${doDelete} == "true" ]]; then 
+  sizeReport "Before" "nocount"
+fi
+
+if [[ -d ${baseDir} ]] &amp;&amp; [[ $baseDir != "/" ]]; then 
+  for d in ${dirsToDelete}; do 
+    if [[ $(ls -d ${baseDir}/${d} 2&gt;&amp;1) != *"No such file or directory" ]]; then
+      dirsToDel="$(ls -d ${baseDir}/${d})"
+      echo "Delete $dirsToDel"
+      if [[ ${doDelete} == "true" ]]; then 
+        for dtd in $dirsToDel; do
+          rm -fr $dtd &amp;
+        done
+      fi
+    fi
+  done
+fi
+wait
+
+sizeReport "After" "includecount"
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.plugins.descriptionsetter.DescriptionSetterPublisher plugin="description-setter@1.10">
+      <regexp>(.+)total</regexp>
+      <regexpForFailed/>
+      <description>After: \1</description>
+      <setForMatrix>false</setForMatrix>
+    </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
+  </publishers>
+  <buildWrappers/>
+</project>

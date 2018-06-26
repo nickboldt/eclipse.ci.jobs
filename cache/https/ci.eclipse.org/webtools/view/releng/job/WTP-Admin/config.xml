@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <actions/>
+  <description>Run some shell commands </description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>2</daysToKeep>
+        <numToKeep>2</numToKeep>
+        <artifactDaysToKeep>2</artifactDaysToKeep>
+        <artifactNumToKeep>2</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.28">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>true</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <jdk>jdk1.8.0-latest</jdk>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#cd /home/data/httpd/download.eclipse.org/webtools/downloads/drops
+#rmdir *3.7.{1,2}
+
+# rm -fr /home/data/httpd/archive.eclipse.org/webtools/downloads/drops/R3.10.0
+
+#chmod g+w -R /home/data/httpd/download.eclipse.org/webtools/downloads/drops/R3.7.0/S-3.7.0M1-20140815000102
+#rm -fr /home/data/httpd/download.eclipse.org/webtools/downloads/drops/R3.7.0/S-3.7.0M1-20140815000102
+
+#cd /home/data/httpd/archive.eclipse.org/webtools/downloads/drops
+#mv *3.7.* R3.7
+#mv *3.8.* R3.8
+
+rm -fr /opt/public/webtools/committers/wtp-R3.9*</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
