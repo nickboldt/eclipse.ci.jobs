@@ -1,32 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>[Webtools Server Tools 3.10 for **Photon**]
-[Build version: 3.10]
+  <description>[Dali]
 [git branch: master]
-&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site-integration/target/repository/"&gt;lastSuccessfulBuild/artifact/site-integration/target/repository/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;This job requires the &lt;b&gt;integration-tests&lt;/b&gt; and &lt;b&gt;CI&lt;/b&gt; profiles to build the integration tests, 
-&lt;br/&gt;since these tests rely on repos which are downstream from servertools.&lt;br/&gt;
-Therefore this job should be run after webservices.</description>
+&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;
+</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
       <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
       <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Build:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Configure:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.ExtendedRead:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.ExtendedRead:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Read:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Workspace:stryker@redhat.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
-      <permission>hudson.model.Run.Update:stryker@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
     <jenkins.model.BuildDiscarderProperty>
       <strategy class="hudson.tasks.LogRotator">
@@ -37,7 +26,7 @@ Therefore this job should be run after webservices.</description>
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.28">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
@@ -55,7 +44,7 @@ Therefore this job should be run after webservices.</description>
         <hudson.model.StringParameterDefinition>
           <name>MAVEN_FLAGS</name>
           <description/>
-          <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -P integration-tests -PCI -DskipITests=false</defaultValue>
+          <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
@@ -75,7 +64,7 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
       <hudson.plugins.git.UserRemoteConfig>
         <name>origin</name>
         <refspec>+refs/heads/*:refs/remotes/origin/*</refspec>
-        <url>git://git.eclipse.org/gitroot/servertools/webtools.servertools.git</url>
+        <url>git://git.eclipse.org/gitroot/dali/webtools.dali.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -118,13 +107,7 @@ if [[ ${CHERRY_PICKS} ]]; then
 fi</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
-      <targets>clean
-install
-${MAVEN_FLAGS}
--Pbree-libs
--Peclipse-sign
--t
-/opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
+      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
       <mavenName>apache-maven-3.5.2</mavenName>
       <pom>pom.xml</pom>
       <properties>maven.test.skip=false
@@ -194,7 +177,7 @@ skipWithIssues=false</properties>
       <allowEmptyResults>false</allowEmptyResults>
     </hudson.tasks.junit.JUnitResultArchiver>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>**/site-integration/target/*.zip, **/site-integration/target/repository/**</artifacts>
+      <artifacts>**/site/target/*.zip, **/site/target/repository/**</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
@@ -205,7 +188,7 @@ skipWithIssues=false</properties>
       <regexp>.+ -DCHERRY_PICKS=([a-z+1-9/]+) .+</regexp>
       <regexpForFailed>.+(Missing requirement:|Software being installed: .+)</regexpForFailed>
       <description>\1</description>
-      <descriptionForFailed>\1</descriptionForFailed>
+      <descriptionForFailed>\2</descriptionForFailed>
       <setForMatrix>false</setForMatrix>
     </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
   </publishers>

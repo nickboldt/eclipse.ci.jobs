@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>[Webtools Web Services 3.10 for **Photon**]
-[Build version: 3.10]
+  <description>[Webtools Common]
 [git branch: master]
-&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;
-
-</description>
+&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
       <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
+      <permission>hudson.model.Item.Build:anonymous</permission>
+      <permission>hudson.model.Item.Build:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Configure:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Delete:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.ExtendedRead:anonymous</permission>
+      <permission>hudson.model.Item.ExtendedRead:ccc@us.ibm.com</permission>
+      <permission>hudson.model.Item.ExtendedRead:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Read:anonymous</permission>
+      <permission>hudson.model.Item.Read:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Workspace:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Delete:ccc@us.ibm.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Update:ccc@us.ibm.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
     <jenkins.model.BuildDiscarderProperty>
@@ -28,7 +37,7 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.28">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
@@ -47,6 +56,7 @@
           <name>MAVEN_FLAGS</name>
           <description/>
           <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>CHERRY_PICKS</name>
@@ -54,6 +64,7 @@
 
 eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
           <defaultValue/>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -64,7 +75,7 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
       <hudson.plugins.git.UserRemoteConfig>
         <name>origin</name>
         <refspec>+refs/heads/*:refs/remotes/origin/*</refspec>
-        <url>git://git.eclipse.org/gitroot/jsf/webtools.jsf.git</url>
+        <url>git://git.eclipse.org/gitroot/webtools-common/webtools.common.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -109,7 +120,6 @@ fi</command>
     <hudson.tasks.Maven>
       <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
       <mavenName>apache-maven-3.5.2</mavenName>
-      <pom>pom.xml</pom>
       <properties>maven.test.skip=false
 maven.test.error.ignore=true
 maven.test.failure.ignore=true
@@ -122,7 +132,7 @@ skipWithIssues=false</properties>
     </hudson.tasks.Maven>
   </builders>
   <publishers>
-    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.65">
+    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.66">
       <healthy/>
       <unHealthy/>
       <thresholdLimit>low</thresholdLimit>
@@ -132,7 +142,7 @@ skipWithIssues=false</properties>
       <usePreviousBuildAsReference>false</usePreviousBuildAsReference>
       <useStableBuildAsReference>false</useStableBuildAsReference>
       <useDeltaValues>false</useDeltaValues>
-      <thresholds plugin="analysis-core@1.94">
+      <thresholds plugin="analysis-core@1.95">
         <unstableTotalAll/>
         <unstableTotalHigh/>
         <unstableTotalNormal/>
@@ -165,8 +175,8 @@ skipWithIssues=false</properties>
       </consoleParsers>
     </hudson.plugins.warnings.WarningsPublisher>
     <hudson.plugins.disk__usage.project.DiskUsagePostBuildCalculation plugin="disk-usage@0.28"/>
-    <hudson.tasks.Mailer plugin="mailer@1.20">
-      <recipients>wtp-releng@eclipse.org, Ian.trimble@oracle.com</recipients>
+    <hudson.tasks.Mailer plugin="mailer@1.21">
+      <recipients>wtp-releng@eclipse.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>true</sendToIndividuals>
     </hudson.tasks.Mailer>

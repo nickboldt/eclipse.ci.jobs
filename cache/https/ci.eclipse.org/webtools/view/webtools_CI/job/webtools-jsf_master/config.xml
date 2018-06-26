@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>[WebTools Source Editing 3.10 for **Photon**]
-[Build version: 3.10]
+  <description>[Webtools JSF]
 [git branch: master]
-&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;
+
+</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -12,9 +13,7 @@
       <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
       <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Read:anonymous</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Workspace:anonymous</permission>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
@@ -28,7 +27,7 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.28">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
@@ -47,6 +46,7 @@
           <name>MAVEN_FLAGS</name>
           <description/>
           <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion}</defaultValue>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>CHERRY_PICKS</name>
@@ -54,6 +54,7 @@
 
 eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
           <defaultValue/>
+          <trim>false</trim>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -64,7 +65,7 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
       <hudson.plugins.git.UserRemoteConfig>
         <name>origin</name>
         <refspec>+refs/heads/*:refs/remotes/origin/*</refspec>
-        <url>git://git.eclipse.org/gitroot/sourceediting/webtools.sourceediting.git</url>
+        <url>git://git.eclipse.org/gitroot/jsf/webtools.jsf.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -122,7 +123,7 @@ skipWithIssues=false</properties>
     </hudson.tasks.Maven>
   </builders>
   <publishers>
-    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.65">
+    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.66">
       <healthy/>
       <unHealthy/>
       <thresholdLimit>low</thresholdLimit>
@@ -132,7 +133,7 @@ skipWithIssues=false</properties>
       <usePreviousBuildAsReference>false</usePreviousBuildAsReference>
       <useStableBuildAsReference>false</useStableBuildAsReference>
       <useDeltaValues>false</useDeltaValues>
-      <thresholds plugin="analysis-core@1.94">
+      <thresholds plugin="analysis-core@1.95">
         <unstableTotalAll/>
         <unstableTotalHigh/>
         <unstableTotalNormal/>
@@ -165,8 +166,8 @@ skipWithIssues=false</properties>
       </consoleParsers>
     </hudson.plugins.warnings.WarningsPublisher>
     <hudson.plugins.disk__usage.project.DiskUsagePostBuildCalculation plugin="disk-usage@0.28"/>
-    <hudson.tasks.Mailer plugin="mailer@1.20">
-      <recipients>wtp-releng@eclipse.org vrubezhn@redhat.com kchong@ca.ibm.com nitind@pobox.com</recipients>
+    <hudson.tasks.Mailer plugin="mailer@1.21">
+      <recipients>wtp-releng@eclipse.org, Ian.trimble@oracle.com</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>true</sendToIndividuals>
     </hudson.tasks.Mailer>
@@ -200,7 +201,7 @@ skipWithIssues=false</properties>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.19">
       <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
-        <timeoutMinutes>120</timeoutMinutes>
+        <timeoutMinutes>90</timeoutMinutes>
       </strategy>
       <operationList/>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>

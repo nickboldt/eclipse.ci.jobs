@@ -1,57 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>[Webtools Web Services 3.10 for **Photon**]
-[Build version: 3.10]
+  <description>[WTP master branch Integration Build]
+[Build version: 3.11]
 [git branch: master]
-&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;</description>
+
+&lt;p&gt;Results here: &lt;a href=http://build.eclipse.org/webtools/committers/wtp-R3.11.0-I/&gt;http://build.eclipse.org/webtools/committers/wtp-R3.11.0-I/&lt;/a&gt;&lt;/p&gt;
+
+&lt;b style=red&gt;NOTE: This job does not collect JUnit test results. See &lt;a href="https://ci.eclipse.org/webtools/view/webtools_CI/"&gt;charts and tables&lt;/a&gt;. &lt;/b&gt;
+
+&lt;p&gt;-P CI flag needed to enable the CI repos, so the aggregate build can resolve the 8 projects' update sites
+
+&lt;p&gt;Requires: Maven 3.5.2 and Ant 1.10.1.
+  
+    &lt;p&gt;To publish the results of this job, use &lt;a href=../WTP-Publish/&gt;WTP-Publish&lt;/a&gt;</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
       <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
-      <permission>hudson.model.Item.Build:authenticated</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:nboldt@redhat.com</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:nboldt@redhat.com</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:nboldt@redhat.com</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:nboldt@redhat.com</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Build:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Build:shane_clarke@hotmail.com</permission>
-      <permission>hudson.model.Item.Build:stryker@redhat.com</permission>
-      <permission>hudson.model.Item.Cancel:authenticated</permission>
       <permission>hudson.model.Item.Cancel:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Cancel:shane_clarke@hotmail.com</permission>
-      <permission>hudson.model.Item.Cancel:stryker@redhat.com</permission>
+      <permission>hudson.model.Item.Configure:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Configure:shane_clarke@hotmail.com</permission>
-      <permission>hudson.model.Item.Configure:stryker@redhat.com</permission>
+      <permission>hudson.model.Item.Delete:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Discover:anonymous</permission>
-      <permission>hudson.model.Item.Discover:authenticated</permission>
-      <permission>hudson.model.Item.Discover:shane_clarke@hotmail.com</permission>
-      <permission>hudson.model.Item.ExtendedRead:anonymous</permission>
-      <permission>hudson.model.Item.ExtendedRead:authenticated</permission>
-      <permission>hudson.model.Item.ExtendedRead:shane_clarke@hotmail.com</permission>
-      <permission>hudson.model.Item.ExtendedRead:stryker@redhat.com</permission>
-      <permission>hudson.model.Item.Read:anonymous</permission>
-      <permission>hudson.model.Item.Read:authenticated</permission>
+      <permission>hudson.model.Item.Discover:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.ExtendedRead:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Move:nboldt@redhat.com</permission>
+      <permission>hudson.model.Item.Read:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Read:shane_clarke@hotmail.com</permission>
-      <permission>hudson.model.Item.Read:stryker@redhat.com</permission>
-      <permission>hudson.model.Item.Workspace:anonymous</permission>
-      <permission>hudson.model.Item.Workspace:authenticated</permission>
+      <permission>hudson.model.Item.Workspace:ccc@us.ibm.com</permission>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Workspace:shane_clarke@hotmail.com</permission>
-      <permission>hudson.model.Item.Workspace:stryker@redhat.com</permission>
+      <permission>hudson.model.Run.Delete:ccc@us.ibm.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Run.Replay:authenticated</permission>
-      <permission>hudson.model.Run.Replay:shane_clarke@hotmail.com</permission>
-      <permission>hudson.model.Run.Update:authenticated</permission>
+      <permission>hudson.model.Run.Replay:nboldt@redhat.com</permission>
+      <permission>hudson.model.Run.Update:ccc@us.ibm.com</permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
-      <permission>hudson.model.Run.Update:shane_clarke@hotmail.com</permission>
-      <permission>hudson.model.Run.Update:stryker@redhat.com</permission>
+      <permission>hudson.scm.SCM.Tag:nboldt@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
     <jenkins.model.BuildDiscarderProperty>
       <strategy class="hudson.tasks.LogRotator">
-        <daysToKeep>10</daysToKeep>
-        <numToKeep>10</numToKeep>
-        <artifactDaysToKeep>10</artifactDaysToKeep>
-        <artifactNumToKeep>4</artifactNumToKeep>
+        <daysToKeep>7</daysToKeep>
+        <numToKeep>5</numToKeep>
+        <artifactDaysToKeep>2</artifactDaysToKeep>
+        <artifactNumToKeep>1</artifactNumToKeep>
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
@@ -61,6 +59,12 @@
     </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>wtp_version</name>
+          <description/>
+          <defaultValue>3.11.0</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
         <hudson.model.ChoiceParameterDefinition>
           <name>tychoVersion</name>
           <description/>
@@ -73,7 +77,7 @@
         <hudson.model.StringParameterDefinition>
           <name>MAVEN_FLAGS</name>
           <description/>
-          <defaultValue>-fae -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -Dsurefire.exitTimeout=7200 -Dsurefire.timeout=7200</defaultValue>
+          <defaultValue>-fae -V -U -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -PCI</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
@@ -93,7 +97,7 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
       <hudson.plugins.git.UserRemoteConfig>
         <name>origin</name>
         <refspec>+refs/heads/*:refs/remotes/origin/*</refspec>
-        <url>git://git.eclipse.org/gitroot/webservices/webtools.webservices.git</url>
+        <url>git://git.eclipse.org/gitroot/webtools/webtools.releng.aggregator.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -104,7 +108,13 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
     <submoduleCfg class="list"/>
     <extensions>
-      <hudson.plugins.git.extensions.impl.WipeWorkspace/>
+      <hudson.plugins.git.extensions.impl.SubmoduleOption>
+        <disableSubmodules>true</disableSubmodules>
+        <recursiveSubmodules>false</recursiveSubmodules>
+        <trackingSubmodules>false</trackingSubmodules>
+        <reference/>
+        <parentCredentials>false</parentCredentials>
+      </hudson.plugins.git.extensions.impl.SubmoduleOption>
     </extensions>
   </scm>
   <canRoam>true</canRoam>
@@ -115,14 +125,41 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
   <authToken>CI-BUILD</authToken>
   <triggers>
     <hudson.triggers.SCMTrigger>
-      <spec>H/5 * * * * </spec>
+      <spec>H/15 * * * * </spec>
       <ignorePostCommitHooks>false</ignorePostCommitHooks>
     </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command># apply patches (use --keep-redundant-commits when cherry-picking)
+      <command>#!/bin/bash
+
+echo "== Checking upstream projects' SHAs have all been built in upstream jobs..."
+
+./scripts/fetch-SHAs.sh | tee SHACHECK.txt
+SHACHECK=$(cat SHACHECK.txt)
+if [[ ${SHACHECK} == *"ERROR"* ]]; then 
+  exit 1
+fi #if results are not OK from fetch-SHAs.sh, stop build here. 
+
+echo "== Check OK"
+
+./scripts/git-clean.sh
+
+# only need one submodule updated 
+/usr/local/bin/git submodule init # timeout=10
+/usr/local/bin/git submodule sync # timeout=10
+/usr/local/bin/git config --get remote.origin.url # timeout=10
+/usr/local/bin/git submodule init # timeout=10
+/usr/local/bin/git config -f .gitmodules --get-regexp ^submodule\.\(.\+\)\.url # timeout=10
+/usr/local/bin/git config --get submodule.webtools.releng.url # timeout=10
+/usr/local/bin/git config -f .gitmodules --get submodule.webtools.releng.path # timeout=10
+/usr/local/bin/git submodule update webtools.releng
+
+# TODO do we still need webtools.releng submodule? Can we build it upstream instead of here?
+./scripts/submodule-checkout.sh webtools.releng master
+
+# apply patches (use --keep-redundant-commits when cherry-picking)
 if [[ ${CHERRY_PICKS} ]]; then
   for cp in ${CHERRY_PICKS}; do # echo ${cp} 
     repo=${cp%%+*}; echo $repo
@@ -133,13 +170,20 @@ if [[ ${CHERRY_PICKS} ]]; then
     git fetch https://git.eclipse.org/r/${repo} refs/changes/${gerrit_pre}/${gerrit} &amp;&amp; git cherry-pick FETCH_HEAD --keep-redundant-commits
     if [[ -d ${path} ]]; then popd; fi
   done
-fi</command>
+fi
+</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
-      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
+      <targets>clean
+install
+${MAVEN_FLAGS}
+-Pbree-libs
+-Peclipse-sign
+-t
+/opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
       <mavenName>apache-maven-3.5.2</mavenName>
       <pom>pom.xml</pom>
-      <properties>maven.test.skip=false
+      <properties>maven.test.skip=true
 maven.test.error.ignore=true
 maven.test.failure.ignore=true
 surefire.timeout=1800
@@ -149,6 +193,14 @@ skipWithIssues=false</properties>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
       <injectBuildVariables>true</injectBuildVariables>
     </hudson.tasks.Maven>
+    <hudson.tasks.Ant plugin="ant@1.8">
+      <targets>-lib ./libs/</targets>
+      <antName>apache-ant-10.1</antName>
+      <buildFile>wtp-parent/postBuild.xml</buildFile>
+      <properties>build.type=I
+publish=true
+wtp.version=${wtp_version}</properties>
+    </hudson.tasks.Ant>
   </builders>
   <publishers>
     <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.66">
@@ -193,48 +245,48 @@ skipWithIssues=false</properties>
         </hudson.plugins.warnings.ConsoleParser>
       </consoleParsers>
     </hudson.plugins.warnings.WarningsPublisher>
-    <hudson.plugins.disk__usage.project.DiskUsagePostBuildCalculation plugin="disk-usage@0.28"/>
-    <hudson.tasks.Mailer plugin="mailer@1.21">
-      <recipients>wtp-releng@eclipse.org</recipients>
-      <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
-      <sendToIndividuals>true</sendToIndividuals>
-    </hudson.tasks.Mailer>
     <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.24">
       <testResults>**/TEST-*.xml</testResults>
       <keepLongStdio>false</keepLongStdio>
       <healthScaleFactor>1.0</healthScaleFactor>
-      <allowEmptyResults>false</allowEmptyResults>
+      <allowEmptyResults>true</allowEmptyResults>
     </hudson.tasks.junit.JUnitResultArchiver>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>**/site/target/*.zip, **/site/target/repository/**, **/.log</artifacts>
+      <artifacts>webtools.repositories/*/target/*.zip, **/target/repository/**</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
       <defaultExcludes>true</defaultExcludes>
       <caseSensitive>true</caseSensitive>
     </hudson.tasks.ArtifactArchiver>
+    <hudson.plugins.disk__usage.project.DiskUsagePostBuildCalculation plugin="disk-usage@0.28"/>
+    <hudson.plugins.logparser.LogParserPublisher plugin="log-parser@2.0">
+      <unstableOnWarning>false</unstableOnWarning>
+      <failBuildOnError>false</failBuildOnError>
+      <showGraphs>true</showGraphs>
+      <useProjectRule>true</useProjectRule>
+      <projectRulePath>scripts/webtools-console-log-parser.txt</projectRulePath>
+    </hudson.plugins.logparser.LogParserPublisher>
     <hudson.plugins.descriptionsetter.DescriptionSetterPublisher plugin="description-setter@1.10">
-      <regexp>.+ -DCHERRY_PICKS=([a-z+1-9/]+) .+</regexp>
-      <regexpForFailed>.+(Missing requirement:|Software being installed: .+)</regexpForFailed>
-      <description>\1</description>
+      <regexp/>
+      <regexpForFailed>.*(.+projects need to be built upstream before we can rebuild the CI job.+|Missing requirement:|Software being installed: .+)</regexpForFailed>
       <descriptionForFailed>\1</descriptionForFailed>
       <setForMatrix>false</setForMatrix>
     </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.34">
-      <deleteDirs>false</deleteDirs>
-      <cleanupParameter/>
-      <externalDelete/>
-    </hudson.plugins.ws__cleanup.PreBuildCleanup>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.19">
       <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
-        <timeoutMinutes>300</timeoutMinutes>
+        <timeoutMinutes>90</timeoutMinutes>
       </strategy>
       <operationList/>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.9"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.5.2">
+      <colorMapName>xterm</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
     <hudson.plugins.xvnc.Xvnc plugin="xvnc@1.24">
-      <takeScreenshot>true</takeScreenshot>
+      <takeScreenshot>false</takeScreenshot>
       <useXauthority>true</useXauthority>
     </hudson.plugins.xvnc.Xvnc>
   </buildWrappers>

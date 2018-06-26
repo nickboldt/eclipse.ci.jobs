@@ -1,41 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>[Webtools Web Services 3.10 for **Photon**]
-[Build version: 3.10]
+  <description>[WebTools Source Editing]
 [git branch: master]
-&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;
-
-Some tests are not run here because they take too long. See &lt;a href=webtools-javaee-integration_R3_10&gt;webtools-javaee-integration_R3_10&lt;/a&gt;.</description>
+&lt;p&gt;Results: &lt;a href="lastSuccessfulBuild/artifact/site/target/repository/"&gt;lastSuccessfulBuild/artifact/site/target/repository/&lt;/a&gt;&lt;/p&gt;</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
       <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
-      <permission>hudson.model.Item.Build:authenticated</permission>
-      <permission>hudson.model.Item.Build:John.J.Collier@ibm.com </permission>
       <permission>hudson.model.Item.Build:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Build:stryker@redhat.com</permission>
-      <permission>hudson.model.Item.Configure:John.J.Collier@ibm.com </permission>
       <permission>hudson.model.Item.Configure:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Configure:stryker@redhat.com</permission>
       <permission>hudson.model.Item.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.ExtendedRead:authenticated</permission>
-      <permission>hudson.model.Item.ExtendedRead:John.J.Collier@ibm.com </permission>
-      <permission>hudson.model.Item.ExtendedRead:stryker@redhat.com</permission>
-      <permission>hudson.model.Item.Read:authenticated</permission>
-      <permission>hudson.model.Item.Read:John.J.Collier@ibm.com </permission>
+      <permission>hudson.model.Item.Read:anonymous</permission>
       <permission>hudson.model.Item.Read:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Read:stryker@redhat.com</permission>
-      <permission>hudson.model.Item.Workspace:authenticated</permission>
-      <permission>hudson.model.Item.Workspace:John.J.Collier@ibm.com </permission>
+      <permission>hudson.model.Item.Workspace:anonymous</permission>
       <permission>hudson.model.Item.Workspace:nboldt@redhat.com</permission>
-      <permission>hudson.model.Item.Workspace:stryker@redhat.com</permission>
       <permission>hudson.model.Run.Delete:nboldt@redhat.com</permission>
-      <permission>hudson.model.Run.Replay:John.J.Collier@ibm.com </permission>
-      <permission>hudson.model.Run.Replay:stryker@redhat.com</permission>
-      <permission>hudson.model.Run.Update:John.J.Collier@ibm.com </permission>
       <permission>hudson.model.Run.Update:nboldt@redhat.com</permission>
-      <permission>hudson.model.Run.Update:stryker@redhat.com</permission>
     </hudson.security.AuthorizationMatrixProperty>
     <jenkins.model.BuildDiscarderProperty>
       <strategy class="hudson.tasks.LogRotator">
@@ -84,7 +65,7 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
       <hudson.plugins.git.UserRemoteConfig>
         <name>origin</name>
         <refspec>+refs/heads/*:refs/remotes/origin/*</refspec>
-        <url>/gitroot/jeetools/webtools.javaee.git</url>
+        <url>git://git.eclipse.org/gitroot/sourceediting/webtools.sourceediting.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -186,7 +167,7 @@ skipWithIssues=false</properties>
     </hudson.plugins.warnings.WarningsPublisher>
     <hudson.plugins.disk__usage.project.DiskUsagePostBuildCalculation plugin="disk-usage@0.28"/>
     <hudson.tasks.Mailer plugin="mailer@1.21">
-      <recipients>wtp-releng@eclipse.org</recipients>
+      <recipients>wtp-releng@eclipse.org vrubezhn@redhat.com kchong@ca.ibm.com nitind@pobox.com</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>true</sendToIndividuals>
     </hudson.tasks.Mailer>
@@ -220,7 +201,7 @@ skipWithIssues=false</properties>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.19">
       <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
-        <timeoutMinutes>90</timeoutMinutes>
+        <timeoutMinutes>120</timeoutMinutes>
       </strategy>
       <operationList/>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>

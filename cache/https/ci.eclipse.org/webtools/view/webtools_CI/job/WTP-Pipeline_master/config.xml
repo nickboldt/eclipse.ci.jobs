@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<flow-definition plugin="workflow-job@2.17">
+<flow-definition plugin="workflow-job@2.20">
   <actions/>
   <description/>
   <keepDependencies>false</keepDependencies>
@@ -27,7 +27,7 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty/>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.28">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
@@ -35,7 +35,7 @@
       <triggers>
         <jenkins.triggers.ReverseBuildTrigger>
           <spec/>
-          <upstreamProjects>webtools-parent-pom_R3_10</upstreamProjects>
+          <upstreamProjects>webtools-parent-pom_master</upstreamProjects>
           <threshold>
             <name>SUCCESS</name>
             <ordinal>0</ordinal>
@@ -49,27 +49,27 @@
       </triggers>
     </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
   </properties>
-  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.45">
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.49">
     <script>stage('Build Components') {
-    build("webtools-common_R3_10")
-    build("webtools-servertools_R3_10")
-    build("webtools-jsdt_R3_10")
-    build("webtools-sourceediting_R3_10")
-    build("webtools-javaee_R3_10")
+    build("webtools-common_master")
+    build("webtools-servertools_master")
+    build("webtools-jsdt_master")
+    build("webtools-sourceediting_master")
+    build("webtools-javaee_master")
     
     parallel jsf_ws: {
-        build("webtools-jsf_R3_10")
-        build("webtools-webservices_R3_10")
+        build("webtools-jsf_master")
+        build("webtools-webservices_master")
     }, dali: {
-        build("webtools-dali_R3_10")
+        build("webtools-dali_master")
     }, failFast: false
 }
 
 stage('Build Aggregates And Run Integration Tests') {
     parallel ci_build: {
-        build("WTP-CI_R3_10")
+        build("WTP-CI_master")
     }, integration: {
-        build("webtools-servertools-integration_R3_10")
+        build("webtools-servertools-integration_master")
     }, failFast: false
 }
 </script>
