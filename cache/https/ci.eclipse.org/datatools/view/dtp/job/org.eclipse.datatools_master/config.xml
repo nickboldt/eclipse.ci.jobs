@@ -8,7 +8,9 @@
 If VERSION is set,  to publish build results to &lt;a href="http://download.eclipse.org/datatools/updates/"&gt;
 /home/data/httpd/download.eclipse.org/datatools/updates/&lt;/a&gt;
 
-</description>
+&lt;p&gt;For now, disable baseline checks with: 
+  &lt;b style="color:red"&gt;&lt;tt&gt;-DskipBaselineComparison=true -Dtycho.baseline=disable -Dtycho.baseline.replace=none&lt;/tt&gt;&lt;/b&gt;
+&lt;/p&gt;</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.security.AuthorizationMatrixProperty>
@@ -40,10 +42,15 @@ If VERSION is set,  to publish build results to &lt;a href="http://download.ecli
         <hudson.model.StringParameterDefinition>
           <name>VERSION</name>
           <description>Set a version to push this build to &lt;a href="http://download.eclipse.org/datatools/updates/"&gt;
-/home/data/httpd/download.eclipse.org/datatools/updates/&lt;/a&gt;, eg., 1.14.100-SNAPSHOT or 1.14.100
+/home/data/httpd/download.eclipse.org/datatools/updates/&lt;/a&gt;, eg., 1.14.101-SNAPSHOT or 1.14.101
 
 If blank, do not push.</description>
-          <defaultValue>1.14.100-SNAPSHOT</defaultValue>
+          <defaultValue>1.14.101-SNAPSHOT</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>MAVEN_FLAGS</name>
+          <description>Additional flags to pass to maven</description>
+          <defaultValue>-DskipBaselineComparison=true -Dtycho.baseline=disable -Dtycho.baseline.replace=none</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -80,12 +87,12 @@ If blank, do not push.</description>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Maven>
-      <targets>clean install -e -fn -B -Peclipse-sign -V</targets>
+      <targets>clean install -V -e -fae -B -Peclipse-sign ${MAVEN_FLAGS}</targets>
       <mavenName>apache-maven-3.5.2</mavenName>
       <pom>pom.xml</pom>
       <properties>maven.test.skip=false
-maven.test.failure.ignore=true
-maven.test.error.ignore=true</properties>
+maven.test.failure.ignore=false
+maven.test.error.ignore=false</properties>
       <usePrivateRepository>false</usePrivateRepository>
       <settings class="jenkins.mvn.DefaultSettingsProvider"/>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
