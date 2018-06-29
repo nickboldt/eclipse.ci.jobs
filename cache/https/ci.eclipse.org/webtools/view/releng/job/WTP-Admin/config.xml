@@ -20,7 +20,7 @@
   </properties>
   <scm class="hudson.scm.NullSCM"/>
   <canRoam>true</canRoam>
-  <disabled>true</disabled>
+  <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>jdk1.8.0-latest</jdk>
@@ -36,11 +36,10 @@
 #chmod g+w -R /home/data/httpd/download.eclipse.org/webtools/downloads/drops/R3.7.0/S-3.7.0M1-20140815000102
 #rm -fr /home/data/httpd/download.eclipse.org/webtools/downloads/drops/R3.7.0/S-3.7.0M1-20140815000102
 
-#cd /home/data/httpd/archive.eclipse.org/webtools/downloads/drops
-#mv *3.7.* R3.7
-#mv *3.8.* R3.8
-
-rm -fr /opt/public/webtools/committers/wtp-R3.9*</command>
+cd /home/data/httpd/archive.eclipse.org/webtools/downloads/drops
+mkdir R3.9
+mv *3.9.* R3.9
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

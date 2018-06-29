@@ -24,7 +24,7 @@
           <description>space separated list of folders to archive, if found. Bash wildcards supported, eg., R0*/* C*/* T*/* R3.1.*/* R3.2*/*
 
 To archive nothing, use a pattern that won't match, like I_AM_NOT_A_FILE</description>
-          <defaultValue>R3.9.*/S* R3.9.*/M* R3.9.*/I* </defaultValue>
+          <defaultValue>R3.10.0/I-3*</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.BooleanParameterDefinition>
@@ -37,7 +37,7 @@ To archive nothing, use a pattern that won't match, like I_AM_NOT_A_FILE</descri
   </properties>
   <scm class="hudson.scm.NullSCM"/>
   <canRoam>true</canRoam>
-  <disabled>false</disabled>
+  <disabled>true</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>jdk1.8.0-latest</jdk>
@@ -86,7 +86,7 @@ for d in ${dirsToArchive}; do
         archDir=${dta/${downloadDir}/${archivesDir}}; archDir=${archDir%/*} # /home/data/httpd/archive.eclipse.org/webtools/downloads/drops/R0.1
         if [[ ! -d ${archivesDir}/${dtaName}/ ]]; then 
           echo "[INFO] Move ${dta} to ${archDir}/${dtaName}"
-          { mkdir -p ${archDir} &amp;&amp; mv ${dta} ${archDir}/${dtaName} &amp; } 
+          mkdir -p ${archDir} &amp;&amp; mv ${dta} ${archDir}/${dtaName}
         else
           echo "[WARNING] Cannot move ${dta} to ${archDir}/${dtaName}"
           # rsync -Pzrlta ${dta}/* ${archDir}/${dtaName}/
