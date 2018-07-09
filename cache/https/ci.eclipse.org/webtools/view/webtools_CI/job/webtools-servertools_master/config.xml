@@ -117,7 +117,7 @@ fi</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
       <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
-      <mavenName>apache-maven-3.5.2</mavenName>
+      <mavenName>apache-maven-3.5.4</mavenName>
       <pom>pom.xml</pom>
       <properties>maven.test.skip=false
 maven.test.error.ignore=true

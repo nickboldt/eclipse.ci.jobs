@@ -54,7 +54,7 @@
     <hudson.tasks.Maven>
       <targets>clean
 deploy</targets>
-      <mavenName>apache-maven-3.5.2</mavenName>
+      <mavenName>apache-maven-3.5.4</mavenName>
       <pom>pom.xml</pom>
       <properties>tycho-extras.version=${tychoVersion}
 tycho.version=${tychoVersion}</properties>
