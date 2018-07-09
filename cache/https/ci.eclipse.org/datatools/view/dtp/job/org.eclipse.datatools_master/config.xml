@@ -8,7 +8,7 @@
 If VERSION is set,  to publish build results to &lt;a href="http://download.eclipse.org/datatools/updates/"&gt;
 /home/data/httpd/download.eclipse.org/datatools/updates/&lt;/a&gt;
 
-&lt;p&gt;For now, disable baseline checks with: 
+&lt;p&gt;To disable baseline checks, use: 
   &lt;b style="color:red"&gt;&lt;tt&gt;-DskipBaselineComparison=true -Dtycho.baseline=disable -Dtycho.baseline.replace=none&lt;/tt&gt;&lt;/b&gt;
 &lt;/p&gt;</description>
   <keepDependencies>false</keepDependencies>
@@ -49,9 +49,19 @@ If blank, do not push.</description>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>MAVEN_FLAGS</name>
-          <description>Additional flags to pass to maven</description>
-          <defaultValue>-DskipBaselineComparison=true -Dtycho.baseline=disable -Dtycho.baseline.replace=none</defaultValue>
+          <description>Additional flags to pass to maven, eg.,
+-DskipBaselineComparison=true -Dtycho.baseline=disable -Dtycho.baseline.replace=none</description>
+          <defaultValue/>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>tycho-version</name>
+          <description/>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>1.2.0</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -88,7 +98,7 @@ If blank, do not push.</description>
   <builders>
     <hudson.tasks.Maven>
       <targets>clean install -V -e -fae -B -Peclipse-sign ${MAVEN_FLAGS}</targets>
-      <mavenName>apache-maven-3.5.2</mavenName>
+      <mavenName>apache-maven-3.5.4</mavenName>
       <pom>pom.xml</pom>
       <properties>maven.test.skip=false
 maven.test.failure.ignore=false
