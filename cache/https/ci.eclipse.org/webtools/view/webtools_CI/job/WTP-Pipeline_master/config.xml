@@ -49,31 +49,25 @@
       </triggers>
     </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
   </properties>
-  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.49">
-    <script>stage('Build Components') {
-    build("webtools-common_master")
-    build("webtools-servertools_master")
-    build("webtools-jsdt_master")
-    build("webtools-sourceediting_master")
-    build("webtools-javaee_master")
-    
-    parallel jsf_ws: {
-        build("webtools-jsf_master")
-        build("webtools-webservices_master")
-    }, dali: {
-        build("webtools-dali_master")
-    }, failFast: false
-}
-
-stage('Build Aggregates And Run Integration Tests') {
-    parallel ci_build: {
-        build("WTP-CI_master")
-    }, integration: {
-        build("webtools-servertools-integration_master")
-    }, failFast: false
-}
-</script>
-    <sandbox>true</sandbox>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.49">
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@3.8.0">
+      <configVersion>2</configVersion>
+      <userRemoteConfigs>
+        <hudson.plugins.git.UserRemoteConfig>
+          <url>git://git.eclipse.org/gitroot/webtools/webtools.releng.aggregator.git</url>
+        </hudson.plugins.git.UserRemoteConfig>
+      </userRemoteConfigs>
+      <branches>
+        <hudson.plugins.git.BranchSpec>
+          <name>master</name>
+        </hudson.plugins.git.BranchSpec>
+      </branches>
+      <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+      <submoduleCfg class="list"/>
+      <extensions/>
+    </scm>
+    <scriptPath>pipeline/Jenkinsfile</scriptPath>
+    <lightweight>true</lightweight>
   </definition>
   <triggers/>
   <disabled>false</disabled>
