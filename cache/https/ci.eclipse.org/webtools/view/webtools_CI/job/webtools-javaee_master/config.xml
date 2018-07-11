@@ -56,7 +56,7 @@ Some tests are not run here because they take too long. See &lt;a href=webtools-
           <description/>
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
-              <string>1.1.0</string>
+              <string>1.2.0</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
