@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <actions/>
+  <description>send email announcing smoke test</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>5</daysToKeep>
+        <numToKeep>5</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.28">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>stream</name>
+          <description/>
+          <defaultValue>3.11.0</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BUILDDATE</name>
+          <description/>
+          <defaultValue>20180713141024</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>versionSuffix</name>
+          <description/>
+          <defaultValue>M1</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>GOLIVEDATE</name>
+          <description/>
+          <defaultValue>2018-07-17</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>TOrecipients</name>
+          <description/>
+          <defaultValue>wtp-dev@eclipse.org</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>CCrecipients</name>
+          <description/>
+          <defaultValue/>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>recipientOverride</name>
+          <description>use your own email address here for testing, before sending to list</description>
+          <defaultValue>nboldt@redhat.com</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <jdk>jdk1.8.0-latest</jdk>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>if [[ ${recipientOverride} ]]; then
+  TOrecipients="${recipientOverride}"
+  CCrecipients="${recipientOverride}"
+fi
+sender="nboldt@redhat.com"
+
+subject="Smoke Test Request for WTP ${stream} I-build ${BUILDDATE} towards WTP ${stream} ${versionSuffix}"
+rm -f ${WORKSPACE}/mailbody.${JOB_NAME}.txt
+echo "
+Please document your project's testing and approval of this build,
+by noon on ${GOLIVEDATE}, or reply to this message if that's not possible. 
+
+Current Build:
+
+http://build.eclipse.org/webtools/committers/wtp-R${stream}-I/${BUILDDATE}/I-${stream}-${BUILDDATE}/
+
+Smoke Test:
+
+https://wiki.eclipse.org/WTP_Smoke_Test_Results_R${stream}_${BUILDDATE} 
+
+Thanks for your assistance in assuring quality in Web Tools!
+
+---
+
+Previous Smoke Tests:
+
+https://wiki.eclipse.org/WTP_Smoke_Test_Results
+
+WTP Schedule: 
+
+http://www.google.com/calendar/embed?src=23u09qluqisen61r5r585ke1uc%40group.calendar.google.com
+
+Sim Rel Schedule:
+
+http://www.google.com/calendar/embed?src=gchs7nm4nvpm837469ddj9tjlk%40group.calendar.google.com
+
+
+" &gt;&gt; ${WORKSPACE}/mailbody.${JOB_NAME}.txt
+
+/usr/bin/mailx -s "${subject}" -c "${CCrecipients}" -r "${sender}" "${TOrecipients}" &lt; ${WORKSPACE}/mailbody.${JOB_NAME}.txt
+rm -f ${WORKSPACE}/mailbody.${JOB_NAME}.txt
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
