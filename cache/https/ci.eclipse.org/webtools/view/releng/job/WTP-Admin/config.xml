@@ -44,6 +44,15 @@
 #done
 #wait
 
+#cd /home/data/httpd/archive.eclipse.org/webtools/downloads/
+#mv index.php index_OLD.php
+
+#cat &lt;&lt; EOF &gt; /tmp/somefile.txt
+#&lt;html&gt;
+#...
+#&lt;/html&gt;
+#EOF
+
 </command>
     </hudson.tasks.Shell>
   </builders>
