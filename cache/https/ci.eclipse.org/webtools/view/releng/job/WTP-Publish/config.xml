@@ -4,21 +4,20 @@
   <description>&lt;p&gt;
   Job to replicate the steps documented on &lt;a href=https://wiki.eclipse.org/WTP/Releng/Processes#Publish_I_build&gt;renaming
   an I build as an S or R&lt;/a&gt;. Also works for M builds. CI builds to publish here on build.eclipse.org: 
-  &lt;a href="http://build.eclipse.org/webtools/committers/wtp-R3.10.0-I/"&gt;wtp-R3.10.0-I&lt;/a&gt;
+  &lt;a href="http://build.eclipse.org/webtools/committers/wtp-R3.11.0-I/"&gt;wtp-R3.11.0-I&lt;/a&gt;
 &lt;p&gt;
 When job is done, see next steps here: 
   
 &lt;ul&gt;&lt;li&gt;  &lt;a href=https://wiki.eclipse.org/WTP_Releng_Processes#Release_latest_build_to_simrel&gt;Release latest build to simrel&lt;/a&gt;
   &lt;/li&gt;
-  &lt;li&gt; &lt;a href=https://hudson.eclipse.org/webtools/view/webtools_R3_10/job/WTP-Publish-Repo/&gt;Release latest stable build to /webtools/repository&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt; &lt;a href=https://hudson.eclipse.org/webtools/job/WTP-Publish-Repo/&gt;Release latest stable build to /webtools/repository&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
   &lt;p&gt;
   Builds, once pushed, are here:
   
   &lt;ul&gt;
-    &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/downloads/drops/R3.10.0/?d&gt;3.10.0&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/downloads/drops/R3.9.4/?d&gt;3.9.4&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/downloads/drops/R3.11.0/?d&gt;3.11.0&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
       </description>
   <keepDependencies>false</keepDependencies>
@@ -46,25 +45,24 @@ When job is done, see next steps here:
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>build_alias</name>
-          <description>to publish an I build as milestone/RC/R, enter build_alias=S-3.10.0.M6 or R-3.9.4</description>
+          <description>to publish an I build as milestone/RC/R, enter build_alias=S-3.11.0.M1 or R-3.11.0</description>
           <defaultValue/>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.ChoiceParameterDefinition>
           <name>stream</name>
-          <description>3.9.5-M or 3.10.0-I</description>
+          <description>3.11.0-I</description>
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
-              <string>3.10.0-I</string>
-              <string>3.9.5-M</string>
+              <string>3.11.0-I</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>renameSource</name>
-          <description>If you're renaming an S to an R, you need to specify the source folder to rename, eg., S-3.9.3RC4-20180302093744 ... 
+          <description>If you're renaming an S to an R, you need to specify the source folder to rename, eg., S-3.11.0RC1-20180302093744 ... 
 
-If not set, will assume a value like M-3.9.4-20180322133713</description>
+If not set, will assume a value like I-3.11.0-20180322133713</description>
           <defaultValue/>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
@@ -97,7 +95,7 @@ fi
 
 #0. compute strings
 suffix=${stream: -1} # I or M
-streamver=${stream%-*} # 3.10.0 or 3.9.3
+streamver=${stream%-*} # 3.11.0
 
 # 1. move old/new builds out of the promote folder
 # TODO eventually we can skip this step?
@@ -119,6 +117,8 @@ if [[ ${sendEmail} == "true" ]]; then
 else
   flags="vrdcap"
 fi
+
+echo "build_alias = [${build_alias}]"
 
 if [[ ! ${build_alias} ]]; then 
   # 3. promote the build WITH email send
@@ -158,9 +158,18 @@ if [[ ${suffix} == "M" ]]; then
 fi
 
 # 5. release this new build into to the simrel aggregation
-# TODO script this?</command>
+# TODO script this?
+
+</command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers/>
+  <publishers>
+    <hudson.plugins.descriptionsetter.DescriptionSetterPublisher plugin="description-setter@1.10">
+      <regexp>build_alias = \[(.+)\]</regexp>
+      <regexpForFailed/>
+      <description>\1</description>
+      <setForMatrix>false</setForMatrix>
+    </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
+  </publishers>
   <buildWrappers/>
 </project>

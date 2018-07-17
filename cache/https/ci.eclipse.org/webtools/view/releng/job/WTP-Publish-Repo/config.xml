@@ -169,9 +169,17 @@ generateCompositeXMLFile "${compositeName}" \
 
 generateCompositeXMLFile "${compositeName}" \
 "org.eclipse.equinox.internal.p2.artifact.repository.CompositeArtifactRepository" "compositeArtifactRepository" "compositeArtifacts.xml"
-</command>
+
+echo "Published URL: [ http://download.eclipse.org/webtools/repository/${repopath} ]"</command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers/>
+  <publishers>
+    <hudson.plugins.descriptionsetter.DescriptionSetterPublisher plugin="description-setter@1.10">
+      <regexp>Published URL: \[ (.+) \]</regexp>
+      <regexpForFailed/>
+      <description>\1</description>
+      <setForMatrix>false</setForMatrix>
+    </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
+  </publishers>
   <buildWrappers/>
 </project>
