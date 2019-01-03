@@ -123,10 +123,12 @@ if [[ ${CHERRY_PICKS} ]]; then
     git fetch https://git.eclipse.org/r/${repo} refs/changes/${gerrit_pre}/${gerrit} &amp;&amp; git cherry-pick FETCH_HEAD --keep-redundant-commits
     if [[ -d ${path} ]]; then popd; fi
   done
-fi</command>
+fi
+
+cat  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Maven>
-      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml</targets>
+      <targets>clean install ${MAVEN_FLAGS} -Pbree-libs -Peclipse-sign  -t  /opt/public/hipp/homes/genie.webtools/.m2/toolchains-wtp.xml -V</targets>
       <mavenName>apache-maven-3.5.4</mavenName>
       <pom>pom.xml</pom>
       <properties>maven.test.skip=false

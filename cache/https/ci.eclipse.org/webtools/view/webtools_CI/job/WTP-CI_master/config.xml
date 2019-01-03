@@ -2,16 +2,16 @@
 <project>
   <actions/>
   <description>[WTP master branch Integration Build]
-[Build version: 3.11]
+[Build version: 3.12]
 [git branch: master]
 
-&lt;p&gt;Results here: &lt;a href=http://build.eclipse.org/webtools/committers/wtp-R3.11.0-I/&gt;http://build.eclipse.org/webtools/committers/wtp-R3.11.0-I/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Results here: &lt;a href=http://build.eclipse.org/webtools/committers/wtp-R3.12.0-I/&gt;http://build.eclipse.org/webtools/committers/wtp-R3.12.0-I/&lt;/a&gt;&lt;/p&gt;
 
 &lt;b style=red&gt;NOTE: This job does not collect JUnit test results. See &lt;a href="https://ci.eclipse.org/webtools/view/webtools_CI/"&gt;charts and tables&lt;/a&gt;. &lt;/b&gt;
 
 &lt;p&gt;-P CI flag needed to enable the CI repos, so the aggregate build can resolve the 8 projects' update sites
 
-&lt;p&gt;Requires: Maven 3.5.4 and Ant 1.10.1.
+&lt;p&gt;Requires: Maven 3.5.4.
   
     &lt;p&gt;To publish the results of this job, use &lt;a href=../WTP-Publish/&gt;WTP-Publish&lt;/a&gt;</description>
   <keepDependencies>false</keepDependencies>
@@ -61,8 +61,12 @@
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
           <name>wtp_version</name>
-          <description/>
-          <defaultValue>3.11.0</defaultValue>
+          <description>This variable is not used. Instead, make sure you set the correct version in webtools.releng.aggregator poms:
+* pom.xml
+* publish/pom.xml
+* webtools.repositories/pom.xml
+</description>
+          <defaultValue>3.12.0</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.ChoiceParameterDefinition>
@@ -71,13 +75,14 @@
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
               <string>1.2.0</string>
+              <string>1.3.0-SNAPSHOT</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>MAVEN_FLAGS</name>
           <description/>
-          <defaultValue>-fae -V -U -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -PCI</defaultValue>
+          <defaultValue>-fae -V -U -Dtycho-extras.version=${tychoVersion} -Dtycho.version=${tychoVersion} -PCI,publish</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
@@ -91,7 +96,7 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.8.0">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.9.1">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -193,17 +198,9 @@ skipWithIssues=false</properties>
       <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
       <injectBuildVariables>true</injectBuildVariables>
     </hudson.tasks.Maven>
-    <hudson.tasks.Ant plugin="ant@1.8">
-      <targets>-lib ./libs/</targets>
-      <antName>apache-ant-10.1</antName>
-      <buildFile>wtp-parent/postBuild.xml</buildFile>
-      <properties>build.type=I
-publish=true
-wtp.version=${wtp_version}</properties>
-    </hudson.tasks.Ant>
   </builders>
   <publishers>
-    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.66">
+    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.68">
       <healthy/>
       <unHealthy/>
       <thresholdLimit>low</thresholdLimit>
@@ -268,8 +265,9 @@ wtp.version=${wtp_version}</properties>
       <projectRulePath>scripts/webtools-console-log-parser.txt</projectRulePath>
     </hudson.plugins.logparser.LogParserPublisher>
     <hudson.plugins.descriptionsetter.DescriptionSetterPublisher plugin="description-setter@1.10">
-      <regexp/>
+      <regexp>WTP Destination URL.+\[(.+)\]</regexp>
       <regexpForFailed>.*(.+projects need to be built upstream before we can rebuild the CI job.+|Missing requirement:|Software being installed: .+)</regexpForFailed>
+      <description>\1</description>
       <descriptionForFailed>\1</descriptionForFailed>
       <setForMatrix>false</setForMatrix>
     </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
@@ -281,7 +279,7 @@ wtp.version=${wtp_version}</properties>
       </strategy>
       <operationList/>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.9"/>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.10"/>
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.5.2">
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
