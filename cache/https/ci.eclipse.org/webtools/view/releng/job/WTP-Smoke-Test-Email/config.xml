@@ -28,7 +28,7 @@
         <hudson.model.StringParameterDefinition>
           <name>stream</name>
           <description/>
-          <defaultValue>3.13.0</defaultValue>
+          <defaultValue>3.14.0</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>

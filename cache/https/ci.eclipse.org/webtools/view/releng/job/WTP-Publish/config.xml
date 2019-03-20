@@ -46,7 +46,7 @@ When job is done, see next steps here:
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>build_alias</name>
-          <description>to publish an I build as milestone/RC/R, enter build_alias=S-3.13.0.M1 or R-3.13.0</description>
+          <description>to publish an I build as milestone/RC/R, enter build_alias=S-3.14.0.M1 or R-3.14.0</description>
           <defaultValue/>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
@@ -58,9 +58,9 @@ When job is done, see next steps here:
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>renameSource</name>
-          <description>If you're renaming an S to an R, you need to specify the source folder to rename, eg., S-3.12.0RC1-20180302093744 ... 
+          <description>If you're renaming an S to an R, you need to specify the source folder to rename, eg., S-3.14.0RC1-20180302093744 ... 
 
-If not set, will assume a value like I-3.12.0-20180322133713</description>
+If not set, will assume a value like I-3.14.0-20180322133713</description>
           <defaultValue/>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
@@ -93,7 +93,7 @@ fi
 
 #0. compute strings
 suffix=${stream: -1} # I or M
-streamver=${stream%-*} # 3.12.0
+streamver=${stream%-*} # 3.14.0
 
 # 1. move old/new builds out of the promote folder
 # TODO eventually we can skip this step?
