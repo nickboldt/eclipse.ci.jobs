@@ -38,7 +38,22 @@ Will trigger a rebuild of the whole WTP stack of builds and the aggregator too.<
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
-  <scm class="hudson.scm.NullSCM"/>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.9.3">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>git://git.eclipse.org/gitroot/webtools/webtools.releng.aggregator.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
@@ -47,19 +62,20 @@ Will trigger a rebuild of the whole WTP stack of builds and the aggregator too.<
   <authToken>CI-BUILD</authToken>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>H H(0-7) * * H(5-6)</spec>
+      <spec>H H(0-7) * * H(3-4)</spec>
     </hudson.triggers.TimerTrigger>
+    <hudson.triggers.SCMTrigger>
+      <spec>H/5 * * * * </spec>
+      <ignorePostCommitHooks>false</ignorePostCommitHooks>
+    </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
-    <hudson.tasks.Shell>
-      <command>wget http://git.eclipse.org/c/webtools/webtools.releng.aggregator.git/plain/wtp-parent/pom.xml</command>
-    </hudson.tasks.Shell>
     <hudson.tasks.Maven>
       <targets>clean
 deploy</targets>
       <mavenName>apache-maven-3.5.4</mavenName>
-      <pom>pom.xml</pom>
+      <pom>wtp-parent/pom.xml</pom>
       <properties>tycho-extras.version=${tychoVersion}
 tycho.version=${tychoVersion}</properties>
       <usePrivateRepository>false</usePrivateRepository>
@@ -80,7 +96,7 @@ tycho.version=${tychoVersion}</properties>
     </hudson.tasks.BuildTrigger>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.36">
+    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.37">
       <deleteDirs>false</deleteDirs>
       <cleanupParameter/>
       <externalDelete/>

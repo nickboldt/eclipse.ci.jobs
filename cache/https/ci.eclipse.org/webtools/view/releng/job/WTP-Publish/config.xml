@@ -4,12 +4,13 @@
   <description>&lt;p&gt;
   Job to replicate the steps documented on &lt;a href=https://wiki.eclipse.org/WTP/Releng/Processes#Publish_I_build&gt;renaming
   an I build as an S or R&lt;/a&gt;. Also works for M builds. CI builds to publish here on build.eclipse.org: 
-  &lt;a href="http://build.eclipse.org/webtools/committers/wtp-R3.11.0-I/"&gt;wtp-R3.11.0-I&lt;/a&gt;
+  &lt;a href="http://build.eclipse.org/webtools/committers/wtp-R3.14.0-I/"&gt;wtp-R3.14.0-I&lt;/a&gt;
 &lt;p&gt;
 When job is done, see next steps here: 
   
-&lt;ul&gt;&lt;li&gt;  &lt;a href=https://wiki.eclipse.org/WTP_Releng_Processes#Release_latest_build_to_simrel&gt;Release latest build to simrel&lt;/a&gt;
-  &lt;/li&gt;
+&lt;ul&gt;
+  &lt;li&gt; &lt;a href=../WTP-Smoke-Test-Email&gt;Send a WTP Smoke Test Email&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt; &lt;a href=https://wiki.eclipse.org/WTP_Releng_Processes#Release_latest_build_to_simrel&gt;Release latest build to simrel&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt; &lt;a href=https://hudson.eclipse.org/webtools/job/WTP-Publish-Repo/&gt;Release latest stable build to /webtools/repository&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -17,7 +18,7 @@ When job is done, see next steps here:
   Builds, once pushed, are here:
   
   &lt;ul&gt;
-    &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/downloads/drops/R3.11.0/?d&gt;3.11.0&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/downloads/drops/R3.14.0/?d&gt;3.14.0&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
       </description>
   <keepDependencies>false</keepDependencies>
@@ -31,7 +32,7 @@ When job is done, see next steps here:
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.28">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.29">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
@@ -45,24 +46,21 @@ When job is done, see next steps here:
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>build_alias</name>
-          <description>to publish an I build as milestone/RC/R, enter build_alias=S-3.11.0.M1 or R-3.11.0</description>
+          <description>to publish an I build as milestone/RC/R, enter build_alias=S-3.13.0.M1 or R-3.13.0</description>
           <defaultValue/>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
-        <hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
           <name>stream</name>
-          <description>3.11.0-I</description>
-          <choices class="java.util.Arrays$ArrayList">
-            <a class="string-array">
-              <string>3.11.0-I</string>
-            </a>
-          </choices>
-        </hudson.model.ChoiceParameterDefinition>
+          <description>3.14.0-I</description>
+          <defaultValue>3.14.0-I</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>renameSource</name>
-          <description>If you're renaming an S to an R, you need to specify the source folder to rename, eg., S-3.11.0RC1-20180302093744 ... 
+          <description>If you're renaming an S to an R, you need to specify the source folder to rename, eg., S-3.12.0RC1-20180302093744 ... 
 
-If not set, will assume a value like I-3.11.0-20180322133713</description>
+If not set, will assume a value like I-3.12.0-20180322133713</description>
           <defaultValue/>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
@@ -79,7 +77,7 @@ If not set, will assume a value like I-3.11.0-20180322133713</description>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  <jdk>(System)</jdk>
+  <jdk>jdk1.8.0-latest</jdk>
   <authToken>CI-BUILD</authToken>
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
@@ -95,7 +93,7 @@ fi
 
 #0. compute strings
 suffix=${stream: -1} # I or M
-streamver=${stream%-*} # 3.11.0
+streamver=${stream%-*} # 3.12.0
 
 # 1. move old/new builds out of the promote folder
 # TODO eventually we can skip this step?
@@ -103,7 +101,8 @@ workdir=/shared/webtools/committers/wtp-R${streamver}-${suffix}
 tmpdir=${workdir}-tmp
 
 cd ${workdir}
-mkdir -p ${tmpdir}; mv * ${tmpdir}
+mkdir -p ${tmpdir}; 
+if [[ $(find ${workdir}/ -maxdepth 1 -type d -name "20*") ]]; then mv * ${tmpdir}; fi
 mv ${tmpdir}/${timestamp} . # just include the one build we want to promote
 
 # 2. delete old I-latest or M-latest contents

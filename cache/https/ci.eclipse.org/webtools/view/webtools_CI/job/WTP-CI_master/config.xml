@@ -2,10 +2,9 @@
 <project>
   <actions/>
   <description>[WTP master branch Integration Build]
-[Build version: 3.12]
 [git branch: master]
 
-&lt;p&gt;Results here: &lt;a href=http://build.eclipse.org/webtools/committers/wtp-R3.12.0-I/&gt;http://build.eclipse.org/webtools/committers/wtp-R3.12.0-I/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Results here: &lt;a href=http://build.eclipse.org/webtools/committers/wtp-R3.13.0-I/&gt;http://build.eclipse.org/webtools/committers/wtp-R3.13.0-I/&lt;/a&gt;&lt;/p&gt;
 
 &lt;b style=red&gt;NOTE: This job does not collect JUnit test results. See &lt;a href="https://ci.eclipse.org/webtools/view/webtools_CI/"&gt;charts and tables&lt;/a&gt;. &lt;/b&gt;
 
@@ -53,7 +52,7 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.28">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.29">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
@@ -66,7 +65,7 @@
 * publish/pom.xml
 * webtools.repositories/pom.xml
 </description>
-          <defaultValue>3.12.0</defaultValue>
+          <defaultValue>SEE NOTES</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.ChoiceParameterDefinition>
@@ -89,14 +88,14 @@
           <name>CHERRY_PICKS</name>
           <description>space-sparated list of repo+gerrit/rev #s to cherry pick (because we're often behind on gerrit reviews)
 
-eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1"</description>
+eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.common+117456/1" </description>
           <defaultValue/>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.9.1">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.9.3">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -200,7 +199,7 @@ skipWithIssues=false</properties>
     </hudson.tasks.Maven>
   </builders>
   <publishers>
-    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.68">
+    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@5.0.1">
       <healthy/>
       <unHealthy/>
       <thresholdLimit>low</thresholdLimit>
@@ -242,7 +241,7 @@ skipWithIssues=false</properties>
         </hudson.plugins.warnings.ConsoleParser>
       </consoleParsers>
     </hudson.plugins.warnings.WarningsPublisher>
-    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.24">
+    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.27">
       <testResults>**/TEST-*.xml</testResults>
       <keepLongStdio>false</keepLongStdio>
       <healthScaleFactor>1.0</healthScaleFactor>
@@ -279,8 +278,8 @@ skipWithIssues=false</properties>
       </strategy>
       <operationList/>
     </hudson.plugins.build__timeout.BuildTimeoutWrapper>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.10"/>
-    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.5.2">
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.9"/>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.6.2">
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
     <hudson.plugins.xvnc.Xvnc plugin="xvnc@1.24">

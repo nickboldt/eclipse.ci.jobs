@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>Send email announcing smoke test.&lt;p&gt;
-Note: check your spam folder if using recipientOverride.</description>
+  <description>&lt;ul&gt;
+  &lt;li&gt;Step 0: (Optionally) Run &lt;a href=../WTP-Publish/&gt;WTP Publish job&lt;/a&gt; to rename from I to S build.&lt;/li&gt;
+  &lt;li&gt;Step 1: Copy &lt;a href=https://wiki.eclipse.org/WTP_Smoke_Test_Results_R312&gt;WTP_Smoke_Test_Results template&lt;/a&gt; to a new page.&lt;/li&gt;
+  &lt;li&gt;Step 2: Update &lt;a href=https://wiki.eclipse.org/WTP_Smoke_Test_Results&gt;WTP_Smoke_Test_Results&lt;/a&gt; with link to new smoke test page for the latest build.&lt;/li&gt;
+  &lt;li&gt;Step 3: Send email announcing smoke test.
+    &lt;li&gt;&lt;b&gt;Note&lt;/b&gt;: check your spam folder if using recipientOverride.&lt;/li&gt;
+&lt;/ul&gt;</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.model.BuildDiscarderProperty>
@@ -14,7 +19,7 @@ Note: check your spam folder if using recipientOverride.</description>
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.28">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.29">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
@@ -23,25 +28,33 @@ Note: check your spam folder if using recipientOverride.</description>
         <hudson.model.StringParameterDefinition>
           <name>stream</name>
           <description/>
-          <defaultValue>3.11.0</defaultValue>
+          <defaultValue>3.13.0</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>BUILDDATE</name>
           <description/>
-          <defaultValue>20180713141024</defaultValue>
+          <defaultValue>20190221042828</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>versionSuffix</name>
           <description/>
-          <defaultValue>M1</defaultValue>
+          <defaultValue>M3</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>buildRenamed</name>
+          <description>If checked, look for the build in:
+/shared/webtools/committers/wtp-R${stream}-I/${BUILDDATE}/S-${stream}.${versionSuffix}-${BUILDDATE}; 
+if not, look in:
+/shared/webtools/committers/wtp-R${stream}-I/${BUILDDATE}/I-${stream}-${BUILDDATE} </description>
+          <defaultValue>true</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>GOLIVEDATE</name>
           <description/>
-          <defaultValue>2018-07-17</defaultValue>
+          <defaultValue>2019-02-26</defaultValue>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
@@ -59,7 +72,7 @@ Note: check your spam folder if using recipientOverride.</description>
         <hudson.model.StringParameterDefinition>
           <name>recipientOverride</name>
           <description>use your own email address here for testing, before sending to list</description>
-          <defaultValue>nboldt@redhat.com</defaultValue>
+          <defaultValue/>
           <trim>false</trim>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
@@ -67,7 +80,7 @@ Note: check your spam folder if using recipientOverride.</description>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
   <canRoam>true</canRoam>
-  <disabled>true</disabled>
+  <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>jdk1.8.0-latest</jdk>
@@ -81,15 +94,26 @@ Note: check your spam folder if using recipientOverride.</description>
 fi
 sender="nboldt@redhat.com"
 
+if [[ ${buildRenamed} == "true" ]]; then
+  buildURL=http://build.eclipse.org/webtools/committers/wtp-R${stream}-I/${BUILDDATE}/S-${stream}.${versionSuffix}-${BUILDDATE}/
+else
+  buildURL=http://build.eclipse.org/webtools/committers/wtp-R${stream}-I/${BUILDDATE}/I-${stream}-${BUILDDATE}/
+fi
+
 subject="Smoke Test Request for WTP ${stream} I-build ${BUILDDATE} towards WTP ${stream} ${versionSuffix}"
 rm -f ${WORKSPACE}/mailbody.${JOB_NAME}.txt
 echo "
 Please document your project's testing and approval of this build,
 by noon on ${GOLIVEDATE}, or reply to this message if that's not possible. 
 
+Unless an explicit -1 or other rejection is sent to this list, it will be 
+assumed this build is green and will be contributed to the simrel site. 
+
+PLEASE ENSURE YOU HAVE TESTED WITH *BOTH* JDK 11 and 8, as we support both.
+
 Current Build:
 
-http://build.eclipse.org/webtools/committers/wtp-R${stream}-I/${BUILDDATE}/I-${stream}-${BUILDDATE}/
+${buildURL}
 
 Smoke Test:
 
