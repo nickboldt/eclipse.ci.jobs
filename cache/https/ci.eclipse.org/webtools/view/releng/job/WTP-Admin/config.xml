@@ -13,7 +13,7 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.28">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.29">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
@@ -28,32 +28,85 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>#cd /home/data/httpd/download.eclipse.org/webtools/downloads/drops
-#rmdir *3.7.{1,2}
+      <command>cat &lt;&lt; EOF &gt; /home/data/httpd/download.eclipse.org/webtools/downloads/buildbranches.php 
+&lt;?php
+\$buildBranches = array();
 
-# rm -fr /home/data/httpd/archive.eclipse.org/webtools/downloads/drops/R3.10.0
+\$buildBranches[]="drops/R3.17.0";
+\$buildBranches[]="drops/R3.16.0";
+\$buildBranches[]="drops/R3.15.0";
+\$buildBranches[]="drops/R3.14.0";
+\$buildBranches[]="drops/R3.13.0";
+\$buildBranches[]="drops/R3.12.0";
 
-#chmod g+w -R /home/data/httpd/download.eclipse.org/webtools/downloads/drops/R3.7.0/S-3.7.0M1-20140815000102
-#rm -fr /home/data/httpd/download.eclipse.org/webtools/downloads/drops/R3.7.0/S-3.7.0M1-20140815000102
+?&gt;
+EOF
 
-#for d in \
-#  $(find /home/data/httpd/archive.eclipse.org/webtools/downloads/drops/R3.{7,8,9}/ -maxdepth 2 -type d -name "*M-3*") \
-#  $(find /home/data/httpd/archive.eclipse.org/webtools/downloads/drops/R3.{7,8,9}/ -maxdepth 3 -type d -name "M-latest"); do
-#  echo "rm -fr $d"
-#  rm -fr $d &amp;
-#done
-#wait
+exit
 
-#cd /home/data/httpd/archive.eclipse.org/webtools/downloads/
-#mv index.php index_OLD.php
+cat &lt;&lt; EOF &gt; /home/data/httpd/archive.eclipse.org/webtools/downloads/index.php
+&lt;html&gt;
+&lt;head&gt;
+		&lt;link rel="stylesheet" href="http://www.eclipse.org/default_style.css"&gt;
+		&lt;title&gt;Eclipse Web Tools Downloads&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id="maincontent"&gt;
+	&lt;div id="midcolumn"&gt;
+		&lt;h1&gt;Eclipse Web Tools Downloads&lt;/h1&gt;
 
-#cat &lt;&lt; EOF &gt; /tmp/somefile.txt
-#&lt;html&gt;
-#...
-#&lt;/html&gt;
-#EOF
+&lt;p&gt;All downloads are provided under the terms and conditions of the
+ &lt;a href="/legal/epl/notice.php"&gt;Eclipse Foundation Software User Agreement&lt;/a&gt;
+  unless otherwise specified.&lt;/p&gt;
 
-</command>
+&lt;h2&gt;Current releases and CI builds&lt;/h2&gt;
+
+&lt;h4&gt;Latest CI Builds&lt;/h4&gt;
+&lt;p&gt;&lt;a href=https://ci.eclipse.org/webtools/view/webtools_CI/&gt;compatible with Eclipse 4.12&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://ci.eclipse.org/webtools/view/webtools_CI/job/WTP-CI_master/"&gt;CI build&lt;/a&gt;: &lt;a href=https://ci.eclipse.org/webtools/view/webtools_CI/job/WTP-CI_master/lastSuccessfulBuild/artifact/webtools.repositories/&gt;update sites&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;Stable Releases&lt;/h4&gt;
+&lt;ul&gt;
+
+&lt;!-- &lt;li&gt;Web Tools 3.14: &lt;a href="http://download.eclipse.org/webtools/downloads/"&gt;update sites and zips&lt;/a&gt; - Compatible with Eclipse 4.12 (2019-06) --&gt;
+&lt;li&gt;Web Tools 3.13: &lt;a href="http://download.eclipse.org/webtools/downloads/"&gt;update sites and zips&lt;/a&gt; - Compatible with Eclipse 4.11 (2019-03)
+&lt;li&gt;Web Tools 3.12: &lt;a href="http://download.eclipse.org/webtools/downloads/"&gt;update sites and zips&lt;/a&gt; - Compatible with Eclipse 4.10 (2018-12)
+
+&lt;/ul&gt;
+
+&lt;hr/&gt;
+
+&lt;h3&gt;Archived Releases&lt;/h3&gt;
+Older releases are found on &lt;a href="http://archive.eclipse.org/webtools/downloads/drops/?d"&gt;The WTP Archive Site&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Web Tools 3.11: &lt;a href="http://archive.eclipse.org/webtools/downloads/drops/R3.11.0/"&gt;update sites and zips&lt;/a&gt; - Compatible with Eclipse 4.9 (2018-09)
+&lt;li&gt;Web Tools 3.10: &lt;a href="http://archive.eclipse.org/webtools/downloads/drops/R3.10.0/"&gt;update sites and zips&lt;/a&gt; - Compatible with Eclipse 4.8 (Photon)
+&lt;li&gt;Web Tools 3.9.5: &lt;a href="http://archive.eclipse.org/webtools/downloads/drops/R3.9.5/"&gt;update sites and zips&lt;/a&gt; - Compatible with Eclipse 4.7 (Oxygen)
+&lt;/ul&gt;
+
+&lt;h3&gt;WTP Update Sites&lt;/h3&gt;
+&lt;ul&gt;
+      &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/latest/&gt;http://download.eclipse.org/webtools/repository/latest/&lt;/a&gt; (latest release, eg., points to photon site)&lt;/li&gt;
+	  &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/releng/&gt;http://download.eclipse.org/webtools/repository/releng/&lt;/a&gt; (latest releng and test features)&lt;/li&gt;
+&lt;br/&gt;
+&lt;!--	  &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/2019-06/&gt;http://download.eclipse.org/webtools/repository/2019-06/&lt;/a&gt;&lt;/li&gt; --&gt;
+	  &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/2019-03/&gt;http://download.eclipse.org/webtools/repository/2019-03/&lt;/a&gt;&lt;/li&gt;
+	  &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/2018-12/&gt;http://download.eclipse.org/webtools/repository/2018-12/&lt;/a&gt;&lt;/li&gt;
+	  &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/2018-09/&gt;http://download.eclipse.org/webtools/repository/2018-09/&lt;/a&gt;&lt;/li&gt;
+	  &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/photon/&gt;http://download.eclipse.org/webtools/repository/photon/&lt;/a&gt;&lt;/li&gt;
+	  &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/oxygen/&gt;http://download.eclipse.org/webtools/repository/oxygen/&lt;/a&gt;&lt;/li&gt;
+	  &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/neon/&gt;http://download.eclipse.org/webtools/repository/neon/&lt;/a&gt;&lt;/li&gt;
+	  &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/mars/&gt;http://download.eclipse.org/webtools/repository/mars/&lt;/a&gt;&lt;/li&gt;
+	  &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/luna/&gt;http://download.eclipse.org/webtools/repository/luna/&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/body&gt;&lt;/html&gt;
+EOF</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

@@ -9,7 +9,7 @@
 When job is done, see next steps here: 
   
 &lt;ul&gt;
-  &lt;li&gt; &lt;a href=../WTP-Smoke-Test-Email&gt;Send a WTP Smoke Test Email&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt; &lt;a href=../WTP-Smoke-Test-Email&gt;Send a WTP Smoke Test Email&lt;/a&gt; (deprecated)&lt;/li&gt;
   &lt;li&gt; &lt;a href=https://wiki.eclipse.org/WTP_Releng_Processes#Release_latest_build_to_simrel&gt;Release latest build to simrel&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt; &lt;a href=https://hudson.eclipse.org/webtools/job/WTP-Publish-Repo/&gt;Release latest stable build to /webtools/repository&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;

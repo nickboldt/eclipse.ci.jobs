@@ -30,7 +30,7 @@ Will trigger a rebuild of the whole WTP stack of builds and the aggregator too.<
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
               <string>1.3.0</string>
-              <string>1.4.0-SNAPSHOT</string>
+              <string>1.4.0</string>
               <string>1.2.0</string>
             </a>
           </choices>

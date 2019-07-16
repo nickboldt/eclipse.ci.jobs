@@ -35,7 +35,7 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.28">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.29">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
@@ -47,6 +47,7 @@
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
               <string>1.3.0</string>
+              <string>1.4.0</string>
               <string>1.2.0</string>
             </a>
           </choices>
@@ -68,7 +69,7 @@ eg., for https://git.eclipse.org/r/#/c/117456/ use "webtools-common/webtools.com
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.8.0">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.9.3">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -132,7 +133,7 @@ skipWithIssues=false</properties>
     </hudson.tasks.Maven>
   </builders>
   <publishers>
-    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.66">
+    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@5.0.1">
       <healthy/>
       <unHealthy/>
       <thresholdLimit>low</thresholdLimit>
@@ -175,12 +176,12 @@ skipWithIssues=false</properties>
       </consoleParsers>
     </hudson.plugins.warnings.WarningsPublisher>
     <hudson.plugins.disk__usage.project.DiskUsagePostBuildCalculation plugin="disk-usage@0.28"/>
-    <hudson.tasks.Mailer plugin="mailer@1.21">
+    <hudson.tasks.Mailer plugin="mailer@1.23">
       <recipients>wtp-releng@eclipse.org</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>true</sendToIndividuals>
     </hudson.tasks.Mailer>
-    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.24">
+    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.27">
       <testResults>**/TEST-*.xml</testResults>
       <keepLongStdio>false</keepLongStdio>
       <healthScaleFactor>1.0</healthScaleFactor>
@@ -203,10 +204,11 @@ skipWithIssues=false</properties>
     </hudson.plugins.descriptionsetter.DescriptionSetterPublisher>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.34">
+    <hudson.plugins.ws__cleanup.PreBuildCleanup plugin="ws-cleanup@0.37">
       <deleteDirs>false</deleteDirs>
       <cleanupParameter/>
       <externalDelete/>
+      <disableDeferredWipeout>false</disableDeferredWipeout>
     </hudson.plugins.ws__cleanup.PreBuildCleanup>
     <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.19">
       <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
