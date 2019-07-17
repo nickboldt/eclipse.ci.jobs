@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>Run some shell commands 
-&lt;p&gt;See also 
-    &lt;a href=../WTP-Website-Regeneration&gt;WTP-Website-Regeneration&lt;/a&gt;</description>
+  <description>Regenerate PHP pages to update content/versions</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.0.7"/>

@@ -11,7 +11,7 @@
   &lt;ul&gt;
     &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/latest/?d&gt;latest&lt;/a&gt;&lt;/li&gt;
     &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/releng/?d&gt;releng&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/2019-06/?d&gt;2019-06&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=http://download.eclipse.org/webtools/repository/2019-09/?d&gt;2019-09&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
       </description>
   <keepDependencies>false</keepDependencies>
@@ -42,9 +42,10 @@
           <name>compositeURLs</name>
           <description>space-separated list of URLs. Do not combine URLs across incompatible releases.</description>
           <defaultValue># latest
-http://download.eclipse.org/webtools/repository/2019-06/
+http://download.eclipse.org/webtools/repository/2019-09/
 
 # releng
+https://download.eclipse.org/webtools/downloads/drops/R3.15.0/R-3.15.0-????/repositoryunittests/
 https://download.eclipse.org/webtools/downloads/drops/R3.14.0/R-3.14.0-20190612230649/repositoryunittests/
 https://download.eclipse.org/webtools/downloads/drops/R3.13.0/R-3.13.0-20190308131645/repositoryunittests/
 https://download.eclipse.org/webtools/downloads/drops/R3.12.0/R-3.12.0-20181130055351/repositoryunittests/
@@ -52,6 +53,9 @@ https://download.eclipse.org/webtools/downloads/drops/R3.11.0/R-3.11.0-201809101
 http://download.eclipse.org/webtools/downloads/drops/R3.10.0/R-3.10.0-20180611164516/repositoryunittests/
 http://archive.eclipse.org/webtools/downloads/drops/R3.3/T3.3.0/I-3.3.0-20140506204952/repository/
 http://archive.eclipse.org/webtools/downloads/drops/R3.2/T3.2.0/I-3.2.0-20100530044458/repository/
+
+# 2019-09
+https://download.eclipse.org/webtools/downloads/drops/R3.15.0/R-3.15.0-????/repository/
 
 # 2019-06
 https://download.eclipse.org/webtools/downloads/drops/R3.14.0/R-3.14.0-20190612230649/repository/

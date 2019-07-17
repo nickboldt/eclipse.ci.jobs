@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <actions/>
-  <description>&lt;ul&gt;
+  <description>DEPRECATED. We are no longer sending smoke test emails. 
+&lt;p&gt;
+&lt;ul&gt;
   &lt;li&gt;Step 0: (Optionally) Run &lt;a href=../WTP-Publish/&gt;WTP Publish job&lt;/a&gt; to rename from I to S build.&lt;/li&gt;
   &lt;li&gt;Step 1: Copy &lt;a href=https://wiki.eclipse.org/WTP_Smoke_Test_Results_R312&gt;WTP_Smoke_Test_Results template&lt;/a&gt; to a new page.&lt;/li&gt;
   &lt;li&gt;Step 2: Update &lt;a href=https://wiki.eclipse.org/WTP_Smoke_Test_Results&gt;WTP_Smoke_Test_Results&lt;/a&gt; with link to new smoke test page for the latest build.&lt;/li&gt;
@@ -10,6 +12,7 @@
 &lt;/ul&gt;</description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.0.7"/>
     <jenkins.model.BuildDiscarderProperty>
       <strategy class="hudson.tasks.LogRotator">
         <daysToKeep>5</daysToKeep>
@@ -19,7 +22,7 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.29">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.31">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
@@ -80,7 +83,7 @@ if not, look in:
   </properties>
   <scm class="hudson.scm.NullSCM"/>
   <canRoam>true</canRoam>
-  <disabled>false</disabled>
+  <disabled>true</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <jdk>jdk1.8.0-latest</jdk>

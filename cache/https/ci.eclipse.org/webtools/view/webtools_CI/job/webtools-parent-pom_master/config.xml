@@ -6,6 +6,7 @@
 Will trigger a rebuild of the whole WTP stack of builds and the aggregator too.</description>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.0.7"/>
     <hudson.security.AuthorizationMatrixProperty>
       <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
     </hudson.security.AuthorizationMatrixProperty>
@@ -18,7 +19,7 @@ Will trigger a rebuild of the whole WTP stack of builds and the aggregator too.<
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.28"/>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.29">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.31">
       <autoRebuild>false</autoRebuild>
       <rebuildDisabled>false</rebuildDisabled>
     </com.sonyericsson.rebuild.RebuildSettings>
@@ -38,7 +39,7 @@ Will trigger a rebuild of the whole WTP stack of builds and the aggregator too.<
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.9.3">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.10.0">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -62,7 +63,7 @@ Will trigger a rebuild of the whole WTP stack of builds and the aggregator too.<
   <authToken>CI-BUILD</authToken>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>H H(0-7) * * H(3-4)</spec>
+      <spec>H H(0-7) * * H(2-3)</spec>
     </hudson.triggers.TimerTrigger>
     <hudson.triggers.SCMTrigger>
       <spec>H/5 * * * * </spec>
